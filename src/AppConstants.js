@@ -25,3 +25,11 @@ export const APPSTYLES = {
     p: "5",
   },
 ***REMOVED***
+
+
+export const APPROUTES = {
+  "home" : "/",
+  "join" : '/join',
+  "room" : "/room"
+
+}
