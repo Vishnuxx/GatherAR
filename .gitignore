@@ -5,6 +5,8 @@
 /.pnp
 .pnp.js
 /certs
+/process.env
+
 
 # testing
 /coverage

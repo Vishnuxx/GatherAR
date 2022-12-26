@@ -1,0 +1,10 @@
+.menuItem {
+    padding: 5px;
+   background-color: "green";
+}
+
+
+.menuItem:hover {
+    border-bottom: 2px solid skyblue;
+    
+}
