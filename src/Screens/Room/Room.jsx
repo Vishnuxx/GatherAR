@@ -12,7 +12,7 @@ export function Room({}) {
       <RoomOptionsPanel></RoomOptionsPanel>
       <Stack dir="vertical" position={"absolute"} bottom={0} width={"100vw"}>
         <Overlay></Overlay>
-        {/* <ObjectOptionsPanel></ObjectOptionsPanel> */}
+        
         <ShapesPanel bottom="150px"></ShapesPanel>
         <ActionsPanel></ActionsPanel>
       </Stack>
