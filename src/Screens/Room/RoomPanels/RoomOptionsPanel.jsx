@@ -2,9 +2,7 @@ import { Flex, Stack } from "@chakra-ui/react";
 import { ExitRoomButton } from "../RoomComponents/ExitRoomButton";
 import { ParticipantsButton } from "../RoomComponents/ParticipantsButton";
 import { RoomIdPane } from "../RoomComponents/RoomIdWindow";
-import { ScreenCalibrator } from "../RoomComponents/SceneCalibrator";
-
-
+import { ScreenCalibrator } from "../RoomComponents/SceneCalibratorButton";
 
 export function RoomOptionsPanel(props) {
   return (

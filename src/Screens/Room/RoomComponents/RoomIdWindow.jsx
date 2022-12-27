@@ -1,4 +1,24 @@
-import { Box, Button, Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, Text, useDisclosure } from "@chakra-ui/react";
+import {
+  Stack,
+  Button,
+  Flex,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { useContext, useState } from "react";
 
 import {useRecoilValue} from 'recoil'
@@ -41,19 +61,22 @@ export function RoomIdPane({props}) {
 
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Modal Title</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <Text>{roomId}</Text>
-            </ModalBody>
-
-            <ModalFooter>
-              <Button colorScheme="blue" mr={3} onClick={onClose}>
-                Close
+          <ModalContent color={"white"} bg={"rgba(0,0,0,0.5)"}>
+            <Stack
+            gap={'15px'}
+              direction={"horizontal"}
+              h={"100px"}
+              justifyContent="center"
+              alignItems={"center"}
+              p={"3"}
+            >
+              <Text w={"100%"} bg={"rgba(100,100,100,0.5)"} h={"30px"} borderRadius={"5px"}>
+                {roomId}
+              </Text>
+              <Button size={"sm"} color={APPCOLORS.urlAnchor} colorScheme="none" mr={3} onClick={onClose}>
+                Copy ID
               </Button>
-              <Button variant="ghost">Secondary Action</Button>
-            </ModalFooter>
+            </Stack>
           </ModalContent>
         </Modal>
       </>

@@ -6,6 +6,7 @@ import "./styles/App.css";
 import { Room } from "./Screens/Room/Room";
 import { Join } from "./Screens/Join/Join";
 import {RecoilRoot} from 'recoil'
+import { Create } from "./Screens/Join/Create";
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/join" element={<Join />} />
+          <Route path="/create" element={<Create />} />
           <Route path="/room" element={<Room />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>
