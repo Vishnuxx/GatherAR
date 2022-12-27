@@ -18,14 +18,14 @@ export function Join() {
   //update the remote id from text field
   const updateRemoteID = (e) => {
     setRemoteId(e.target.value);
-  ***REMOVED***
+  };
 
   const joinRoom = () => {
     //TD: check wheather this remote id exist in server
     //if true
     navigate("/editor", { state: { type: "join", remoteId: remoteId } });
     //if false
-  ***REMOVED***
+  };
 
   return (
     <Flex

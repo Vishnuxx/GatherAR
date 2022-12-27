@@ -14,10 +14,10 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { Form, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import validator from "validator";
-import { APPCOLORS, APPGRADIENTS } from "../../AppConstants";
+import { APPCOLORS, } from "../../AppConstants";
 import { Background } from "../../GlobalComponents/Background";
 
 export function SignUp() {
@@ -30,27 +30,27 @@ export function SignUp() {
 
   const updateUserName = (e) => {
     setUsername(e.target.value);
-  ***REMOVED***
+  };
 
   const updateEmail = (e) => {
     setEmail(e.target.value);
-  ***REMOVED***
+  };
 
   const updatePassword = (e) => {
     setPassword(e.target.value);
-  ***REMOVED***
+  };
 
   const updateConfirmPassword = (e) => {
     setconfirmPassword(e.target.value);
-  ***REMOVED***
+  };
 
   const validatePasswordLength = () => {
     return password.length > 6 && confirmPassword > 6;
-  ***REMOVED***
+  };
 
   const validatePasswordMatch = () => {
     return password === confirmPassword;
-  ***REMOVED***
+  };
 
   const signUp = () => {
     if (!validator.isEmail(email)) {
@@ -72,7 +72,7 @@ export function SignUp() {
     seterrorMessage("");
 
     //handle signup
-  ***REMOVED***
+  };
 
   return (
     <Stack
@@ -146,7 +146,7 @@ function EmailInput(props) {
   const handleInputChange = (e) => {
     props.onChange(e);
     setInput(e.target.value);
-  ***REMOVED***
+  };
 
   const isError = input === "";
 

@@ -10,12 +10,12 @@ export const APPCOLORS = {
   disabledButtonText: "#7a8280",
   panel: "rgba(82, 81, 81 , 0.8)",
   errorText: "red",
-***REMOVED***
+};
 
 export const APPGRADIENTS = {
   joinButton: "linear-gradient(to bottom right, #ac00e6 , #0058e6)",
   createButton: "transparent",
-***REMOVED***
+};
 
 export const APPSTYLES = {
   joinCreateButton: {
@@ -24,7 +24,7 @@ export const APPSTYLES = {
     color: "white",
     p: "5",
   },
-***REMOVED***
+};
 
 
 export const APPROUTES = {

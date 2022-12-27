@@ -1,6 +1,6 @@
-import { Stack, Heading, Flex, Text, Button } from "@chakra-ui/react";
+import { Stack, Heading, Flex, Button } from "@chakra-ui/react";
 import { Background } from "../../GlobalComponents/Background";
-import { useNavigate, Link } from "react-router-dom";
+import {  Link } from "react-router-dom";
 
 import style from "../../styles/home.module.css";
 import { APPGRADIENTS, APPROUTES, APPSTYLES } from "../../AppConstants";
