@@ -1,8 +1,8 @@
 import { Flex, Stack } from "@chakra-ui/react";
-import { ExitRoomButton } from "../RoomComponents/ExitRoomButton";
-import { ParticipantsButton } from "../RoomComponents/ParticipantsButton";
-import { RoomIdPane } from "../RoomComponents/RoomIdWindow";
-import { ScreenCalibrator } from "../RoomComponents/SceneCalibratorButton";
+import { ExitRoomButton } from "../Components/ExitRoomButton";
+import { ParticipantsButton } from "../Components/ParticipantsButton";
+import { RoomIdPane } from "../Components/RoomIdWindow";
+import { ScreenCalibratorButton } from "../Components/SceneCalibratorButton";
 
 export function RoomOptionsPanel(props) {
   return (
@@ -19,7 +19,7 @@ export function RoomOptionsPanel(props) {
       alignItems={"center"}
     >
       <ExitRoomButton></ExitRoomButton>
-      <ScreenCalibrator></ScreenCalibrator>
+      <ScreenCalibratorButton></ScreenCalibratorButton>
       <ParticipantsButton></ParticipantsButton>
       <RoomIdPane></RoomIdPane>
     </Stack>

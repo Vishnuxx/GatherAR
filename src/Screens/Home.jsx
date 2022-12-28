@@ -1,9 +1,8 @@
 import { Stack, Heading, Flex, Button } from "@chakra-ui/react";
-import { Background } from "../../GlobalComponents/Background";
-import {  Link } from "react-router-dom";
+import { Background } from "../GlobalComponents/Background";
+import { Link } from "react-router-dom";
 
-import style from "../../styles/home.module.css";
-import { APPGRADIENTS, APPROUTES, APPSTYLES } from "../../AppConstants";
+import { APPGRADIENTS, APPROUTES, APPSTYLES } from "../AppConstants";
 
 export function Home({ props }) {
   return (

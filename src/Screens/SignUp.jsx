@@ -17,8 +17,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import validator from "validator";
-import { APPCOLORS, } from "../../AppConstants";
-import { Background } from "../../GlobalComponents/Background";
+import { APPCOLORS } from "../AppConstants";
+import { Background } from "../GlobalComponents/Background";
 
 export function SignUp() {
   const signupScreenUrl = "/login";
@@ -76,7 +76,6 @@ export function SignUp() {
 
   return (
     <Stack
-
       color={"white"}
       height={"100vh"}
       width={"100vw"}
@@ -86,7 +85,7 @@ export function SignUp() {
       p="5"
       overflowY={"scroll"}
     >
-        <Background></Background>
+      <Background></Background>
       <Stack dir="vertical" gap={2} w={"300px"} height={"fit-content"}>
         <Text fontSize={"2rem"}>SignUp</Text>
         <FormLabel>UserName</FormLabel>

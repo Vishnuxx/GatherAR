@@ -1,7 +1,8 @@
 import { Flex } from "@chakra-ui/react";
-import { ActionButton } from "../RoomComponents/ActionButton";
-import { AddObjectButton } from "../RoomComponents/AddObjectButton";
-import { MicButton } from "../RoomComponents/micButton";
+import { ActionButton } from "../Components/ActionButton";
+import { AddObjectButton } from "../Components/AddObjectButton";
+import { MicButton } from "../Components/micButton";
+
 
 
 export function ActionsPanel(props) {

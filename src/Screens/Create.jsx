@@ -8,56 +8,50 @@ import {
   FormLabel,
   Stack,
 } from "@chakra-ui/react";
-import { APPCOLORS, APPROUTES } from "../../AppConstants";
-import { Background } from "../../GlobalComponents/Background";
+import { APPCOLORS, APPROUTES } from "../AppConstants";
+import { Background } from "../GlobalComponents/Background";
 import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
 
 export function Create() {
-    const navigate = useNavigate();
-    const [name, setName] = useState("");
-    const [isMale, setIsMale] = useState(null);
-    const [showError, setShowError] = useState("");
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [isMale, setIsMale] = useState(null);
+  const [showError, setShowError] = useState("");
 
-    //update the remote id from text field
-    const updateName = (e) => {
-      setName(e.target.value);
-    };
+  //update the remote id from text field
+  const updateName = (e) => {
+    setName(e.target.value);
+  };
 
-    const updateAvatar = (value) => {
-        console.log(value)
-        setIsMale(value);
+  const updateAvatar = (value) => {
+    console.log(value);
+    setIsMale(value);
+  };
+
+  const createRoom = () => {
+    navigate(APPROUTES.room, {
+      state: { type: "create", name: name, isMale: null, remoteId: null },
+    });
+  };
+
+  const validate = (e) => {
+    e.preventDefault();
+
+    console.log(name);
+    if (name === "") {
+      setShowError("Name Should Not be Blank");
+      return;
     }
 
-
-     const createRoom = () => {
-       navigate(APPROUTES.room, {
-         state: { type: "create", name: name, isMale: null, remoteId: null },
-       });
-     };
-
-
-    const validate = (e) => {
-        e.preventDefault()
-        
-        console.log(name);
-        if(name === "") {
-            setShowError("Name Should Not be Blank")
-            return 
-        }
-
-        if(isMale == null) {
-            setShowError("Please select your Avatar");
-            return
-        }
-
-        setShowError("");
-        createRoom()
-
+    if (isMale == null) {
+      setShowError("Please select your Avatar");
+      return;
     }
 
-
-   
+    setShowError("");
+    createRoom();
+  };
 
   return (
     <Flex
@@ -69,7 +63,13 @@ export function Create() {
     >
       <Background></Background>
 
-      <Stack color={'white'} w={"50%"} gap={"5"} direction={"column"} maxWidth={"300px"}>
+      <Stack
+        color={"white"}
+        w={"50%"}
+        gap={"5"}
+        direction={"column"}
+        maxWidth={"300px"}
+      >
         <Text zIndex={1} color={APPCOLORS.mainText}>
           Create Room
         </Text>

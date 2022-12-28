@@ -1,5 +1,5 @@
 import { useRecoilState } from "recoil";
-import { isCalibratingState, overlayState, OVERLAY_TYPE } from "../State";
+
 import {
   Stack,
   Text,
@@ -9,22 +9,26 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { APPCOLORS } from "../../../AppConstants";
-
+import {
+  isCalibratingState,
+  overlayState,
+  OVERLAY_TYPE,
+} from "../../../State/State";
 
 //button which opens calibration overlay
 
-export function ScreenCalibrator() {
+export function ScreenCalibratorButton() {
   const [visible, setVisible] = useRecoilState(overlayState);
   const [isCalibrating, setIsCalibrating] = useRecoilState(isCalibratingState);
 
   const setCalibrator = () => {
     setVisible({
-        visible:true,
-        type: OVERLAY_TYPE.CALIBRATION,
-        closeOnOverlayClick: false
+      visible: true,
+      type: OVERLAY_TYPE.CALIBRATION,
+      closeOnOverlayClick: false,
     });
 
-    setIsCalibrating(true)
+    setIsCalibrating(true);
   };
 
   return (

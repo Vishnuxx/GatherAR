@@ -1,16 +1,13 @@
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Home } from "./Screens/Home/Home";
-import { SignUp } from "./Screens/Auth/SignUp";
+import { Home } from "./Screens/Home";
+import { SignUp } from "./Screens/SignUp";
 import "./styles/App.css";
-import { Room } from "./Screens/Room/Room";
-import { Join } from "./Screens/Join/Join";
-import {RecoilRoot} from 'recoil'
-import { Create } from "./Screens/Join/Create";
-
+import { Room } from "./Screens/Room";
+import { Join } from "./Screens/Join";
+import { RecoilRoot } from "recoil";
+import { Create } from "./Screens/Create";
 
 function App() {
-
   return (
     <RecoilRoot>
       <BrowserRouter>

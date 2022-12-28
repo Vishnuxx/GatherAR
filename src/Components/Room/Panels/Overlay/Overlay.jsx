@@ -7,8 +7,7 @@ import {
 } from "@chakra-ui/react";
 
 import { useRecoilState } from "recoil";
-import { ScreenCalibrator } from "../../RoomComponents/SceneCalibratorButton";
-import { overlayState, OVERLAY_TYPE } from "../../State";
+import { overlayState, OVERLAY_TYPE } from "../../../../State/State";
 import { CalibratorWindow } from "./OverlayContents/CalibratorWindow";
 
 export function Overlay() {
@@ -17,7 +16,7 @@ export function Overlay() {
   const overlayScreens = () => {
     switch (overlay.type) {
       case OVERLAY_TYPE.CALIBRATION:
-        return <CalibratorWindow />;
+        return <CalibratorWindow></CalibratorWindow>;
 
       default:
         return null;

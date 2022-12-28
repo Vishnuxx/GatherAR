@@ -1,5 +1,3 @@
-
-
 import {
   Button,
   Flex,
@@ -12,12 +10,10 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { APPCOLORS, APPROUTES } from "../../AppConstants";
-import { Background } from "../../GlobalComponents/Background";
-
+import { APPCOLORS, APPROUTES } from "../AppConstants";
+import { Background } from "../GlobalComponents/Background";
 
 // import { TitleAndLogo } from "../Components/TitleAndLogo";
-
 
 export function Join() {
   const navigate = useNavigate();
@@ -38,7 +34,9 @@ export function Join() {
   const joinRoom = () => {
     //TD: check wheather this remote id exist in server
     //if true
-    navigate(APPROUTES.room , { state: { type: "join", isMale: isMale ,  remoteId: remoteId } });
+    navigate(APPROUTES.room, {
+      state: { type: "join", isMale: isMale, remoteId: remoteId },
+    });
     //if false
   };
 
@@ -64,7 +62,7 @@ export function Join() {
         value={remoteId}
         onChange={updateRemoteID}
       />
-      <FormLabel color={'white'} w={"fit-content"} justifyContent={"center"}>
+      <FormLabel color={"white"} w={"fit-content"} justifyContent={"center"}>
         Select your Avatar
       </FormLabel>
       <RadioGroup
