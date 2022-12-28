@@ -25,3 +25,9 @@ export const isHost = atom({
   key: "isHost",
   default: false,
 });
+
+
+export const sharingLink = atom({
+  key: 'sharinglink',
+  default: null
+})

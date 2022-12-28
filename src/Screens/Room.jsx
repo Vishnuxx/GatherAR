@@ -1,16 +1,18 @@
 import { Box, Button, Stack } from "@chakra-ui/react";
 import { ZCanvas } from "../Components/Room/SceneComponents/ZCanvas";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import Peer from "peerjs";
-import { useNavigate, Link } from "react-router-dom";
-
-import { useRecoilState } from "recoil";
+import { useEffect,  useState } from "react";
+import { useLocation, useNavigate} from "react-router-dom";
 import { RoomOptionsPanel } from "../Components/Room/Panels/RoomOptionsPanel";
 import { LoadingModal } from "../GlobalComponents/LoadingModal";
 import { ShapesPanel } from "../Components/Room/Panels/ShapesPanel";
 import { ActionsPanel } from "../Components/Room/Panels/ActionsPanel";
 import { Overlay } from "../Components/Room/Panels/Overlay/Overlay";
+import { initPeer } from "../Utilities/peerConnection";
+import { isHost, isParticipant, isUndefinedHost } from "../Utilities/hostValidation";
+import { APPROUTES } from "../AppConstants";
+import { generateSharingLink } from "../Utilities/user";
+
 
 export function EffectUser() {
   this.name = "user";
@@ -24,51 +26,37 @@ export function EffectUser() {
 
 export function Room({}) {
   const [isLoading, setisLoading] = useState(true);
-  //   const [isHost, setisHost] = useRecoilState(null);
-  const navigate = useNavigate();
-  const peerRef = useRef(null);
 
-  //check if it this is host or a participant
-  const ckeckHost = () => {
-    switch (navigate.state.type === "create") {
-      case "create":
-        //is host
-        // setisHost(true)
-        break;
-      case "join":
-        //is participant
-        //  setisHost(false);
-        break;
+  const location = useLocation();
+  const navigator = useNavigate();
 
-      default:
-        //error go back
-        break;
+
+
+  useEffect(()=>{
+
+    console.log(isUndefinedHost(location));
+  
+    if(isUndefinedHost(location)) {
+      window.alert('Something went wrong. please try again')
+      navigator(APPROUTES.home)
+      return
     }
-  };
+   
+    if(isHost(location)) {
+       initPeer(null , (id)=>{
+      
 
-  //navigate(APPROUTES.room , { state: { type: "join", isMale: isMale ,  remoteId: remoteId } });
+        
+        console.log(generateSharingLink(id));
+       })
+    }
+     
+    if(isParticipant(location)) {
+      console.log("part");
+    }
+  });
 
-  //   //used to prevent loosing of my id after page refresh
-  //   //checks my id in local storage , if not found , create new peerid
-  //   const initMyId = () => {
-  //     const storedPeerId = localStorage.getItem("p");
 
-  //     if (storedPeerId) {
-  //       peerRef.current = new Peer(storedPeerId);
-  //     } else {
-  //       const newPeer = new Peer();
-  //       localStorage.setItem("peerId", newPeer.id);
-  //       peerRef.current = newPeer;
-  //     }
-
-  //   };
-
-  //   useEffect(() => {
-  //     initMyId();
-  //      peerRef.current.on("open", (id) => {
-  //        console.log(`My peer ID is: ${id}`);
-  //      });
-  //   }, []);
 
   return (
     <Box height={"100vh"} width="100vw" bg={"#262626"}>

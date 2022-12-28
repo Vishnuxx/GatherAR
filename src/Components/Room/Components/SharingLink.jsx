@@ -19,18 +19,22 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useContext, useState } from "react";
+import {  useState } from "react";
 
 import { useRecoilValue } from "recoil";
 
 import { APPCOLORS } from "../../../AppConstants";
-import { isHost } from "../../../State/State";
+import {  sharingLink } from "../../../State/State";
 
 export function RoomIdPane({ props }) {
-  const isAHost = useRecoilValue(isHost);
+  const isAHost = useRecoilValue(sharingLink);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [roomId, setroomId] = useState(null);
 
+  const generateSharingLink = () => {
+
+  }
+  
   const open = () => {
     onOpen();
     //check where you are the host

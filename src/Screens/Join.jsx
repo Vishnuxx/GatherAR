@@ -8,11 +8,12 @@ import {
   Stack,
   FormLabel,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { APPCOLORS, APPROUTES } from "../AppConstants";
 import { Background } from "../GlobalComponents/Background";
-
+import { USERTYPE } from "../Utilities/hostValidation";
+import { useLocation } from "react-router-dom";
 // import { TitleAndLogo } from "../Components/TitleAndLogo";
 
 export function Join() {
@@ -20,6 +21,7 @@ export function Join() {
   const [remoteId, setRemoteId] = useState("");
   const [isMale, setIsMale] = useState(null);
   const [showError, setShowError] = useState("");
+  const location = useLocation();
 
   //update the remote id from text field
   const updateRemoteID = (e) => {
@@ -35,10 +37,26 @@ export function Join() {
     //TD: check wheather this remote id exist in server
     //if true
     navigate(APPROUTES.room, {
-      state: { type: "join", isMale: isMale, remoteId: remoteId },
+      state: {
+        userType: USERTYPE.PARTICIPANT,
+        isMale: isMale,
+        roomId: remoteId,
+      },
     });
     //if false
   };
+
+  const getIdfromURL = () => {
+    const searchParams = new URLSearchParams(location.search);
+    const parameterValue = searchParams.get("id");
+    if (parameterValue.toString().length > 0) {
+      setRemoteId(parameterValue);
+    }
+  };
+
+  useEffect(() => {
+    getIdfromURL();
+  }, []);
 
   return (
     <Stack

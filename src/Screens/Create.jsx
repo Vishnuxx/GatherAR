@@ -12,6 +12,7 @@ import { APPCOLORS, APPROUTES } from "../AppConstants";
 import { Background } from "../GlobalComponents/Background";
 import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
+import { USERTYPE } from "../Utilities/hostValidation";
 
 export function Create() {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ export function Create() {
 
   const createRoom = () => {
     navigate(APPROUTES.room, {
-      state: { type: "create", name: name, isMale: null, remoteId: null },
+      state: { userType: USERTYPE.HOST, name: name, isMale: isMale, roomId: null },
     });
   };
 

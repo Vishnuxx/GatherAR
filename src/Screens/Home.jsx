@@ -17,7 +17,7 @@ export function Home({ props }) {
         <Heading fontSize={"2xl"}>GatherAR</Heading>
 
         <Flex>
-          <Link>
+          <Link to={APPROUTES.create}>
             <Button
               {...APPSTYLES.joinCreateButton}
               bg={APPGRADIENTS.joinButton}
