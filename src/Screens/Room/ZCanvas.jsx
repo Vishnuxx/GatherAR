@@ -34,7 +34,7 @@ export function ZCanvas(props) {
 
         <InstantTracker placementMode={isCalibration}  >
           <AvatarLoader />
-          <Playground></Playground>
+        
         </InstantTracker>
         <directionalLight position={[2.5, 8, 5]} intensity={1.5} />
       </ZapparCanvas>
@@ -42,11 +42,3 @@ export function ZCanvas(props) {
   );
 }
 
-function Playground() {
-  //ECS works here
-  return (
-    <scene>
-      
-    </scene>
-  );
-}

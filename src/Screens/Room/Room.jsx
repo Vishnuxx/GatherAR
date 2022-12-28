@@ -4,29 +4,33 @@ import { RoomOptionsPanel } from "./RoomPanels/RoomOptionsPanel";
 import { ActionsPanel } from "./RoomPanels/ActionsPanel";
 import { ShapesPanel } from "./RoomPanels/ShapesPanel";
 import { Overlay } from "./RoomPanels/Overlay/Overlay";
+import { LoadingModal } from "../../GlobalComponents/LoadingModal";
+import { useState } from "react";
 
 export function Room({}) {
+  const [isLoading, setisLoading] = useState(true);
+
   return (
-    <Box width="100vw" bg={"#262626"}>
-      <ZCanvas></ZCanvas>
-      <RoomOptionsPanel></RoomOptionsPanel>
-      <Stack dir="vertical" position={"absolute"} bottom={0} width={"100vw"}>
-        <Overlay></Overlay>
-        
-        <ShapesPanel bottom="150px"></ShapesPanel>
-        <ActionsPanel></ActionsPanel>
-      </Stack>
-      {/* <CenterPointGazeCursor /> */}
+    <Box height={"100vh"} width="100vw" bg={"#262626"}>
+     
+        <LoadingModal isOpen={isLoading}></LoadingModal>
+  
+        <EffectScreen></EffectScreen>
+     
     </Box>
   );
 }
 
-const LayoutStyles = {
-  actionsPanel: {
-    dir: "horizontal",
-    w: "100vw",
-    justifyContent: "space-around",
-    p: "30px",
-    alignItems: "center",
-  },
-};
+function EffectScreen() {
+  return (
+    <>
+      <ZCanvas></ZCanvas>
+      <RoomOptionsPanel></RoomOptionsPanel>
+      <Overlay></Overlay>
+      <Stack dir="vertical" position={"absolute"} bottom={0} width={"100vw"}>
+        <ShapesPanel bottom="150px"></ShapesPanel>
+        <ActionsPanel></ActionsPanel>
+      </Stack>
+    </>
+  );
+}

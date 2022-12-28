@@ -1,6 +1,7 @@
 import { atom } from "recoil";
 
 export const OVERLAY_TYPE = {
+  NONE: 0,
   CALIBRATION: 1,
 };
 
@@ -9,8 +10,8 @@ export const OVERLAY_TYPE = {
 export const overlayState = atom({
   key: "overlay",
   default: {
-    visible: true,
-    type: OVERLAY_TYPE.CALIBRATION,
+    visible: false,
+    type: OVERLAY_TYPE.NONE,
     closeOnOverlayClick: false
   },
 });
