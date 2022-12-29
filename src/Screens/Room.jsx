@@ -19,9 +19,10 @@ import { generateSharingLink } from "../Utilities/user";
 
 import { useSetRecoilState } from "recoil";
 import { peerList } from "../Utilities/participantManager";
-import { AudioManager } from "../Components/Room/Components/AudioManager";
+import { AudioManager } from "../Components/Room/ManagerComponents/AudioManager";
 import { sharingLink } from "../State/State";
-import { PeerManager } from "../Components/Room/Components/PeerManager";
+import { ConnectionManager } from "../Components/Room/ManagerComponents/ConnectionManager";
+
 
 export function Room({}) {
   const [isLoading, setisLoading] = useState(false);
@@ -30,7 +31,7 @@ export function Room({}) {
 
   return (
     <Box height={"100vh"} width="100vw" bg={"#262626"}>
-      <PeerManager></PeerManager>
+      
       <LoadingModal isOpen={isLoading}></LoadingModal>
       <EffectScreen></EffectScreen>
     </Box>
@@ -41,6 +42,7 @@ function EffectScreen() {
   console.log("EffectScreen");
   return (
     <>
+    <ConnectionManager></ConnectionManager>
       <AudioManager></AudioManager>
       <ZCanvas></ZCanvas>
       <RoomOptionsPanel></RoomOptionsPanel>

@@ -6,7 +6,7 @@
 .pnp.js
 /certs
 /process.env
-
+.env
 
 # testing
 /coverage

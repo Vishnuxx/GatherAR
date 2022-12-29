@@ -32,5 +32,7 @@ export const APPROUTES = {
   "join" : '/join',
   "joinByUrl": '/joinUrl',
   "create" : '/create',
-  "room" : "/room"
+  "room" : "/room",
+  "signUp": "/signup",
+  "login":"/login"
 }
