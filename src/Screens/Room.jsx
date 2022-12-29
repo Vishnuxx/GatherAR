@@ -11,6 +11,7 @@ import { Overlay } from "../Components/Room/Panels/Overlay/Overlay";
 import {
   connectPeer,
   initPeer,
+  listenIncomingCalls,
   listenIncomingConnections,
   onDisconnected,
   onError,
@@ -23,14 +24,38 @@ import {
 } from "../Utilities/hostValidation";
 import { APPROUTES } from "../AppConstants";
 import { generateSharingLink } from "../Utilities/user";
+
+import { useSetRecoilState, } from "recoil";
+import { peerList,  } from "../Utilities/participantManager";
+import { AudioManager } from "../Components/Room/Components/AudioManager";
 import { sharingLink } from "../State/State";
-import { useSetRecoilState } from "recoil";
 
 export function Room({}) {
   const [isLoading, setisLoading] = useState(false);
+  const setSharingLink = useSetRecoilState(sharingLink)
 
   const location = useLocation();
   const navigator = useNavigate();
+  const updatePeerList = useSetRecoilState(peerList);
+
+
+  const host = () => {
+    initPeer(null, (myId) => {
+      console.log(generateSharingLink(myId));
+      setSharingLink(generateSharingLink(myId))
+    });
+  }
+
+
+  const participant = () => {
+    initPeer(null, (myId) => {
+      console.log(`my id is ${myId} `);
+      console.log(location.state.roomId);
+      connectPeer(location.state.roomId);
+    });
+  }
+
+  
 
   useEffect(() => {
     if (isUndefinedHost(location)) {
@@ -40,47 +65,46 @@ export function Room({}) {
     }
 
     if (isHost(location)) {
-      initPeer(null, (myId) => {
-        console.log(generateSharingLink(myId));
-      });
+      host()
     }
 
     if (isParticipant(location)) {
-      initPeer(null, (myId) => {
-        console.log(`my id is ${myId}`);
-        connectPeer(location.state.roomId);
-      });
+      participant();
     }
 
+
+
+
     listenIncomingConnections((conn) => {
-      console.log(conn);
+      console.log(`${conn.peer} is connected`);
+      updatePeerList((oldvalue) => [...oldvalue , {
+        id : conn.peer
+      }]);
     });
 
     onError((err) => {
       console.log(err);
       window.alert("err");
-      navigator(APPROUTES.home)
+      navigator(APPROUTES.home);
 
       return;
     });
 
-    onDisconnected(()=>{
-      const confirm = window.confirm('Connection lost unexpectedly ')
-      if(confirm) {
+    onDisconnected(() => {
+      const confirm = window.confirm("Connection lost unexpectedly ");
+      if (confirm) {
         reconnect();
       } else {
         navigator(APPROUTES.home);
       }
-    })
+    });
 
     return onDestroy;
-  
   }, []);
 
-
   const onDestroy = () => {
-    console.log("component unmounted")
-  }
+    console.log("component unmounted");
+  };
 
   console.log("room");
 
@@ -96,6 +120,7 @@ function EffectScreen() {
   console.log("EffectScreen");
   return (
     <>
+    <AudioManager></AudioManager>
       <ZCanvas></ZCanvas>
       <RoomOptionsPanel></RoomOptionsPanel>
       <Overlay></Overlay>

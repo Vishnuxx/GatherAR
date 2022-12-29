@@ -13,6 +13,8 @@ const initPeer = (peerId, onReady = (id) => {}) => {
   peer.on("open", (id) => {
     onReady(id);
   });
+
+
 };
 
 
@@ -56,6 +58,12 @@ const endConnection = () => {
     peer.close()
 }
 
+const onCloseSession = (callback) => {
+    peer.on("close" , () => {
+        callback();
+    })
+}
+
 const onDisconnected = (callback) => {
     peer.on("disconnected", () => {
       callback();
@@ -65,6 +73,10 @@ const onDisconnected = (callback) => {
 const reconnect = ()  => {
     peer.reconnect()
 }
+
+
+
+
 
 export {
   initPeer,
@@ -77,4 +89,5 @@ export {
   endConnection,
   reconnect,
   onDisconnected,
+  onCloseSession,
 };

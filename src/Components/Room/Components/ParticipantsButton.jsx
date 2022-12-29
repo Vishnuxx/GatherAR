@@ -8,11 +8,16 @@ import {
   DrawerOverlay,
   Stack,
   useDisclosure,
+  Flex,
+  Text,
 } from "@chakra-ui/react";
-import { useContext, useState } from "react";
-import { APPCOLORS } from "../../../AppConstants";
 
-import { RoomIdPane } from "./SharingLink";
+
+import { APPCOLORS } from "../../../AppConstants";
+import { peerList } from "../../../Utilities/participantManager";
+import { listenIncomingCalls } from "../../../Utilities/peerConnection";
+
+import {useRecoilValue} from 'recoil'
 
 export function ParticipantsButton({ props }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -50,17 +55,29 @@ function ParticipantsDrawer({ isOpen, onClose }) {
         </DrawerHeader>
 
         <DrawerBody p={0}>
-          <ParticipantsPanel />
+          <ParticipantsList />
         </DrawerBody>
       </DrawerContent>
     </Drawer>
   );
 }
 
-function ParticipantsPanel(props) {
+function ParticipantsList(props) {
+  const peerlist = useRecoilValue(peerList);
+  
+
+  console.log("updated peer")
   return (
-    <Stack h={"100%"} bg={"#262626"}>
-      sdsd
+    <Stack w={'100%'} h={"100%"} bg={"#262626"} direction="column">
+      {
+        peerlist.map((peer ,i)=>{
+          console.log(peer.id)
+          return <Flex key={i} color={APPCOLORS.text} >
+            <Text padding={3}>{peer.id}</Text>
+          </Flex>
+        })
+      }
+      
     </Stack>
   );
 }

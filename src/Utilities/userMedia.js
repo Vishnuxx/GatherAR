@@ -1,20 +1,27 @@
-var isEnabled = false;
+var isMuted = true;
 
 export const getUserAudio = (
   onSuccess = (stream) => {},
   onError = () => {}
 ) => {
-  navigator.mediaDevices
-    .getUserMedia({ audio: isEnabled })
+     
+        
+  window.navigator.mediaDevices
+    .getUserMedia({ audio: true })
     .then((stream) => {
-      stream.getTracks().forEach((track) => (track.enabled = isEnabled));
-      onSuccess(stream);
+        console.log('er')
+        if(!isMuted) {
+            onSuccess(stream);
+        }
+      
     })
     .catch((error) => {
       onError(error);
+      
     });
 };
 
-export const setUserAudioEnabled = (bool) =>{
-    isEnabled = bool;
+export const setAudioMuted = (bool , callback = ()=>{}) =>{
+    isMuted = bool;
+    callback()
 }
