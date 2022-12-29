@@ -21,6 +21,8 @@ import { APPCOLORS, APPROUTES } from "../AppConstants";
 import { Background } from "../GlobalComponents/Background";
 import { signUp } from "../Utilities/Auth";
 import { useNavigate } from "react-router-dom";
+import { PasswordInput } from "../Components/Auth/PasswordInput";
+import { EmailInput } from "../Components/Auth/EmailInput";
 
 export function SignUp() {
 
@@ -107,7 +109,7 @@ const navigate = useNavigate();
           placeholder="Enter your UserName"
           onChange={updateUserName}
         />
-
+        <FormLabel>Email</FormLabel>
         <EmailInput onChange={updateEmail}></EmailInput>
         {/* <FormLabel>Email</FormLabel>
         <Input type={'email'} placeholder="Enter your Email" onChange={updateEmail} /> */}
@@ -144,61 +146,11 @@ const navigate = useNavigate();
         >
           SignUP
         </Button>
-        <Link to={APPROUTES.login} replace={true} color={APPCOLORS.urlAnchor}>
-          Have an Account? Login
+        <Link to={APPROUTES.login} replace={true}>
+          <Text color={APPCOLORS.urlAnchor}>Already have an Account? Login</Text>
         </Link>
       </Stack>
     </Stack>
   );
 }
 
-function EmailInput(props) {
-  const [input, setInput] = useState("");
-
-  const handleInputChange = (e) => {
-    props.onChange(e);
-    setInput(e.target.value);
-  };
-
-  const isError = input === "";
-
-  return (
-    <FormControl isInvalid={isError}>
-      <FormLabel>Email</FormLabel>
-      <Input type="email" value={input} onChange={handleInputChange} />
-      {!isError ? (
-        <FormHelperText>
-          {/* Enter the email you'd like to receive the newsletter on. */}
-        </FormHelperText>
-      ) : (
-        <FormErrorMessage>Email is required.</FormErrorMessage>
-      )}
-    </FormControl>
-  );
-}
-
-function PasswordInput(props) {
-  const [show, setShow] = useState(false);
-  const handleClick = () => setShow(!show);
-
-  return (
-    <InputGroup size="md">
-      <Input pr="4.5rem" type={show ? "text" : "password"} {...props} />
-      <InputRightElement width="4.5rem">
-        <Button
-          h="1.75rem"
-          size="sm"
-          onClick={handleClick}
-          bg={APPCOLORS.card}
-          css={{
-            ":hover": {
-              background: APPCOLORS.card,
-            },
-          }}
-        >
-          {show ? "Hide" : "Show"}
-        </Button>
-      </InputRightElement>
-    </InputGroup>
-  );
-}
