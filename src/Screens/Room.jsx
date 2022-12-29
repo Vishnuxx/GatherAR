@@ -58,11 +58,6 @@ export function Room({}) {
     }
 
     if (isParticipant(location)) {
-      // if (!isPeedIdValid(location.state.roomId)) {
-      //   window.alert("Invalid ID");
-      //   navigator(APPROUTES.home);
-      //   return ;
-      // }
 
       initPeer(null, (myId) => {
         console.log(`my id is ${myId}`);

@@ -28,9 +28,9 @@ const listenIncomingCalls = (callback) => {
 };
 
 
-const onError = (error) => {
+const onError = (callback) => {
   peer.on("error", (type) => {
-    console.log(type);
+    callback(type);
   });
 };
 
