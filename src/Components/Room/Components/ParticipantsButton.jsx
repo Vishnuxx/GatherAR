@@ -12,12 +12,11 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-
 import { APPCOLORS } from "../../../AppConstants";
 import { peerList } from "../../../Utilities/participantManager";
-import { listenIncomingCalls } from "../../../Utilities/peerConnection";
 
-import {useRecoilValue} from 'recoil'
+
+import { useRecoilValue } from "recoil";
 
 export function ParticipantsButton({ props }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -64,20 +63,18 @@ function ParticipantsDrawer({ isOpen, onClose }) {
 
 function ParticipantsList(props) {
   const peerlist = useRecoilValue(peerList);
-  
 
-  console.log("updated peer")
+  console.log("updated peer");
   return (
-    <Stack w={'100%'} h={"100%"} bg={"#262626"} direction="column">
-      {
-        peerlist.map((peer ,i)=>{
-          console.log(peer.id)
-          return <Flex key={i} color={APPCOLORS.text} >
+    <Stack w={"100%"} h={"100%"} bg={"#262626"} direction="column">
+      {peerlist.map((peer, i) => {
+        console.log(peer.id);
+        return (
+          <Flex key={i} color={APPCOLORS.text}>
             <Text padding={3}>{peer.id}</Text>
           </Flex>
-        })
-      }
-      
+        );
+      })}
     </Stack>
   );
 }
