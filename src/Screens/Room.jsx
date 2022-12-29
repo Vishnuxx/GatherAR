@@ -1,4 +1,4 @@
-import { Box, Button, Stack } from "@chakra-ui/react";
+import { Box, Stack } from "@chakra-ui/react";
 import { ZCanvas } from "../Components/Room/SceneComponents/ZCanvas";
 
 import { useEffect, useState } from "react";
@@ -9,11 +9,8 @@ import { ShapesPanel } from "../Components/Room/Panels/ShapesPanel";
 import { ActionsPanel } from "../Components/Room/Panels/ActionsPanel";
 import { Overlay } from "../Components/Room/Panels/Overlay/Overlay";
 import {
-  callPeer,
   connectPeer,
   initPeer,
-  isPeedIdValid,
-  listenIncomingCalls,
   listenIncomingConnections,
   onError,
 } from "../Utilities/peerConnection";
@@ -27,19 +24,8 @@ import { generateSharingLink } from "../Utilities/user";
 import { sharingLink } from "../State/State";
 import { useSetRecoilState } from "recoil";
 
-export function EffectUser() {
-  this.name = "user";
-  this.rooms = [
-    {
-      id: "effect1",
-      isHost: true,
-    },
-  ];
-}
-
 export function Room({}) {
   const [isLoading, setisLoading] = useState(false);
-  const setSharingLink = useSetRecoilState(sharingLink);
 
   const location = useLocation();
   const navigator = useNavigate();
@@ -58,14 +44,11 @@ export function Room({}) {
     }
 
     if (isParticipant(location)) {
-
       initPeer(null, (myId) => {
         console.log(`my id is ${myId}`);
         connectPeer(location.state.roomId);
       });
     }
-
-    
 
     listenIncomingConnections((conn) => {
       console.log(conn);
@@ -85,7 +68,6 @@ export function Room({}) {
   return (
     <Box height={"100vh"} width="100vw" bg={"#262626"}>
       <LoadingModal isOpen={isLoading}></LoadingModal>
-
       <EffectScreen></EffectScreen>
     </Box>
   );

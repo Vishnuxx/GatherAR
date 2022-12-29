@@ -1,3 +1,4 @@
+import { APPROUTES } from "../AppConstants";
 
 
 
@@ -40,7 +41,7 @@ const joinRoom = (roomId) => {
 
 
 const generateSharingLink = ( peerId) => {
-    return `https://${window.location.hostname}:${window.location.port}/join?id=${peerId}`
+    return `https://${window.location.hostname}:${window.location.port}${APPROUTES.joinByUrl}?id=${peerId}`
 }
 
 

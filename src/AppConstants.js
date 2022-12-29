@@ -30,6 +30,7 @@ export const APPSTYLES = {
 export const APPROUTES = {
   "home" : "/",
   "join" : '/join',
+  "joinByUrl": '/joinUrl',
   "create" : '/create',
   "room" : "/room"
 }

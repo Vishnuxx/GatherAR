@@ -6,6 +6,8 @@ import { Room } from "./Screens/Room";
 import { Join } from "./Screens/Join";
 import { RecoilRoot } from "recoil";
 import { Create } from "./Screens/Create";
+import { JoinUrl } from "./Screens/JoinUrl";
+import { APPROUTES } from "./AppConstants";
 
 function App() {
   console.log("app")
@@ -14,10 +16,11 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/join" element={<Join />} />
-          <Route path="/create" element={<Create />} />
-          <Route path="/room" element={<Room />} />
-          <Route path="/signup" element={<SignUp />} />
+          <Route path={APPROUTES.join} element={<Join />} />
+          <Route path={APPROUTES.joinByUrl} element={<JoinUrl />} />
+          <Route path={APPROUTES.create} element={<Create />} />
+          <Route path={APPROUTES.room} element={<Room />} />
+          <Route path={APPROUTES.SignUp} element={<SignUp />} />
         </Routes>
       </BrowserRouter>
     </RecoilRoot>
