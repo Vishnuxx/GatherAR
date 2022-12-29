@@ -52,6 +52,19 @@ const isPeedIdValid = (peerid) => {
   return validPeerIdRegex.test(peerid);
 };
 
+const endConnection = () => {
+    peer.close()
+}
+
+const onDisconnected = (callback) => {
+    peer.on("disconnected", () => {
+      callback();
+    });
+}
+
+const reconnect = ()  => {
+    peer.reconnect()
+}
 
 export {
   initPeer,
@@ -61,4 +74,7 @@ export {
   connectPeer,
   onError,
   callPeer,
+  endConnection,
+  reconnect,
+  onDisconnected,
 };

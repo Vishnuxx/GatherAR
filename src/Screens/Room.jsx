@@ -12,7 +12,9 @@ import {
   connectPeer,
   initPeer,
   listenIncomingConnections,
+  onDisconnected,
   onError,
+  reconnect,
 } from "../Utilities/peerConnection";
 import {
   isHost,
@@ -57,11 +59,28 @@ export function Room({}) {
     onError((err) => {
       console.log(err);
       window.alert("err");
-      navigator(APPROUTES.home);
+      navigator(APPROUTES.home)
 
       return;
     });
+
+    onDisconnected(()=>{
+      const confirm = window.confirm('Connection lost unexpectedly ')
+      if(confirm) {
+        reconnect();
+      } else {
+        navigator(APPROUTES.home);
+      }
+    })
+
+    return onDestroy;
+  
   }, []);
+
+
+  const onDestroy = () => {
+    console.log("component unmounted")
+  }
 
   console.log("room");
 
