@@ -18,6 +18,7 @@ import { createRoom } from "../Utilities/user";
 export function Create() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
+  const [roomName, setRoomName] = useState("");
   const [isMale, setIsMale] = useState(null);
   const [showError, setShowError] = useState("");
 
@@ -26,24 +27,25 @@ export function Create() {
     setName(e.target.value);
   };
 
+  const updateRoomName = (e) => {
+    setRoomName(e.target.value);
+  };
+
   const updateAvatar = (value) => {
     console.log(value);
     setIsMale(value);
   };
 
-  const create = () => {
-    
-    navigate(APPROUTES.room, {
-      state: { userType: USERTYPE.HOST, name: name, isMale: isMale, roomId: null },
-    });
-  };
-
-  const validate = (e) => {
+  const submit = (e) => {
     e.preventDefault();
 
-    console.log(name);
     if (name === "") {
-      setShowError("Name Should Not be Blank");
+      setShowError("Name should not be blank");
+      return;
+    }
+
+    if (roomName === "") {
+      setShowError("Room Name should not be blank");
       return;
     }
 
@@ -53,7 +55,21 @@ export function Create() {
     }
 
     setShowError("");
-    create();
+
+    // console.table({
+    //   name: name,
+    //   room: roomName,
+    //   isMale: isMale,
+    // });
+
+    navigate(APPROUTES.room, {
+      state: {
+        userType: USERTYPE.HOST,
+        name: name,
+        isMale: isMale,
+        roomId: null,
+      },
+    });
   };
 
   return (
@@ -80,9 +96,18 @@ export function Create() {
           type={"text"}
           color={"white"}
           maxWidth={"300px"}
-          placeholder="Enter your Name"
+          placeholder="Enter Your Name"
           value={name}
           onChange={updateName}
+        />
+
+        <Input
+          type={"text"}
+          color={"white"}
+          maxWidth={"300px"}
+          placeholder="Enter Room Name"
+          value={roomName}
+          onChange={updateRoomName}
         />
 
         <FormLabel w={"fit-content"} justifyContent={"center"}>
@@ -104,7 +129,7 @@ export function Create() {
         </Text>
 
         <Button
-          onClick={validate}
+          onClick={submit}
           m={"4"}
           color="white"
           backgroundColor={"#00C193"}

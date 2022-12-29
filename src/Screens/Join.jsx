@@ -18,10 +18,16 @@ import { useLocation } from "react-router-dom";
 
 export function Join() {
   const navigate = useNavigate();
+  const [name, setName] = useState("");
   const [remoteId, setRemoteId] = useState("");
   const [isMale, setIsMale] = useState(null);
   const [showError, setShowError] = useState("");
   const location = useLocation();
+
+
+   const updateName = (e) => {
+     setName(e.target.value);
+   };
 
   //update the remote id from text field
   const updateRemoteID = (e) => {
@@ -29,12 +35,30 @@ export function Join() {
   };
 
   const updateAvatar = (value) => {
-    console.log(value);
     setIsMale(value);
   };
 
-  const joinRoom = () => {
-    //TD: check wheather this remote id exist in server
+  const joinRoom = (e) => {
+    
+     e.preventDefault();
+
+     if (name === "") {
+       setShowError("Name should not be blank");
+       return;
+     }
+
+     if (remoteId === "") {
+       setShowError("Room Id should not be blank");
+       return;
+     }
+
+     if (isMale == null) {
+       setShowError("Please select your Avatar");
+       return;
+     }
+
+     setShowError("");
+
     //if true
     navigate(APPROUTES.room, {
       state: {
@@ -72,6 +96,14 @@ export function Join() {
       <Text zIndex={1} color={APPCOLORS.mainText}>
         Join Room
       </Text>
+
+      <Input
+        color={"white"}
+        maxWidth={"300px"}
+        placeholder="Enter your name"
+        value={name}
+        onChange={updateName}
+      />
 
       <Input
         color={"white"}
