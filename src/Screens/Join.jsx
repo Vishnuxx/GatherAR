@@ -49,7 +49,7 @@ export function Join() {
   const getIdfromURL = () => {
     const searchParams = new URLSearchParams(location.search);
     const parameterValue = searchParams.get("id");
-    if (parameterValue.toString().length > 0) {
+    if (parameterValue != null && parameterValue.toString().length > 0) {
       setRemoteId(parameterValue);
     }
   };

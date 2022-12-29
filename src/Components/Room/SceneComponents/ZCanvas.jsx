@@ -24,7 +24,7 @@ import { AvatarLoader } from "./AvatarLoader";
 
 export function ZCanvas(props) {
   const isCalibration = useRecoilValue(isCalibratingState);
-
+ console.log("ZCanvas");
   return (
     <Stack
       position="absolute"

@@ -13,6 +13,7 @@ import { Background } from "../GlobalComponents/Background";
 import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
 import { USERTYPE } from "../Utilities/hostValidation";
+import { createRoom } from "../Utilities/user";
 
 export function Create() {
   const navigate = useNavigate();
@@ -30,7 +31,8 @@ export function Create() {
     setIsMale(value);
   };
 
-  const createRoom = () => {
+  const create = () => {
+    
     navigate(APPROUTES.room, {
       state: { userType: USERTYPE.HOST, name: name, isMale: isMale, roomId: null },
     });
@@ -51,7 +53,7 @@ export function Create() {
     }
 
     setShowError("");
-    createRoom();
+    create();
   };
 
   return (

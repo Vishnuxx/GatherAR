@@ -27,20 +27,17 @@ import { APPCOLORS } from "../../../AppConstants";
 import {  sharingLink } from "../../../State/State";
 
 export function RoomIdPane({ props }) {
-  const isAHost = useRecoilValue(sharingLink);
+  const sharingUrl = useRecoilValue(sharingLink);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [roomId, setroomId] = useState(null);
 
-  const generateSharingLink = () => {
 
-  }
-  
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(sharingUrl);
+    onClose()
+  };
+
   const open = () => {
     onOpen();
-    //check where you are the host
-    if (isAHost.state === true) {
-    } else {
-    }
   };
   return (
     <>
@@ -75,15 +72,16 @@ export function RoomIdPane({ props }) {
               bg={"rgba(100,100,100,0.5)"}
               h={"30px"}
               borderRadius={"5px"}
+              color="white"
             >
-              {roomId}
+              {sharingUrl}
             </Text>
             <Button
               size={"sm"}
               color={APPCOLORS.urlAnchor}
               colorScheme="none"
               mr={3}
-              onClick={onClose}
+              onClick={copyToClipboard}
             >
               Copy ID
             </Button>

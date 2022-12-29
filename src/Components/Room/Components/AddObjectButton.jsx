@@ -17,12 +17,15 @@ import {
 } from "@chakra-ui/react";
 import { APPCOLORS } from "../../../AppConstants";
 
+import { useRecoilState } from "recoil";
+import { isShapesPanelOpenState } from "../../../State/State";
 
 export function AddObjectButton(props) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+ 
+  const [isOpen, setIsOpen] = useRecoilState(isShapesPanelOpenState);
   return (
     <>
-      <Box onClick={onOpen} bg={APPCOLORS.panel} p={2} borderRadius={100}>
+      <Box onClick={()=>setIsOpen(!isOpen)} bg={APPCOLORS.panel} p={2} borderRadius={100}>
         <svg
           width="40"
           height="40"
@@ -36,7 +39,9 @@ export function AddObjectButton(props) {
           />
         </svg>
       </Box>
-      <ObjectsDrawer isOpen={isOpen} onClose={onClose}></ObjectsDrawer>
+
+
+      {/* <ObjectsDrawer isOpen={isOpen} onClose={onClose}></ObjectsDrawer> */}
     </>
   );
 }

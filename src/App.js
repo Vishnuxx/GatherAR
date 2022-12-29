@@ -8,6 +8,7 @@ import { RecoilRoot } from "recoil";
 import { Create } from "./Screens/Create";
 
 function App() {
+  console.log("app")
   return (
     <RecoilRoot>
       <BrowserRouter>

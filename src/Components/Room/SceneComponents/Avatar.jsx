@@ -7,7 +7,7 @@ import { EnabledMic } from "../../../GlobalComponents/EnabledMic";
 import { DisbledMic } from "../../../GlobalComponents/DisabledMic";
 
 export function Avatar({ name, isMale, shirtColor, position }) {
-  console.log("this is " + name);
+ 
   return isMale ? (
     <Male name={name} position={position} shirtColor={shirtColor} />
   ) : (

@@ -30,7 +30,6 @@ export function AvatarLoader() {
   return (
     <group>
       {participantAvatars.map((data, index) => {
-        console.log(data.name)
         return <Avatar
           key={index}
           name={data.name}

@@ -31,3 +31,9 @@ export const sharingLink = atom({
   key: 'sharinglink',
   default: null
 })
+
+
+export const isShapesPanelOpenState = atom({
+  key: "isShapesPanelOpenState",
+  default: false,
+});
