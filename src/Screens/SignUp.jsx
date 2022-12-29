@@ -17,17 +17,23 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import validator from "validator";
-import { APPCOLORS } from "../AppConstants";
+import { APPCOLORS, APPROUTES } from "../AppConstants";
 import { Background } from "../GlobalComponents/Background";
+import { signUp } from "../Utilities/Auth";
+import { useNavigate } from "react-router-dom";
 
 export function SignUp() {
-  const signupScreenUrl = "/login";
+
   const [errorMessage, seterrorMessage] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setconfirmPassword] = useState("");
 
+
+  
+const navigate = useNavigate();
+      
   const updateUserName = (e) => {
     setUsername(e.target.value);
   };
@@ -52,7 +58,8 @@ export function SignUp() {
     return password === confirmPassword;
   };
 
-  const signUp = () => {
+  const submit = () => {
+    
     if (!validator.isEmail(email)) {
       seterrorMessage("Invalid Email");
 
@@ -71,7 +78,13 @@ export function SignUp() {
 
     seterrorMessage("");
 
-    //handle signup
+    signUp(username ,email ,  password , confirmPassword ,(user)=>{
+      //success
+      console.log(user.uid)
+      navigate(APPROUTES.home)
+    } , (err)=>{
+      seterrorMessage(err.toString());
+    })
   };
 
   return (
@@ -111,7 +124,7 @@ export function SignUp() {
           onChange={updateConfirmPassword}
         />
 
-        <RadioGroup dir="horizontal" w={"100%"}>
+        {/* <RadioGroup dir="horizontal" w={"100%"}>
           <FormLabel>Avatar</FormLabel>
           <Flex justifyContent={"space-around"}>
             <Radio value={"male"} defaultChecked={true}>
@@ -119,7 +132,7 @@ export function SignUp() {
             </Radio>
             <Radio value={"female"}>Female</Radio>
           </Flex>
-        </RadioGroup>
+        </RadioGroup> */}
         <Text color={"red"} size={"sm"}>
           {errorMessage}
         </Text>
@@ -127,11 +140,11 @@ export function SignUp() {
           size={"md"}
           variant="solid"
           bg={APPCOLORS.primaryButton}
-          onClick={signUp}
+          onClick={submit}
         >
           SignUP
         </Button>
-        <Link to={signupScreenUrl} replace={true} color={APPCOLORS.urlAnchor}>
+        <Link to={APPROUTES.login} replace={true} color={APPCOLORS.urlAnchor}>
           Have an Account? Login
         </Link>
       </Stack>

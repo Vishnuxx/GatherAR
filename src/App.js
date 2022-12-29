@@ -20,7 +20,7 @@ function App() {
           <Route path={APPROUTES.joinByUrl} element={<JoinUrl />} />
           <Route path={APPROUTES.create} element={<Create />} />
           <Route path={APPROUTES.room} element={<Room />} />
-          <Route path={APPROUTES.SignUp} element={<SignUp />} />
+          <Route path={APPROUTES.signUp} element={<SignUp />} />
         </Routes>
       </BrowserRouter>
     </RecoilRoot>
