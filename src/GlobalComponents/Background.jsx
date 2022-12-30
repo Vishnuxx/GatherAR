@@ -1,14 +1,17 @@
 import { Stack, Box } from "@chakra-ui/react";
 
-export function Background({props}) {
+export function Background(props) {
     return (
       <Stack
       zIndex={-9}
-        h={"100vh"}
+        h={"100%"}
         w={"100vw"}
         bg={"black"}
         position={"absolute"}
         overflow="hidden"
+        top={0}
+        left={0}
+        {...props}
       >
         <Circle x={"80vw"} y={"-30px"} />
         <Circle x={"0vw"} y={"40vh"} bg="#03fcca" />

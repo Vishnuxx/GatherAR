@@ -86,51 +86,61 @@ export function JoinUrl() {
   return (
     <Stack
       gap={5}
-      h={"100vh"}
+      h={"100%"}
       w={"100vw"}
       flexDirection="column"
-      justifyContent="center"
-      alignItems={"center"}
+      justify="center"
+      align={"center"}
     >
       <Background></Background>
-      {/* <TitleAndLogo></TitleAndLogo> */}
-      <Text zIndex={1} color={APPCOLORS.mainText}>
-        Join Room
-      </Text>
-
-      <Input
-        color={"white"}
-        maxWidth={"300px"}
-        placeholder="Enter your name"
-        value={name}
-        onChange={updateName}
-      />
-
-      <FormLabel color={"white"} w={"fit-content"} justifyContent={"center"}>
-        Select your Avatar
-      </FormLabel>
-      <RadioGroup
-        dir="horizontal"
+      <Stack
+        dir="vertical"
+        gap={2}
+        w={"300px"}
+        height={'90vh'}
+        justify={"center"}
+       
         color={APPCOLORS.text}
-        onChange={updateAvatar}
       >
-        <Stack gap={"5"} direction={"row"} justifyContent={"center"}>
-          <Radio value={"true"}>Male</Radio>
-          <Radio value={"false"}>Female</Radio>
-        </Stack>
-      </RadioGroup>
-      <Text fontSize={"0.8rem"} color={APPCOLORS.errorText}>
-        {showError}
-      </Text>
+        {/* <TitleAndLogo></TitleAndLogo> */}
+         <Text fontSize={"2rem"}>
+          Join Room
+        </Text>
 
-      <Button
-        onClick={joinRoom}
-        m={"4"}
-        color="white"
-        backgroundColor={"#00C193"}
-      >
-        Join Room
-      </Button>
+        <Input
+          color={"white"}
+          maxWidth={"300px"}
+          placeholder="Enter your name"
+          value={name}
+          onChange={updateName}
+        />
+
+        <FormLabel color={"white"} w={"fit-content"} justifyContent={"center"}>
+          Select your Avatar
+        </FormLabel>
+        <RadioGroup
+          dir="horizontal"
+          color={APPCOLORS.text}
+          onChange={updateAvatar}
+        >
+          <Stack gap={"5"} direction={"row"} justifyContent={"center"}>
+            <Radio value={"true"}>Male</Radio>
+            <Radio value={"false"}>Female</Radio>
+          </Stack>
+        </RadioGroup>
+        <Text fontSize={"0.8rem"} color={APPCOLORS.errorText}>
+          {showError}
+        </Text>
+
+        <Button
+          onClick={joinRoom}
+          m={"4"}
+          color="white"
+          backgroundColor={"#00C193"}
+        >
+          Join Room
+        </Button>
+      </Stack>
     </Stack>
   );
 }

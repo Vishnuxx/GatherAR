@@ -11,9 +11,10 @@ import {
 import { APPCOLORS, APPROUTES } from "../AppConstants";
 import { Background } from "../GlobalComponents/Background";
 import { useNavigate, Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { USERTYPE } from "../Utilities/hostValidation";
 import { createRoom } from "../Utilities/user";
+import { checkLoginStatus } from "../Utilities/Auth";
 
 export function Create() {
   const navigate = useNavigate();
@@ -72,9 +73,22 @@ export function Create() {
     });
   };
 
+  useEffect(() => {
+    checkLoginStatus((user)=>{
+      //success
+      
+    },(err)=>{
+      //error
+      console.log("please login")
+      navigate(APPROUTES.home, {
+        replace: true,
+      });
+    })
+  }, []);
+
   return (
     <Flex
-      h={"100vh"}
+      h={"100%"}
       w={"100vw"}
       flexDirection="column"
       justifyContent="center"
@@ -84,14 +98,14 @@ export function Create() {
 
       <Stack
         color={"white"}
-        w={"50%"}
+        w={"300px"}
+        h={"90vh"}
         gap={"5"}
         direction={"column"}
         maxWidth={"300px"}
+        justify={"center"}
       >
-        <Text zIndex={1} color={APPCOLORS.mainText}>
-          Create Room
-        </Text>
+        <Text fontSize={"2rem"}>Create Room</Text>
         <Input
           type={"text"}
           color={"white"}

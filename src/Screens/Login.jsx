@@ -5,6 +5,8 @@ import {
   Input,
   Stack,
   TagLabel,
+  Box,
+  Flex,
   Text,
 } from "@chakra-ui/react";
 import { useState } from "react";
@@ -18,7 +20,6 @@ import { EmailInput } from "../Components/Auth/EmailInput";
 import { PasswordInput } from "../Components/Auth/PasswordInput";
 
 export function Login() {
-    
   const navigate = useNavigate();
   const signupScreenUrl = "/signup";
   const [email, setEmail] = useState("");
@@ -34,8 +35,8 @@ export function Login() {
   };
 
   const validatePasswordLength = () => {
-    console.log(password.length)
-    return password.length > 6
+    console.log(password.length);
+    return password.length > 6;
   };
 
   const submit = () => {
@@ -52,28 +53,35 @@ export function Login() {
 
     seterrorMessage("");
 
-    login(email , password , (user)=>{
-        console.log("login successful")
-        navigate(APPROUTES.home);
-    }, (error)=>{
-        seterrorMessage(error.toString());
-    })
-  }
-
+    login(
+      email,
+      password,
+      (user) => {
+        console.log("login successful");
+        navigate(APPROUTES.home, {
+          replace: true,
+        });
+      },
+      (error) => {
+        seterrorMessage(error.message.toString());
+      }
+    );
+  };
 
   return (
     <Stack
-      //   backgroundColor={APPCOLORS.background}
       color={"white"}
-      height={"100vh"}
+     
+      height={"90vh"}
       width={"100vw"}
-      dir="vertical"
+      dir="column"
       align={"center"}
       justify="center"
       p="5"
+      overflowY={"scroll"}
     >
       <Background></Background>
-      <Stack dir="vertical" gap={2} w={"300px"}>
+      <Stack dir="vertical" gap={2} w={"300px"} justify={'center'} height={"100%"}>
         <Text fontSize={"2rem"}>Login</Text>
         <FormLabel>Email</FormLabel>
         <EmailInput onChange={updateEmail} placeholder="Enter your Email" />

@@ -37,7 +37,7 @@ export function Home({ props }) {
         <Link to={APPROUTES.login}>
           <Button
             {...APPSTYLES.joinCreateButton}
-            bg={APPGRADIENTS.joinButton}
+            bg={'none'}
             colorScheme={"blackAlpha"}
           >
             Login
@@ -58,40 +58,35 @@ export function Home({ props }) {
   };
 
   return (
-    <Stack color={"white"} overflow="hidden" h={"100vh"}>
+    <Stack color={"white"} overflow="hidden" h={"100%"} direction={"column"} alignItems={'center'}>
       <Background></Background>
 
-      <Stack
-        justifyContent={"center"}
-        alignItems={"center"}
-        direction={"horizontal"}
-      >
+      <Stack justifyContent={"space-between"} alignItems={"center"} direction={"row"} w={'100%'} p={3}>
         <Heading fontSize={"2xl"}>GatherAR</Heading>
-
-        <Flex>
-          <Link to={APPROUTES.create}>
-            <Button
-              {...APPSTYLES.joinCreateButton}
-              bg={APPGRADIENTS.joinButton}
-              colorScheme={"blackAlpha"}
-            >
-              Create
-            </Button>
-          </Link>
-
-          <Link to={APPROUTES.join}>
-            <Button
-              {...APPSTYLES.joinCreateButton}
-              bg={APPGRADIENTS.joinButton}
-              colorScheme={"blackAlpha"}
-            >
-              Join Room
-            </Button>
-          </Link>
-        </Flex>
-
         <AuthButtons></AuthButtons>
       </Stack>
+      <Flex direction={'column'}>
+
+        <Link to={APPROUTES.create}>
+          <Button
+            {...APPSTYLES.joinCreateButton}
+            bg={APPGRADIENTS.joinButton}
+            colorScheme={"blackAlpha"}
+          >
+            Create
+          </Button>
+        </Link>
+
+        <Link to={APPROUTES.join}>
+          <Button
+            {...APPSTYLES.joinCreateButton}
+            bg={APPGRADIENTS.joinButton}
+            colorScheme={"blackAlpha"}
+          >
+            Join Room
+          </Button>
+        </Link>
+      </Flex>
     </Stack>
   );
 }

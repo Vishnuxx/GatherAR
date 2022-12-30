@@ -85,58 +85,59 @@ export function Join() {
   return (
     <Stack
       gap={5}
-      h={"100vh"}
+      h={"100%"}
       w={"100vw"}
       flexDirection="column"
-      justifyContent="center"
-      alignItems={"center"}
+      justify="center"
+      align={"center"}
+      color={APPCOLORS.text}
     >
       <Background></Background>
-      {/* <TitleAndLogo></TitleAndLogo> */}
-      <Text zIndex={1} color={APPCOLORS.mainText}>
-        Join Room
-      </Text>
+      <Stack w={"300px"} gap={"5"} height={"90vh"} justify={"center"}>
+        {/* <TitleAndLogo></TitleAndLogo> */}
+        <Text fontSize={"2rem"}>Join Room</Text>
 
-      <Input
-        color={"white"}
-        maxWidth={"300px"}
-        placeholder="Enter your name"
-        value={name}
-        onChange={updateName}
-      />
+        <Input
+          color={"white"}
+          maxWidth={"300px"}
+          placeholder="Enter your name"
+          value={name}
+          onChange={updateName}
+        />
 
-      <Input
-        color={"white"}
-        maxWidth={"300px"}
-        placeholder="Room ID"
-        value={remoteId}
-        onChange={updateRemoteID}
-      />
-      <FormLabel color={"white"} w={"fit-content"} justifyContent={"center"}>
-        Select your Avatar
-      </FormLabel>
-      <RadioGroup
-        dir="horizontal"
-        color={APPCOLORS.text}
-        onChange={updateAvatar}
-      >
-        <Stack gap={"5"} direction={"row"} justifyContent={"center"}>
-          <Radio value={"true"}>Male</Radio>
-          <Radio value={"false"}>Female</Radio>
-        </Stack>
-      </RadioGroup>
-      <Text fontSize={"0.8rem"} color={APPCOLORS.errorText}>
-        {showError}
-      </Text>
+        <Input
+          color={"white"}
+          maxWidth={"300px"}
+          placeholder="Room ID"
+          value={remoteId}
+          onChange={updateRemoteID}
+        />
+        <FormLabel color={"white"} w={"fit-content"} justifyContent={"center"}>
+          Select your Avatar
+        </FormLabel>
+        <RadioGroup
+          dir="horizontal"
+          color={APPCOLORS.text}
+          onChange={updateAvatar}
+        >
+          <Stack gap={"5"} direction={"row"} justifyContent={"center"}>
+            <Radio value={"true"}>Male</Radio>
+            <Radio value={"false"}>Female</Radio>
+          </Stack>
+        </RadioGroup>
+        <Text fontSize={"0.8rem"} color={APPCOLORS.errorText}>
+          {showError}
+        </Text>
 
-      <Button
-        onClick={joinRoom}
-        m={"4"}
-        color="white"
-        backgroundColor={"#00C193"}
-      >
-        Join Room
-      </Button>
+        <Button
+          onClick={joinRoom}
+          m={"4"}
+          color="white"
+          backgroundColor={"#00C193"}
+        >
+          Join Room
+        </Button>
+      </Stack>
     </Stack>
   );
 }

@@ -83,7 +83,9 @@ const navigate = useNavigate();
     signUp(username ,email ,  password , confirmPassword ,(user)=>{
       //success
       console.log(user.uid)
-      navigate(APPROUTES.home)
+      navigate(APPROUTES.home , {
+        replace:true
+      })
     } , (err)=>{
       seterrorMessage(err.toString());
     })
@@ -92,7 +94,7 @@ const navigate = useNavigate();
   return (
     <Stack
       color={"white"}
-      height={"100vh"}
+      height={"90vh"}
       width={"100vw"}
       dir="vertical"
       align={"center"}
@@ -100,8 +102,8 @@ const navigate = useNavigate();
       p="5"
       overflowY={"scroll"}
     >
-      <Background></Background>
-      <Stack dir="vertical" gap={2} w={"300px"} height={"fit-content"}>
+      <Background height={"100%"}></Background>
+      <Stack dir="vertical" gap={2} w={"300px"} justify="center">
         <Text fontSize={"2rem"}>SignUp</Text>
         <FormLabel>UserName</FormLabel>
         <Input
@@ -147,7 +149,9 @@ const navigate = useNavigate();
           SignUP
         </Button>
         <Link to={APPROUTES.login} replace={true}>
-          <Text color={APPCOLORS.urlAnchor}>Already have an Account? Login</Text>
+          <Text color={APPCOLORS.urlAnchor}>
+            Already have an Account? Login
+          </Text>
         </Link>
       </Stack>
     </Stack>
