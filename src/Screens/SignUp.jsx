@@ -81,8 +81,8 @@ const navigate = useNavigate();
     seterrorMessage("");
 
     signUp(username ,email ,  password , confirmPassword ,(user)=>{
+      
       //success
-      console.log(user.uid)
       navigate(APPROUTES.home , {
         replace:true
       })

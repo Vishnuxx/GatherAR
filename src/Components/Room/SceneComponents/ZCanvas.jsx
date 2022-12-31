@@ -9,7 +9,6 @@ import {
   InstantTracker,
 } from "@zappar/zappar-react-three-fiber";
 
-import { Mesh, MeshStandardMaterial, SphereGeometry, Vector3 } from "three";
 
 import { PivotControls } from "@react-three/drei";
 import {

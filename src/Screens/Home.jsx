@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { APPGRADIENTS, APPROUTES, APPSTYLES } from "../AppConstants";
 import { useEffect, useState } from "react";
 import { checkLoginStatus, logOut } from "../Utilities/Auth";
+import { getUserDetails } from "../Utilities/db";
 
 export function Home({ props }) {
   const [loginStatus, setLoginStatus] = useState(false);
@@ -13,6 +14,12 @@ export function Home({ props }) {
       (uid) => {
         setLoginStatus(true);
         console.log("loggedIn");
+        // getUserDetails((user)=>{
+        //   console.log(user)
+        // }, (error)=>{
+        //   console.log(error)
+
+        // })
       },
       () => {
         setLoginStatus(false);

@@ -9,29 +9,80 @@ import { ShapesPanel } from "../Components/Room/Panels/ShapesPanel";
 import { ActionsPanel } from "../Components/Room/Panels/ActionsPanel";
 import { Overlay } from "../Components/Room/Panels/Overlay/Overlay";
 
-import {
-  isHost,
-  isParticipant,
-  isUndefinedHost,
-} from "../Utilities/hostValidation";
 import { APPROUTES } from "../AppConstants";
-import { generateSharingLink } from "../Utilities/user";
 
 import { useSetRecoilState } from "recoil";
-import { peerList } from "../Utilities/participantManager";
-import { AudioManager } from "../Components/Room/ManagerComponents/AudioManager";
-import { sharingLink } from "../State/State";
-import { ConnectionManager } from "../Components/Room/ManagerComponents/ConnectionManager";
 
+import { AudioManager } from "../Components/Room/ManagerComponents/AudioManager";
+import { ConnectionManager } from "../Components/Room/ManagerComponents/ConnectionManager";
+import {
+  createRoom,
+  initSocket,
+  joinRoom,
+  onJoined,
+  onRoomCreated,
+  roomAlreadyExist,
+  roomNotExist,
+} from "../Utilities/socketConnection";
+import { isHost, isParticipant } from "../Utilities/hostValidation";
 
 export function Room({}) {
   const [isLoading, setisLoading] = useState(false);
+  const location = useLocation();
+  const username = location.state.username;
+
+  const HOST = function() {
+    initSocket((socket) => {
+      localStorage.setItem("socketId", socket.id);
+      console.log(localStorage.getItem("user").name);
+      createRoom({
+        uid: localStorage.getItem("currentUID"),
+        roomname: location.state.roomname,
+        username: localStorage.getItem('user').name,
+      });
+
+      roomAlreadyExist((data) => {
+        window.alert("room already exists");
+        console.log("sd")
+      });
+
+      onRoomCreated((roomId) => {
+        console.log("room successfully created" , roomId);
+        joinRoom(roomId, username);
+      });
+
+      // onJoined((data) => {
+      //   console.log("you have successfully joined");
+      //   console.table({
+      //     roomname: data.roomname,
+      //     roomadmin: data.roomadmin,
+      //     participans: data.participans,
+      //   });
+      // });
+
+      // roomNotExist(() => {
+      //   console.log("room not exist");
+      // });
+    });
+  };
+
+  useEffect(() => {
+  
+
+    if (isHost(location)) {
+      HOST();
+    }
+
+    if (isParticipant(location)) {
+    }
+
+    
+  }, []);
 
   console.log("room");
 
   return (
     <Box height={"100vh"} width="100vw" bg={"#262626"}>
-      
       <LoadingModal isOpen={isLoading}></LoadingModal>
       <EffectScreen></EffectScreen>
     </Box>
@@ -39,10 +90,9 @@ export function Room({}) {
 }
 
 function EffectScreen() {
-  console.log("EffectScreen");
   return (
     <>
-    <ConnectionManager></ConnectionManager>
+      <ConnectionManager></ConnectionManager>
       <AudioManager></AudioManager>
       <ZCanvas></ZCanvas>
       <RoomOptionsPanel></RoomOptionsPanel>

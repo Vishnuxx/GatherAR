@@ -13,8 +13,10 @@ import { Background } from "../GlobalComponents/Background";
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { USERTYPE } from "../Utilities/hostValidation";
-import { createRoom } from "../Utilities/user";
+
 import { checkLoginStatus } from "../Utilities/Auth";
+import { createRoom } from "../Utilities/roomUtils";
+
 
 export function Create() {
   const navigate = useNavigate();
@@ -40,20 +42,20 @@ export function Create() {
   const submit = (e) => {
     e.preventDefault();
 
-    if (name === "") {
-      setShowError("Name should not be blank");
-      return;
-    }
+    // if (name === "") {
+    //   setShowError("Name should not be blank");
+    //   return;
+    // }
 
     if (roomName === "") {
       setShowError("Room Name should not be blank");
       return;
     }
 
-    if (isMale == null) {
-      setShowError("Please select your Avatar");
-      return;
-    }
+    // if (isMale == null) {
+    //   setShowError("Please select your Avatar");
+    //   return;
+    // }
 
     setShowError("");
 
@@ -63,10 +65,23 @@ export function Create() {
     //   isMale: isMale,
     // });
 
+
+    // createRoom(
+    //   roomName,
+    //   localStorage.getItem("currentUID"),
+    //   (data) => {
+    //     console.log(data);
+    //   },
+    //   (err) => {
+    //     console.log(err);
+    //   }
+    // );
     navigate(APPROUTES.room, {
       state: {
         userType: USERTYPE.HOST,
         name: name,
+        roomname: roomName,
+        username: localStorage.getItem('user').name,
         isMale: isMale,
         roomId: null,
       },
@@ -74,9 +89,9 @@ export function Create() {
   };
 
   useEffect(() => {
-    checkLoginStatus((user)=>{
+    checkLoginStatus((uid)=>{
       //success
-      
+     
     },(err)=>{
       //error
       console.log("please login")
@@ -106,14 +121,14 @@ export function Create() {
         justify={"center"}
       >
         <Text fontSize={"2rem"}>Create Room</Text>
-        <Input
+        {/* <Input
           type={"text"}
           color={"white"}
           maxWidth={"300px"}
           placeholder="Enter Your Name"
           value={name}
           onChange={updateName}
-        />
+        /> */}
 
         <Input
           type={"text"}
@@ -124,10 +139,10 @@ export function Create() {
           onChange={updateRoomName}
         />
 
-        <FormLabel w={"fit-content"} justifyContent={"center"}>
+        {/* <FormLabel w={"fit-content"} justifyContent={"center"}>
           Select your Avatar
-        </FormLabel>
-
+        </FormLabel> */}
+{/* 
         <RadioGroup
           dir="horizontal"
           color={APPCOLORS.text}
@@ -137,7 +152,7 @@ export function Create() {
             <Radio value={"true"}>Male</Radio>
             <Radio value={"false"}>Female</Radio>
           </Stack>
-        </RadioGroup>
+        </RadioGroup> */}
         <Text fontSize={"0.8rem"} color={APPCOLORS.errorText}>
           {showError}
         </Text>

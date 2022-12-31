@@ -3,10 +3,11 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { getDatabase, set, ref } from "firebase/database";
 import app from "../firebaseConfig";
+import { createProfile } from "./db";
 
-const auth = getAuth();
+
+const auth = getAuth(app);
 
 export const checkLoginStatus = (loggedIn, notLoggedIn) => {
   auth.onAuthStateChanged(function (user) {
@@ -31,12 +32,24 @@ export const signUp = (
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCred) => {
       const user = userCred.user;
-      onSuccess(user);
 
-      addUser(user.uid, {
-        username: username,
-        email: email,
-      });
+      createProfile(
+        user.uid,
+        username,
+        email,
+        (data) => {
+          onSuccess(data);
+
+          localStorage.setItem("user", {
+            name: username,
+            email: email,
+            uid: user.uid,
+          });
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
     })
     .catch((err) => {
       onError(err);
@@ -46,20 +59,29 @@ export const signUp = (
 export const login = (email, password, onSuccess, onError) => {
   signInWithEmailAndPassword(auth, email, password)
     .then((usercred) => {
-        const user = usercred.user
-        onSuccess(user)
+      const user = usercred.user;
+      localStorage.setItem('user' , {
+        name : user.email ,
+        email: email , 
+        uid: user.uid
+      })
+      onSuccess(user);
     })
     .catch((e) => {
-        onError(e)
+      onError(e);
     });
 };
 
-const addUser = (userId, data) => {
-  const database = getDatabase();
 
-  set(ref(database, "users/" + userId), data);
-};
 
 export const logOut = () => {
+  localStorage.setItem("currentUID", "");
   auth.signOut();
 };
+
+
+
+
+
+
+//server 
