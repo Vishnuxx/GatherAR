@@ -18,6 +18,7 @@ import { login } from "../Utilities/Auth";
 import { useNavigate } from "react-router-dom";
 import { EmailInput } from "../Components/Auth/EmailInput";
 import { PasswordInput } from "../Components/Auth/PasswordInput";
+import { showLoading } from "../State/appActions";
 
 export function Login() {
   const navigate = useNavigate();
@@ -35,19 +36,20 @@ export function Login() {
   };
 
   const validatePasswordLength = () => {
-    console.log(password.length);
     return password.length > 6;
   };
 
   const submit = () => {
+    showLoading(true)
     if (!validator.isEmail(email)) {
       seterrorMessage("Invalid Email");
-
+ showLoading(false);
       return;
     }
 
     if (validatePasswordLength() !== true) {
       seterrorMessage("Password length should be more than 6 ");
+      showLoading(false);
       return;
     }
 
@@ -57,6 +59,7 @@ export function Login() {
       email,
       password,
       (user) => {
+         showLoading(false);
         console.log("login successful");
         navigate(APPROUTES.home, {
           replace: true,
@@ -64,6 +67,7 @@ export function Login() {
       },
       (error) => {
         seterrorMessage(error.message.toString());
+        showLoading(false);
       }
     );
   };

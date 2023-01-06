@@ -9,17 +9,24 @@ import { Create } from "./Screens/Create";
 import { JoinUrl } from "./Screens/JoinUrl";
 import { APPROUTES } from "./AppConstants";
 import { Login } from "./Screens/Login";
+import { LoadingModal } from "./GlobalComponents/LoadingModal";
+import { PrivateRoute } from "./GlobalComponents/PrivateRoute";
 
 function App() {
-  console.log("app")
+  console.log("app");
   return (
     <RecoilRoot>
       <BrowserRouter>
+        <LoadingModal />
+
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path={APPROUTES.join} element={<Join />} />
           <Route path={APPROUTES.joinByUrl} element={<JoinUrl />} />
-          <Route path={APPROUTES.create} element={<Create />} />
+          <Route
+            path={APPROUTES.create}
+            element={<PrivateRoute to={<Create />} errorRedirect={APPROUTES.home} />}
+          />
           <Route path={APPROUTES.room} element={<Room />} />
           <Route path={APPROUTES.signUp} element={<SignUp />} />
           <Route path={APPROUTES.login} element={<Login />} />

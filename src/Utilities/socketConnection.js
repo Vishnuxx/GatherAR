@@ -1,31 +1,35 @@
 import { io } from "socket.io-client";
-import {
-  getAuth,
-} from "firebase/auth";
-
+import { getAuth } from "firebase/auth";
+import app from "../firebaseConfig";
 
 let socket = null;
 let currentRoomId = null;
 let uid = null;
 
-export const initSocket = (onSuccess = (socket) => {}, onError) => {
+export const initSocket = (onSuccess , onError) => {
   // console.log("init socket");
   try {
-    socket = io.connect(process.env.REACT_APP_SOCKET_URL );
-   
+    socket = io.connect(process.env.REACT_APP_SERVER_URL, {
+      path: "/socket.io/",
+    });
+
     socket.on("connect", (socketid) => {
-      uid = getAuth().currentUser.uid
       onSuccess(socket);
       console.log("connected successfully" + socket.id);
     });
+
+    
   } catch (e) {
-    onError(e)
+
+    onError(e);
   }
 };
 
+export const getSocket = ()=> socket
+
 //cretation
 
-export const createRoom = ({ uid, username, roomname  }) => {
+export const createRoom = ({ uid, username, roomname }) => {
   socket.emit("create-room", {
     uid: uid,
     roomname: roomname,
@@ -41,45 +45,45 @@ export const onRoomCreated = (callback) => {
   });
 };
 
-export const roomAlreadyExist = (callback)=>{
-  socket.on("room-already-exists" , (data)=>{
-    callback(data)
-  })
-}
-
-//joining
-
-export const joinRoom = (roomid , username) => {
-  socket.emit("join-room", {
-    roomid: roomid,
-    uid : uid , 
-    username : username,
+export const roomAlreadyExist = (callback) => {
+  socket.on("room-already-exists", (data) => {
+    callback(data);
   });
 };
 
-//when i join the room 
+//joining
+
+export const joinRoom = (roomid, socketid ,  username , peerid) => {
+  
+  socket.emit("join-room", {
+    roomid: roomid,
+    socketid: socketid,
+    username: username,
+    peerid: peerid,
+  });
+};
+
+//when i join the room
 export const onJoined = (callback) => {
   socket.on("joined-room", (data) => {
-    // {roomadmin , participants , roomname} = data
+    // {roomadmin , participants , roomname , peerid} = data
+    
     callback(data);
     currentRoomId = data.roomid;
   });
 };
 
-
-
 //when others are joined
 export const onUserJoined = (callback) => {
   socket.on("user-joined-room", (data) => {
-    // {username , usersUid} = data
+    // {username , socketid , peerid} = data
     callback(data);
   });
 };
 
 export const roomNotExist = (callback) => {
-  socket.on("room-not-exist", (data) => {
-    // {roomadmin , participants , roomname} = data
-    callback(data);
+  socket.on("room-not-exist", () => {
+    callback();
   });
 };
 
@@ -107,18 +111,17 @@ export const onReceiveMessage = (callback) => {
   });
 };
 
-export const sendStream = (stream) => {
-  socket.emit("send-stream", {
-    senderid: socket.id,
-    roomid: currentRoomId,
-    stream: stream,
+export const sendAudioData = (audiodata) => {
+  socket.emit("send-audio", {
+    stream: audiodata,
+    uid: uid,
   });
 };
 
-export const onReceiveStream = (callback) => {
-  socket.on("receive-stream", (data) => {
+export const onReceiveAudioData = (callback) => {
+  socket.on("receive-audio", (audiodata) => {
     // {senderid , stream} = data
-    callback(data);
+    callback(audiodata);
   });
 };
 
@@ -128,14 +131,15 @@ export const leaveRoom = () => {
   });
 };
 
-export const onLeftRoom = (callback) => {
-  socket.on("left-room", (data) => {
+export const onUserLeftRoom = (callback) => {
+  socket.on("user-left-room", (data) => {
+    //{ socketid } = data
     callback(data);
     currentRoomId = null;
   });
 };
 
-export const onDisconnect = (callback) => {
+export const onSocketDisconnect = (callback) => {
   socket.on("disconnect", () => {
     callback();
     console.log("disconnected successfully");

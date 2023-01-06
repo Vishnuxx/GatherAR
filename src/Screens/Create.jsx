@@ -16,7 +16,8 @@ import { USERTYPE } from "../Utilities/hostValidation";
 
 import { checkLoginStatus } from "../Utilities/Auth";
 import { createRoom } from "../Utilities/roomUtils";
-
+import { showLoading } from "../State/appActions";
+import { getUserData } from "../Utilities/localDataStorage";
 
 export function Create() {
   const navigate = useNavigate();
@@ -24,6 +25,8 @@ export function Create() {
   const [roomName, setRoomName] = useState("");
   const [isMale, setIsMale] = useState(null);
   const [showError, setShowError] = useState("");
+  const [info, setinfo] = useState("");
+
 
   //update the remote id from text field
   const updateName = (e) => {
@@ -42,64 +45,41 @@ export function Create() {
   const submit = (e) => {
     e.preventDefault();
 
-    // if (name === "") {
-    //   setShowError("Name should not be blank");
-    //   return;
-    // }
-
     if (roomName === "") {
       setShowError("Room Name should not be blank");
       return;
     }
 
-    // if (isMale == null) {
-    //   setShowError("Please select your Avatar");
-    //   return;
-    // }
-
     setShowError("");
 
-    // console.table({
-    //   name: name,
-    //   room: roomName,
-    //   isMale: isMale,
-    // });
 
-
-    // createRoom(
-    //   roomName,
-    //   localStorage.getItem("currentUID"),
-    //   (data) => {
-    //     console.log(data);
-    //   },
-    //   (err) => {
-    //     console.log(err);
-    //   }
-    // );
     navigate(APPROUTES.room, {
       state: {
         userType: USERTYPE.HOST,
-        name: name,
         roomname: roomName,
-        username: localStorage.getItem('user').name,
+        username: getUserData().username,
         isMale: isMale,
         roomId: null,
+        uid: getUserData().uid,
       },
     });
   };
 
   useEffect(() => {
-    checkLoginStatus((uid)=>{
-      //success
-     
-    },(err)=>{
-      //error
-      console.log("please login")
-      navigate(APPROUTES.home, {
-        replace: true,
-      });
-    })
+    console.log(getUserData())
+    showLoading(false);
   }, []);
+
+  useEffect(() => {
+    if (info) {
+      const username = info.username;
+      const avatar = info.isMale;
+      setName(username);
+      setIsMale(avatar);
+    }
+  }, [info]);
+
+  
 
   return (
     <Flex
@@ -142,7 +122,7 @@ export function Create() {
         {/* <FormLabel w={"fit-content"} justifyContent={"center"}>
           Select your Avatar
         </FormLabel> */}
-{/* 
+        {/* 
         <RadioGroup
           dir="horizontal"
           color={APPCOLORS.text}

@@ -13,7 +13,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import validator from "validator";
@@ -23,6 +23,9 @@ import { signUp } from "../Utilities/Auth";
 import { useNavigate } from "react-router-dom";
 import { PasswordInput } from "../Components/Auth/PasswordInput";
 import { EmailInput } from "../Components/Auth/EmailInput";
+import { loadingOverlay } from "../State/appState";
+import { showLoading } from "../State/appActions";
+import { saveUserData } from "../Utilities/localDataStorage";
 
 export function SignUp() {
 
@@ -53,43 +56,53 @@ const navigate = useNavigate();
   };
 
   const validatePasswordLength = () => {
-    return password.length > 6 && confirmPassword > 6;
+    return password.toString().length > 6 && confirmPassword.toString().length > 6;
   };
 
   const validatePasswordMatch = () => {
-    return password === confirmPassword;
+    return password.toString() === confirmPassword.toString();
   };
 
   const submit = () => {
-    
+    showLoading(true)
+
     if (!validator.isEmail(email)) {
       seterrorMessage("Invalid Email");
-
+      showLoading(false);
       return;
     }
 
     if (validatePasswordLength() !== true) {
       seterrorMessage("Password length should be more than 6 ");
+      showLoading(false);
       return;
     }
 
     if (validatePasswordMatch() !== true) {
       seterrorMessage("Password doesn't match");
+      showLoading(false);
       return;
     }
 
     seterrorMessage("");
 
-    signUp(username ,email ,  password , confirmPassword ,(user)=>{
-      
+    signUp(username ,email ,  password , confirmPassword ,(data , uid)=>{
+     showLoading(false);
+     
       //success
       navigate(APPROUTES.home , {
         replace:true
       })
     } , (err)=>{
+     
       seterrorMessage(err.toString());
+      showLoading(false);
     })
   };
+
+  useEffect(()=>{
+     showLoading(false);
+  })
 
   return (
     <Stack

@@ -1,27 +1,16 @@
-var isMuted = true;
+import { APPROUTES } from "../AppConstants";
 
-export const getUserAudio = (
-  onSuccess = (stream) => {},
-  onError = () => {}
-) => {
-     
-        
+export const createJoiningLink = (roomId) => {
+  return `https://${window.location.hostname}:${window.location.port}${APPROUTES.join}?id=${roomId}`;
+};
+
+export const getUserAudio = (onSuccess, onError) => {
   window.navigator.mediaDevices
     .getUserMedia({ audio: true })
     .then((stream) => {
-        console.log('er')
-        if(!isMuted) {
-            onSuccess(stream);
-        }
-      
+      onSuccess(stream);
     })
     .catch((error) => {
       onError(error);
-      
     });
 };
-
-export const setAudioMuted = (bool , callback = ()=>{}) =>{
-    isMuted = bool;
-    callback()
-}

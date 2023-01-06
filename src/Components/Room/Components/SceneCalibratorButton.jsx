@@ -10,16 +10,18 @@ import {
 } from "@chakra-ui/react";
 import { APPCOLORS } from "../../../AppConstants";
 import {
-  isCalibratingState,
+
   overlayState,
   OVERLAY_TYPE,
 } from "../../../State/State";
+import { useSnapshot } from "valtio";
+import { isCalibratingState } from "../../../State/roomState";
 
 //button which opens calibration overlay
 
 export function ScreenCalibratorButton() {
   const [visible, setVisible] = useRecoilState(overlayState);
-  const [isCalibrating, setIsCalibrating] = useRecoilState(isCalibratingState);
+  const isCalibrating = useSnapshot(isCalibratingState);
 
   const setCalibrator = () => {
     setVisible({
@@ -28,7 +30,7 @@ export function ScreenCalibratorButton() {
       closeOnOverlayClick: false,
     });
 
-    setIsCalibrating(true);
+    isCalibratingState.value = true
   };
 
   return (

@@ -9,12 +9,13 @@ import {
 
 import { Dna } from "react-loader-spinner";
 
-
+import {useSnapshot} from 'valtio'
+import { loadingOverlay } from "../State/appState";
 
 export function LoadingModal({isOpen}) {
-  
+  const loading = useSnapshot(loadingOverlay)
   return (
-    <Modal closeOnOverlayClick={false} isOpen={isOpen}>
+    <Modal closeOnOverlayClick={false} isOpen={loading.visible}>
       <ModalOverlay css={{ touchAction: "none" }} />
       <ModalContent
         color="white"

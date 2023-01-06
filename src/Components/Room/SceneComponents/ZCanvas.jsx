@@ -10,19 +10,26 @@ import {
 } from "@zappar/zappar-react-three-fiber";
 
 
-import { PivotControls } from "@react-three/drei";
-import {
-  isCalibratingState,
-  overlay,
-  overlayState,
-} from "../../../State/State";
-import { useRecoilValue } from "recoil";
-import { useEffect, useRef } from "react";
-import { Avatar } from "./Avatar";
+
 import { AvatarLoader } from "./AvatarLoader";
+import { AvatarManager } from "./avatarManager";
+
+import { ZCamera } from "./ZCamera";
+import { ZGeoTracker } from "./ZGeoTracker";
+import { isCalibratingState } from "../../../State/roomState";
+import { useSnapshot } from "valtio";
+import { ZScene } from "./ZScene";
+import { useEffect } from "react";
+import { initSocketCommands } from "./Commands/SocketCommands";
+
 
 export function ZCanvas(props) {
-  const isCalibration = useRecoilValue(isCalibratingState);
+  const isCalibration = useSnapshot(isCalibratingState);
+ 
+  useEffect(() => {
+   initSocketCommands();
+  }, []);
+  
  console.log("ZCanvas");
   return (
     <Stack
@@ -33,11 +40,15 @@ export function ZCanvas(props) {
     >
       <ZapparCanvas>
         <BrowserCompatibility fallback={() => alert("sorry")} />
-        <ZapparCamera environmentMap />
 
-        <InstantTracker placementMode={isCalibration}>
-          <AvatarLoader />
+        <ZCamera></ZCamera>
+        <InstantTracker placementMode={isCalibration.value}>
+          <ZGeoTracker></ZGeoTracker>
+          <AvatarManager></AvatarManager>
+          <ZScene></ZScene>
+ 
         </InstantTracker>
+
         <directionalLight position={[2.5, 8, 5]} intensity={1.5} />
       </ZapparCanvas>
     </Stack>

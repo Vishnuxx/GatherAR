@@ -16,10 +16,10 @@ export const overlayState = atom({
   },
 });
 
-export const isCalibratingState = atom({
-  key: "isCalibrating",
-  default: true,
-});
+// export const isCalibratingState = atom({
+//   key: "isCalibrating",
+//   default: true,
+// });
 
 export const isHost = atom({
   key: "isHost",

@@ -12,6 +12,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { APPCOLORS, APPROUTES } from "../AppConstants";
 import { Background } from "../GlobalComponents/Background";
+import { showLoading } from "../State/appActions";
+import { checkLoginStatus } from "../Utilities/Auth";
 import { USERTYPE } from "../Utilities/hostValidation";
 
 // import { TitleAndLogo } from "../Components/TitleAndLogo";
@@ -23,6 +25,7 @@ export function JoinUrl() {
   const [isMale, setIsMale] = useState(null);
   const [showError, setShowError] = useState("");
   const location = useLocation();
+  
 
   const updateName = (e) => {
     setName(e.target.value);
@@ -80,6 +83,19 @@ export function JoinUrl() {
   };
 
   useEffect(() => {
+    checkLoginStatus(
+      (uid) => {
+        //success
+      },
+      (err) => {
+        //error
+        console.log("please login");
+        navigator(APPROUTES.home, {
+          replace: true,
+        });
+      }
+    );
+     showLoading(false);
     getIdfromURL();
   }, []);
 

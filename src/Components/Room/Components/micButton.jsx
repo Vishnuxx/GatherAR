@@ -3,16 +3,18 @@ import { useState } from "react";
 import { APPCOLORS } from "../../../AppConstants";
 import { DisbledMic } from "../../../GlobalComponents/DisabledMic";
 import { EnabledMic } from "../../../GlobalComponents/EnabledMic";
-
+import { micState } from "../../../State/roomState";
+import {useSnapshot} from 'valtio'
+import { enableMic } from "../../../State/roomActions";
 
 export function MicButton(props) {
-    const [enabled, setEnabled] = useState(false);
+    const mic = useSnapshot(micState)
     const click = () => {
-        setEnabled(!enabled)
+        enableMic(!mic.isEnabled)
     }
     return (
       <Box onClick={click} bg={APPCOLORS.panel} p={2} borderRadius={100}>
-        {enabled ? (
+        {mic.isEnabled ? (
           <EnabledMic
             color={"grey"}
             width={40}

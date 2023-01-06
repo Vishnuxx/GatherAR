@@ -5,21 +5,18 @@ import { Link } from "react-router-dom";
 import { APPGRADIENTS, APPROUTES, APPSTYLES } from "../AppConstants";
 import { useEffect, useState } from "react";
 import { checkLoginStatus, logOut } from "../Utilities/Auth";
-import { getUserDetails } from "../Utilities/db";
+import { fetchAndSaveUserData, getUserDetails } from "../Utilities/db";
+import { getPrimitiveObject } from "../Components/Room/SceneComponents/SceneUtils/primitiveObjects";
+
 
 export function Home({ props }) {
+ 
   const [loginStatus, setLoginStatus] = useState(false);
   useEffect(() => {
     checkLoginStatus(
       (uid) => {
         setLoginStatus(true);
         console.log("loggedIn");
-        // getUserDetails((user)=>{
-        //   console.log(user)
-        // }, (error)=>{
-        //   console.log(error)
-
-        // })
       },
       () => {
         setLoginStatus(false);
@@ -64,16 +61,9 @@ export function Home({ props }) {
     );
   };
 
-  return (
-    <Stack color={"white"} overflow="hidden" h={"100%"} direction={"column"} alignItems={'center'}>
-      <Background></Background>
-
-      <Stack justifyContent={"space-between"} alignItems={"center"} direction={"row"} w={'100%'} p={3}>
-        <Heading fontSize={"2xl"}>GatherAR</Heading>
-        <AuthButtons></AuthButtons>
-      </Stack>
-      <Flex direction={'column'}>
-
+  const RoomButtons = () => {
+    return (
+      loginStatus && <Flex direction={"column"}>
         <Link to={APPROUTES.create}>
           <Button
             {...APPSTYLES.joinCreateButton}
@@ -94,6 +84,30 @@ export function Home({ props }) {
           </Button>
         </Link>
       </Flex>
+    );
+  }
+
+  return (
+    <Stack
+      color={"white"}
+      overflow="hidden"
+      h={"100%"}
+      direction={"column"}
+      alignItems={"center"}
+    >
+      <Background></Background>
+
+      <Stack
+        justifyContent={"space-between"}
+        alignItems={"center"}
+        direction={"row"}
+        w={"100%"}
+        p={3}
+      >
+        <Heading fontSize={"2xl"}>GatherAR</Heading>
+        <AuthButtons></AuthButtons>
+      </Stack>
+      <RoomButtons></RoomButtons>
     </Stack>
   );
 }

@@ -5,13 +5,24 @@ import femaleAvatar from "../../../assets/Models/avatarFemale.glb";
 import { useEffect, useState } from "react";
 import { EnabledMic } from "../../../GlobalComponents/EnabledMic";
 import { DisbledMic } from "../../../GlobalComponents/DisabledMic";
+import { useMemo } from "react";
 
-export function Avatar({ name, isMale, shirtColor, position }) {
+export function Avatar({ name, isMale, shirtColor, position , rotation}) {
  
   return isMale ? (
-    <Male name={name} position={position} shirtColor={shirtColor} />
+    <Male
+      name={name}
+      position={position}
+      rotation={rotation}
+      shirtColor={shirtColor}
+    />
   ) : (
-    <Female name={name} position={position} shirtColor={shirtColor} />
+    <Female
+      name={name}
+      position={position}
+      rotation={rotation}
+      shirtColor={shirtColor}
+    />
   );
 }
 
@@ -48,15 +59,15 @@ function AvatarLabel({ name }) {
   );
 }
 
-function Male({ position, shirtColor, name }) {
+function Male({ position, rotation , shirtColor, name }) {
   const { nodes, materials } = useGLTF(maleAvatar);
 
-  useEffect(() => {
+  useMemo(() => {
     materials.Tshirt_Green.color.setHex(shirtColor);
   }, []);
-
+ 
   return (
-    <group position={position} dispose={null}>
+    <group position={[...position]} rotation={[...rotation]} dispose={null}>
       <Html position={[0, 1, 0]}>
         <AvatarLabel name={name} />
       </Html>
@@ -112,15 +123,15 @@ function Male({ position, shirtColor, name }) {
   );
 }
 
-function Female({ position, shirtColor, name }) {
+function Female({ position,rotation, shirtColor, name }) {
   const { nodes, materials } = useGLTF(femaleAvatar);
 
-  useEffect(() => {
+  useMemo(() => {
     materials.Tshirt_Green.color.setHex(shirtColor);
   }, []);
 
   return (
-    <group position={position} dispose={null}>
+    <group position={[...position]} rotation={[...rotation]} dispose={null}>
       <Html occlude position={[0, 1, 0]} as="div">
         <AvatarLabel name={name} />
       </Html>

@@ -1,10 +1,10 @@
 import { Flex, Stack, Image, Text, Button } from "@chakra-ui/react";
 import { useState } from "react";
 import { isShapesPanelOpenState } from "../../../State/State";
-import {useRecoilState} from 'recoil'
+import { useRecoilState } from "recoil";
+import { signal_addPrimitiveObject } from "../../../State/SceneUiControlActions";
 
-
-export function ShapesPanel(props) {
+export function PrimitiveObjectsPanel(props) {
   const [isOpen, setIsOpen] = useRecoilState(isShapesPanelOpenState);
   const data = [
     {
@@ -88,8 +88,11 @@ export function ShapesPanel(props) {
 }
 
 function Item({ icon, label }) {
+  const addobject = () => {
+    signal_addPrimitiveObject(label);
+  };
   return (
-    <Button bg={"none"} width={"100px"} height={"50px"}>
+    <Button bg={"none"} width={"100px"} height={"50px"} onClick={addobject}>
       <Flex
         direction="column"
         justifyContent="center"

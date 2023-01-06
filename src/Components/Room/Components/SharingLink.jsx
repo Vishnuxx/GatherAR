@@ -1,59 +1,42 @@
 import {
   Stack,
   Button,
-  Flex,
   Modal,
-  ModalBody,
-  ModalCloseButton,
   ModalContent,
-  ModalFooter,
-  ModalHeader,
   ModalOverlay,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverCloseButton,
-  PopoverContent,
-  PopoverHeader,
-  PopoverTrigger,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import {  useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useRecoilValue } from "recoil";
 
 import { APPCOLORS } from "../../../AppConstants";
-import {  sharingLink } from "../../../State/State";
+import { sharingLink } from "../../../State/State";
 
-export function RoomIdPane({ props }) {
-  const sharingUrl = useRecoilValue(sharingLink);
+import { useSnapshot } from "valtio";
+import { joiningLinkState } from "../../../State/roomState";
+import { CopyIcon } from "../Icons/copytoclipboard";
+
+export function SharingLink({ props }) {
+  const sharingLinkSnap = useSnapshot(joiningLinkState);
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const [text, setText] = useState("copy");
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(sharingUrl);
-    onClose()
+    navigator.clipboard.writeText(sharingLinkSnap.value);
+    setText("copied");
+    // onClose()
   };
 
   const open = () => {
     onOpen();
   };
+
   return (
     <>
       <Button onClick={open} bg={APPCOLORS.panel} p={2} borderRadius={100}>
-        <svg
-          width={24}
-          height={24}
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          {...props}
-        >
-          <path
-            d="M12.3 12.22A4.92 4.92 0 0014 8.5a5 5 0 00-10 0 4.92 4.92 0 001.7 3.72A8 8 0 001 19.5a1 1 0 102 0 6 6 0 1112 0 1 1 0 002 0 8 8 0 00-4.7-7.28zM9 11.5a3 3 0 110-6 3 3 0 010 6zm9.74.32A5 5 0 0015 3.5a1 1 0 100 2 3 3 0 013 3 3 3 0 01-1.5 2.59 1 1 0 00-.05 1.7l.39.26.13.07a7 7 0 014 6.38 1 1 0 002 0 9 9 0 00-4.23-7.68z"
-            fill="#fff"
-          />
-        </svg>
+        <CopyIcon></CopyIcon>
       </Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -73,8 +56,10 @@ export function RoomIdPane({ props }) {
               h={"30px"}
               borderRadius={"5px"}
               color="white"
+              overflow={"scroll"}
+              noOfLines={1}
             >
-              {sharingUrl}
+              {sharingLinkSnap.value}
             </Text>
             <Button
               size={"sm"}
@@ -83,7 +68,7 @@ export function RoomIdPane({ props }) {
               mr={3}
               onClick={copyToClipboard}
             >
-              Copy ID
+              {text}
             </Button>
           </Stack>
         </ModalContent>

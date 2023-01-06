@@ -13,10 +13,11 @@ import {
 } from "@chakra-ui/react";
 
 import { APPCOLORS } from "../../../AppConstants";
-import { peerList } from "../../../Utilities/participantManager";
-
 
 import { useRecoilValue } from "recoil";
+import { useSnapshot } from "valtio";
+import {roomAdminState } from "../../../State/roomState";
+import { participantsListState } from "../../../State/participantsState";
 
 export function ParticipantsButton({ props }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -44,6 +45,7 @@ export function ParticipantsButton({ props }) {
 }
 
 function ParticipantsDrawer({ isOpen, onClose }) {
+  
   return (
     <Drawer size={"xs"} isOpen={isOpen} placement="right" onClose={onClose}>
       <DrawerOverlay />
@@ -62,16 +64,19 @@ function ParticipantsDrawer({ isOpen, onClose }) {
 }
 
 function ParticipantsList(props) {
-  const peerlist = useRecoilValue(peerList);
+  const members = useSnapshot(participantsListState);
 
-  console.log("updated peer");
+  const admin = useSnapshot(roomAdminState);
+  console.log(members.value);
   return (
     <Stack w={"100%"} h={"100%"} bg={"#262626"} direction="column">
-      {peerlist.map((peer, i) => {
-        console.log(peer.id);
+      {members.value.map((member, i) => {
+        const {username , peerid , socketid} = member
         return (
-          <Flex key={i} color={APPCOLORS.text}>
-            <Text padding={3}>{peer.id}</Text>
+          <Flex key={i} color={APPCOLORS.text} w={"100%"}>
+            <Text maxW={200} w={"100%"} color={"white"} padding={3}>
+              {username}
+            </Text>
           </Flex>
         );
       })}

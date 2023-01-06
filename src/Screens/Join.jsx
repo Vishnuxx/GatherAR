@@ -14,6 +14,9 @@ import { APPCOLORS, APPROUTES } from "../AppConstants";
 import { Background } from "../GlobalComponents/Background";
 import { USERTYPE } from "../Utilities/hostValidation";
 import { useLocation } from "react-router-dom";
+import { showLoading } from "../State/appActions";
+import { checkLoginStatus } from "../Utilities/Auth";
+import { getUserData } from "../Utilities/localDataStorage";
 // import { TitleAndLogo } from "../Components/TitleAndLogo";
 
 export function Join() {
@@ -22,12 +25,20 @@ export function Join() {
   const [remoteId, setRemoteId] = useState("");
   const [isMale, setIsMale] = useState(null);
   const [showError, setShowError] = useState("");
+  const [info, setinfo] = useState(null);
   const location = useLocation();
 
+  const getIdfromURL = () => {
+    const searchParams = new URLSearchParams(location.search);
+    const parameterValue = searchParams.get("id");
+    if (parameterValue != null && parameterValue.toString().length > 0) {
+      setRemoteId(parameterValue);
+    }
+  };
 
-   const updateName = (e) => {
-     setName(e.target.value);
-   };
+  const updateName = (e) => {
+    setName(e.target.value);
+  };
 
   //update the remote id from text field
   const updateRemoteID = (e) => {
@@ -39,30 +50,30 @@ export function Join() {
   };
 
   const joinRoom = (e) => {
-    
-     e.preventDefault();
+    e.preventDefault();
 
-     if (name === "") {
-       setShowError("Name should not be blank");
-       return;
-     }
+    if (name === "") {
+      setShowError("Name should not be blank");
+      return;
+    }
 
-     if (remoteId === "") {
-       setShowError("Room Id should not be blank");
-       return;
-     }
+    if (remoteId === "") {
+      setShowError("Room Id should not be blank");
+      return;
+    }
 
-     if (isMale == null) {
-       setShowError("Please select your Avatar");
-       return;
-     }
+    // if (isMale == null) {
+    //   setShowError("Please select your Avatar");
+    //   return;
+    // }
 
-     setShowError("");
+    setShowError("");
 
     //if true
     navigate(APPROUTES.room, {
       state: {
         userType: USERTYPE.PARTICIPANT,
+        username : name,
         isMale: isMale,
         roomId: remoteId,
       },
@@ -70,15 +81,23 @@ export function Join() {
     //if false
   };
 
-  const getIdfromURL = () => {
-    const searchParams = new URLSearchParams(location.search);
-    const parameterValue = searchParams.get("id");
-    if (parameterValue != null && parameterValue.toString().length > 0) {
-      setRemoteId(parameterValue);
-    }
-  };
+  useEffect(() => {
+    setinfo(getUserData());
+    showLoading(false);
+  }, []);
 
   useEffect(() => {
+    if (info) {
+      const username = info.username;
+      const avatar = info.isMale;
+      setName(username);
+      setIsMale(avatar);
+    }
+  }, [info]);
+
+  useEffect(() => {
+    showLoading(false);
+
     getIdfromURL();
   }, []);
 
@@ -105,14 +124,17 @@ export function Join() {
           onChange={updateName}
         />
 
-        <Input
-          color={"white"}
-          maxWidth={"300px"}
-          placeholder="Room ID"
-          value={remoteId}
-          onChange={updateRemoteID}
-        />
-        <FormLabel color={"white"} w={"fit-content"} justifyContent={"center"}>
+        {
+          <Input
+            color={"white"}
+            maxWidth={"300px"}
+            placeholder="Room ID"
+            value={remoteId}
+            onChange={updateRemoteID}
+          />
+        }
+
+        {/* <FormLabel color={"white"} w={"fit-content"} justifyContent={"center"}>
           Select your Avatar
         </FormLabel>
         <RadioGroup
@@ -124,7 +146,7 @@ export function Join() {
             <Radio value={"true"}>Male</Radio>
             <Radio value={"false"}>Female</Radio>
           </Stack>
-        </RadioGroup>
+        </RadioGroup> */}
         <Text fontSize={"0.8rem"} color={APPCOLORS.errorText}>
           {showError}
         </Text>
