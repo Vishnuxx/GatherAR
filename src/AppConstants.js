@@ -10,6 +10,7 @@ export const APPCOLORS = {
   disabledButtonText: "#7a8280",
   panel: "rgba(82, 81, 81 , 0.8)",
   errorText: "red",
+  toasrbg: "rgb(60,60,60,0.6)",
 };
 
 export const APPGRADIENTS = {

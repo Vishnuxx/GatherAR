@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import { checkLoginStatus, logOut } from "../Utilities/Auth";
 import { fetchAndSaveUserData, getUserDetails } from "../Utilities/db";
 import { getPrimitiveObject } from "../Components/Room/SceneComponents/SceneUtils/primitiveObjects";
+import { Toaster } from "../GlobalComponents/Toaster";
+import { showToast } from "../State/appActions";
 
 
 export function Home({ props }) {
@@ -17,6 +19,7 @@ export function Home({ props }) {
       (uid) => {
         setLoginStatus(true);
         console.log("loggedIn");
+        
       },
       () => {
         setLoginStatus(false);
@@ -83,6 +86,7 @@ export function Home({ props }) {
             Join Room
           </Button>
         </Link>
+      
       </Flex>
     );
   }
@@ -96,7 +100,7 @@ export function Home({ props }) {
       alignItems={"center"}
     >
       <Background></Background>
-
+     
       <Stack
         justifyContent={"space-between"}
         alignItems={"center"}

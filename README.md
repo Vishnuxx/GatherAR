@@ -39,3 +39,8 @@ create `.env` file in your project root directory and add the following code.
 To run the project 
 
      npm start
+
+
+
+
+You can clone the server repo from https://github.com/Vishnuxx/GatherAR-Server

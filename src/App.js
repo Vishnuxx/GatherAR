@@ -11,21 +11,24 @@ import { APPROUTES } from "./AppConstants";
 import { Login } from "./Screens/Login";
 import { LoadingModal } from "./GlobalComponents/LoadingModal";
 import { PrivateRoute } from "./GlobalComponents/PrivateRoute";
+import { Toaster } from "./GlobalComponents/Toaster";
 
 function App() {
-  console.log("app");
+  
   return (
     <RecoilRoot>
       <BrowserRouter>
         <LoadingModal />
-
+        <Toaster></Toaster>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path={APPROUTES.join} element={<Join />} />
           <Route path={APPROUTES.joinByUrl} element={<JoinUrl />} />
           <Route
             path={APPROUTES.create}
-            element={<PrivateRoute to={<Create />} errorRedirect={APPROUTES.home} />}
+            element={
+              <PrivateRoute to={<Create />} errorRedirect={APPROUTES.home} />
+            }
           />
           <Route path={APPROUTES.room} element={<Room />} />
           <Route path={APPROUTES.signUp} element={<SignUp />} />
