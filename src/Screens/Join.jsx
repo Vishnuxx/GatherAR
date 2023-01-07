@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { APPCOLORS, APPROUTES } from "../AppConstants";
+import { APPCOLORS, APPGRADIENTS, APPROUTES } from "../AppConstants";
 import { Background } from "../GlobalComponents/Background";
 import { USERTYPE } from "../Utilities/hostValidation";
 import { useLocation } from "react-router-dom";
@@ -155,7 +155,7 @@ export function Join() {
           onClick={joinRoom}
           m={"4"}
           color="white"
-          backgroundColor={"#00C193"}
+          bg={APPGRADIENTS.primarybutton}
         >
           Join Room
         </Button>

@@ -17,7 +17,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import validator from "validator";
-import { APPCOLORS, APPROUTES } from "../AppConstants";
+import { APPCOLORS, APPGRADIENTS, APPROUTES } from "../AppConstants";
 import { Background } from "../GlobalComponents/Background";
 import { signUp } from "../Utilities/Auth";
 import { useNavigate } from "react-router-dom";
@@ -26,19 +26,18 @@ import { EmailInput } from "../Components/Auth/EmailInput";
 import { loadingOverlay } from "../State/appState";
 import { showLoading } from "../State/appActions";
 import { saveUserData } from "../Utilities/localDataStorage";
+import { useToaster } from "../hooks/Toaster";
 
 export function SignUp() {
-
+  const showToast = useToaster();
   const [errorMessage, seterrorMessage] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setconfirmPassword] = useState("");
 
+  const navigate = useNavigate();
 
-  
-const navigate = useNavigate();
-      
   const updateUserName = (e) => {
     setUsername(e.target.value);
   };
@@ -56,7 +55,9 @@ const navigate = useNavigate();
   };
 
   const validatePasswordLength = () => {
-    return password.toString().length > 6 && confirmPassword.toString().length > 6;
+    return (
+      password.toString().length > 6 && confirmPassword.toString().length > 6
+    );
   };
 
   const validatePasswordMatch = () => {
@@ -64,7 +65,7 @@ const navigate = useNavigate();
   };
 
   const submit = () => {
-    showLoading(true)
+    showLoading(true);
 
     if (!validator.isEmail(email)) {
       seterrorMessage("Invalid Email");
@@ -86,23 +87,29 @@ const navigate = useNavigate();
 
     seterrorMessage("");
 
-    signUp(username ,email ,  password , confirmPassword ,(data , uid)=>{
-     showLoading(false);
-     
-      //success
-      navigate(APPROUTES.home , {
-        replace:true
-      })
-    } , (err)=>{
-     
-      seterrorMessage(err.toString());
-      showLoading(false);
-    })
+    signUp(
+      username,
+      email,
+      password,
+      confirmPassword,
+      (data, uid) => {
+        showLoading(false);
+        showToast("Authenticated");
+        //success
+        navigate(APPROUTES.dashboard, {
+          replace: true,
+        });
+      },
+      (err) => {
+        seterrorMessage(err.toString());
+        showLoading(false);
+      }
+    );
   };
 
-  useEffect(()=>{
-     showLoading(false);
-  })
+  useEffect(() => {
+    showLoading(false);
+  });
 
   return (
     <Stack
@@ -156,7 +163,7 @@ const navigate = useNavigate();
         <Button
           size={"md"}
           variant="solid"
-          bg={APPCOLORS.primaryButton}
+          bg={APPGRADIENTS.primarybutton}
           onClick={submit}
         >
           SignUP
@@ -170,4 +177,3 @@ const navigate = useNavigate();
     </Stack>
   );
 }
-

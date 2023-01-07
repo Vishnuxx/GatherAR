@@ -5,12 +5,14 @@ import {
 } from "firebase/auth";
 import app from "../firebaseConfig";
 import { createProfile, fetchAndSaveUserData, getUserDetails } from "./db";
-import { getUserData, saveUserData } from "./localDataStorage";
+import { getUserData, logoutUserData, saveUserData } from "./localDataStorage";
 
 const auth = getAuth(app);
 var uid;
 
 export const getUid = () => (uid ? uid : auth.currentUser.uid);
+
+export const isAuthenticated = () => ![undefined , null].includes(auth.currentUser)
 
 export const checkLoginStatus = (loggedIn, notLoggedIn) => {
   auth.onAuthStateChanged(function (user) {
@@ -65,9 +67,9 @@ export const login = (email, password, onSuccess, onError) => {
   signInWithEmailAndPassword(auth, email, password)
     .then((usercred) => {
       const user = usercred.user;
-
-      onSuccess(user);
       fetchAndSaveUserData(user.uid);
+      onSuccess(user);
+      
 
       console.log(getUserData());
     })
@@ -78,8 +80,9 @@ export const login = (email, password, onSuccess, onError) => {
 };
 
 export const logOut = () => {
-  window.localStorage.setItem("currentUID", "");
+  
   auth.signOut();
+  logoutUserData();
 };
 
 //server

@@ -1,117 +1,103 @@
-import { Stack, Heading, Flex, Button } from "@chakra-ui/react";
+import {
+  Stack,
+  Heading,
+  Flex,
+  Button,
+  useMediaQuery,
+  Text,
+} from "@chakra-ui/react";
 import { Background } from "../GlobalComponents/Background";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-import { APPGRADIENTS, APPROUTES, APPSTYLES } from "../AppConstants";
+import { APPCOLORS, APPGRADIENTS, APPROUTES, APPSTYLES } from "../AppConstants";
 import { useEffect, useState } from "react";
-import { checkLoginStatus, logOut } from "../Utilities/Auth";
+import { checkLoginStatus, isAuthenticated, logOut } from "../Utilities/Auth";
 import { fetchAndSaveUserData, getUserDetails } from "../Utilities/db";
 import { getPrimitiveObject } from "../Components/Room/SceneComponents/SceneUtils/primitiveObjects";
-import { Toaster } from "../GlobalComponents/Toaster";
-import { showToast } from "../State/appActions";
 
+import { Title } from "../Components/Home/Title";
+import { UserDrawer } from "../Components/Profile/UserDrawer";
+import { BackgroundCoverImage } from "../Components/Home/BackgroundImage";
+import { getAuth } from "firebase/auth";
+import { authState } from "../State/appState";
+import { useSnapshot } from "valtio";
 
 export function Home({ props }) {
- 
-  const [loginStatus, setLoginStatus] = useState(false);
+
+  const navigate = useNavigate();
+  const isAuthenticated = useSnapshot(authState)
+
+  //listen for authentication change
   useEffect(() => {
-    checkLoginStatus(
-      (uid) => {
-        setLoginStatus(true);
-        console.log("loggedIn");
-        
-      },
-      () => {
-        setLoginStatus(false);
-        console.log("not loggedIn");
+    getAuth().onAuthStateChanged(function (user) {
+      if (user) {
+        authState.value = true
+      } else {
+        authState.value = false
       }
-    );
-    
+    });
   }, []);
 
-  const AuthButtons = () => {
-    return loginStatus ? (
-      <Button
-        onClick={logOut}
-        {...APPSTYLES.joinCreateButton}
-        bg={APPGRADIENTS.joinButton}
-        colorScheme={"blackAlpha"}
-      >
-        Logout
-      </Button>
-    ) : (
-      <Flex>
-        <Link to={APPROUTES.login}>
-          <Button
-            {...APPSTYLES.joinCreateButton}
-            bg={'none'}
-            colorScheme={"blackAlpha"}
-          >
-            Login
-          </Button>
-        </Link>
 
+
+
+  const gotodashboard = () => {
+    navigate(APPROUTES.dashboard);
+  };
+
+  const AuthButtons = () => {
+    return (
+      <Flex>
         <Link to={APPROUTES.signUp}>
           <Button
             {...APPSTYLES.joinCreateButton}
-            bg={APPGRADIENTS.joinButton}
+            bg={""}
             colorScheme={"blackAlpha"}
           >
             Signup
+          </Button>
+        </Link>
+        <Link to={APPROUTES.login}>
+          <Button
+            {...APPSTYLES.joinCreateButton}
+            bg={APPGRADIENTS.primarybutton}
+            colorScheme={"blackAlpha"}
+          >
+            Login
           </Button>
         </Link>
       </Flex>
     );
   };
 
-  const RoomButtons = () => {
-    return (
-      loginStatus && <Flex direction={"column"}>
-        <Link to={APPROUTES.create}>
-          <Button
-            {...APPSTYLES.joinCreateButton}
-            bg={APPGRADIENTS.joinButton}
-            colorScheme={"blackAlpha"}
-          >
-            Create
-          </Button>
-        </Link>
-
-        <Link to={APPROUTES.join}>
-          <Button
-            {...APPSTYLES.joinCreateButton}
-            bg={APPGRADIENTS.joinButton}
-            colorScheme={"blackAlpha"}
-          >
-            Join Room
-          </Button>
-        </Link>
-      
-      </Flex>
-    );
-  }
-
   return (
     <Stack
       color={"white"}
       overflow="hidden"
-      h={"100%"}
+      h={"90vh"}
       direction={"column"}
       alignItems={"center"}
+      justifyContent={"center"}
     >
       <Background></Background>
-     
+
+      <Title></Title>
+
       <Stack
-        justifyContent={"space-between"}
+        justifyContent={"flex-end"}
         alignItems={"center"}
-        direction={"row"}
+        direction={"column"}
         w={"100%"}
         p={3}
       >
-        <Heading fontSize={"2xl"}>GatherAR</Heading>
-        <AuthButtons></AuthButtons>
+        {isAuthenticated.value ? (
+          <Button bg={APPGRADIENTS.primarybutton} onClick={gotodashboard}>
+            Go To Dashboard
+          </Button>
+        ) : (
+          <AuthButtons></AuthButtons>
+        )}
       </Stack>
-      <RoomButtons></RoomButtons>
     </Stack>
   );
 }

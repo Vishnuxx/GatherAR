@@ -8,7 +8,7 @@ import {
   FormLabel,
   Stack,
 } from "@chakra-ui/react";
-import { APPCOLORS, APPROUTES } from "../AppConstants";
+import { APPCOLORS, APPGRADIENTS, APPROUTES } from "../AppConstants";
 import { Background } from "../GlobalComponents/Background";
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -141,7 +141,7 @@ export function Create() {
           onClick={submit}
           m={"4"}
           color="white"
-          backgroundColor={"#00C193"}
+          bg={APPGRADIENTS.primarybutton}
         >
           Create
         </Button>

@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { Form, Link } from "react-router-dom";
-import { APPCOLORS, APPROUTES } from "../AppConstants";
+import { APPCOLORS, APPGRADIENTS, APPROUTES } from "../AppConstants";
 import { Background } from "../GlobalComponents/Background";
 import validator from "validator";
 import { login } from "../Utilities/Auth";
@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { EmailInput } from "../Components/Auth/EmailInput";
 import { PasswordInput } from "../Components/Auth/PasswordInput";
 import { showLoading } from "../State/appActions";
+import { useToaster } from "../hooks/Toaster";
 
 export function Login() {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, seterrorMessage] = useState("");
+  const showToast = useToaster();
 
   const updateEmail = (e) => {
     setEmail(e.target.value);
@@ -60,8 +62,8 @@ export function Login() {
       password,
       (user) => {
          showLoading(false);
-        console.log("login successful");
-        navigate(APPROUTES.home, {
+        showToast("login successful");
+        navigate(APPROUTES.dashboard, {
           replace: true,
         });
       },
@@ -75,7 +77,6 @@ export function Login() {
   return (
     <Stack
       color={"white"}
-     
       height={"90vh"}
       width={"100vw"}
       dir="column"
@@ -85,7 +86,13 @@ export function Login() {
       overflowY={"scroll"}
     >
       <Background></Background>
-      <Stack dir="vertical" gap={2} w={"300px"} justify={'center'} height={"100%"}>
+      <Stack
+        dir="vertical"
+        gap={2}
+        w={"300px"}
+        justify={"center"}
+        height={"100%"}
+      >
         <Text fontSize={"2rem"}>Login</Text>
         <FormLabel>Email</FormLabel>
         <EmailInput onChange={updateEmail} placeholder="Enter your Email" />
@@ -100,8 +107,8 @@ export function Login() {
         <Button
           onClick={submit}
           size={"md"}
-          variant="solid"
-          backgroundColor={APPCOLORS.primaryButton}
+          variant="unstyled"
+          bg={APPGRADIENTS.primarybutton}
         >
           Submit
         </Button>

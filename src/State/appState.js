@@ -5,7 +5,7 @@ export const loadingOverlay = proxy({
     visible: false
 })
 
-export const toastContent = proxy({
-    text: "",
-    change:true
+export const authState = proxy({
+    value: false
 })
+

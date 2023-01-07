@@ -11,7 +11,9 @@ import { APPROUTES } from "./AppConstants";
 import { Login } from "./Screens/Login";
 import { LoadingModal } from "./GlobalComponents/LoadingModal";
 import { PrivateRoute } from "./GlobalComponents/PrivateRoute";
-import { Toaster } from "./GlobalComponents/Toaster";
+
+import { Dashboard } from "./Screens/Dashboard";
+import { useEffect } from "react";
 
 function App() {
   
@@ -19,9 +21,9 @@ function App() {
     <RecoilRoot>
       <BrowserRouter>
         <LoadingModal />
-        <Toaster></Toaster>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path={APPROUTES.dashboard} element={<Dashboard />} />
           <Route path={APPROUTES.join} element={<Join />} />
           <Route path={APPROUTES.joinByUrl} element={<JoinUrl />} />
           <Route

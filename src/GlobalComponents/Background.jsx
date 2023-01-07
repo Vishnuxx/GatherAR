@@ -13,8 +13,8 @@ export function Background(props) {
         left={0}
         {...props}
       >
-        <Circle x={"80vw"} y={"-30px"} />
-        <Circle x={"0vw"} y={"40vh"} bg="#03fcca" />
+        <Circle x={"80vw"} y={"-30px"}  />
+        <Circle x={"0vw"} y={"40vh"} bg="green" />
         <Circle x={"70vw"} y={"80vh"} bg="#fc0388" />
       </Stack>
     );
