@@ -145,3 +145,7 @@ export const onSocketDisconnect = (callback) => {
     console.log("disconnected successfully");
   });
 };
+
+export const destroySocket = () => {
+  socket.disconnect()
+}

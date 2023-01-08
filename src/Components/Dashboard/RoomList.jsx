@@ -8,9 +8,8 @@ export function RoomList({ roomlist, ...props }) {
         return (
           <RoomListItem
             key={i}
-            title={"title"}
-            description={"description"}
-            joinUrl={"sds"}
+            title={room.roomname}
+            roomid={room.id}
           />
         );
       })}

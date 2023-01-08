@@ -26,8 +26,9 @@ export const micState = proxy({
   isEnabled: false,
 });
 
-export const roomAdminState = proxy({
+export const roomDetails = proxy({
   value: "",
+  roomid: ""
 });
 
 export const currentCameraPosition = proxy({

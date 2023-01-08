@@ -15,7 +15,7 @@ import { APPCOLORS } from "../../../AppConstants";
 import { sharingLink } from "../../../State/State";
 
 import { useSnapshot } from "valtio";
-import { joiningLinkState } from "../../../State/roomState";
+import { joiningLinkState, roomDetails } from "../../../State/roomState";
 import { CopyIcon } from "../Icons/copytoclipboard";
 
 export function SharingLink({ props }) {
@@ -28,6 +28,8 @@ export function SharingLink({ props }) {
     setText("copied");
     // onClose()
   };
+
+ 
 
   const open = () => {
     onOpen();

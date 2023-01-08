@@ -22,9 +22,9 @@ export function ZTransformControls({ objects }) {
 
   return (
     <>
-      {transformmode.currentObjectUid && (
+      {
         <TransformControls ref={ref}></TransformControls>
-      )}
+      }
     </>
   );
 }

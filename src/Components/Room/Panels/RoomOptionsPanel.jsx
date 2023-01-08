@@ -22,7 +22,7 @@ export function RoomOptionsPanel(props) {
       alignItems={"center"}
     >
       <ExitRoomButton></ExitRoomButton>
-      <ScreenCalibratorButton></ScreenCalibratorButton>
+      {/* <ScreenCalibratorButton></ScreenCalibratorButton> */}
       <ParticipantsButton></ParticipantsButton>
       {isadmin.value && <SharingLink></SharingLink>}
     </Stack>

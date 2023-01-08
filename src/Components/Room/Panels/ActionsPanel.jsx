@@ -1,7 +1,9 @@
 import { Flex } from "@chakra-ui/react";
+import { APPGRADIENTS } from "../../../AppConstants";
 import { ActionButton } from "../Components/ActionButton";
 import { AddObjectButton } from "../Components/AddObjectButton";
 import { MicButton } from "../Components/micButton";
+import { ScreenCalibratorButton } from "../Components/SceneCalibratorButton";
 
 
 
@@ -10,13 +12,14 @@ export function ActionsPanel(props) {
     <Flex
       dir={"horizontal"}
       w={"100vw"}
-     
+      bg={APPGRADIENTS.cornerPanelBottom}
       justifyContent={"space-around"}
       p={"30px"}
       alignItems={"center"}
     >
       <MicButton></MicButton>
-      <ActionButton></ActionButton>
+      <ScreenCalibratorButton></ScreenCalibratorButton>
+      {/* <ActionButton></ActionButton> */}
       <AddObjectButton></AddObjectButton>
       
     </Flex>

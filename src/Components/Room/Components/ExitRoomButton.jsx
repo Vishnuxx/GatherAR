@@ -1,12 +1,17 @@
 import { Box } from "@chakra-ui/react";
-import { APPCOLORS } from "../../../AppConstants";
+import { useNavigate } from "react-router-dom";
+import { APPCOLORS, APPROUTES } from "../../../AppConstants";
 
 
 
 
 export function ExitRoomButton(props) {
+  const nav = useNavigate()
+  const onClick = ()=>{
+    nav(APPROUTES.dashboard , {replace:false})
+  }
     return (
-      <Box bg={APPCOLORS.panel} p={2} borderRadius={100}>
+      <Box onClick={onClick} bg={APPCOLORS.panel} p={2} borderRadius={100}>
         <svg
           width={24}
           height={24}

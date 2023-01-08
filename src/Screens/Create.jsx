@@ -114,6 +114,7 @@ export function Create() {
           type={"text"}
           color={"white"}
           maxWidth={"300px"}
+          noOfLines={1}
           placeholder="Enter Room Name"
           value={roomName}
           onChange={updateRoomName}

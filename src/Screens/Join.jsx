@@ -120,6 +120,7 @@ export function Join() {
           color={"white"}
           maxWidth={"300px"}
           placeholder="Enter your name"
+          noOfLines={1}
           value={name}
           onChange={updateName}
         />
@@ -130,6 +131,7 @@ export function Join() {
             maxWidth={"300px"}
             placeholder="Room ID"
             value={remoteId}
+            noOfLines={1}
             onChange={updateRemoteID}
           />
         }

@@ -1,11 +1,12 @@
 import { useEffect, useRef } from "react";
-import { useFrame } from "react-three-fiber";
-import { Vector3 } from "three";
+import { useFrame, useThree } from "react-three-fiber";
+import { DoubleSide, Euler, Quaternion, Vector3 } from "three";
 import { currentCameraPosition } from "../../../State/roomState";
 import { getSocket } from "../../../Utilities/socketConnection";
 
 export function ZGeoTracker() {
   const ref = useRef();
+  const {camera} = useThree()
   const socketRef = useRef(getSocket())
   var positionVector = useRef(new Vector3()); // create once an reuse it
   var rotationVector = useRef(new Vector3());
@@ -15,39 +16,44 @@ export function ZGeoTracker() {
     object3d.getWorldPosition(positionVector.current)
   };
 
- const getWorldRot= (object3d) => {
-   
-   object3d.getWorldQuaternion(rotationVector.current);
- };
-
+  //calculates the rotation
   useEffect(() => {
+    const handler = (event) => {
+      if (event.alpha !== null && event.beta !== null && event.gamma !== null) {
+        const { alpha, beta, gamma } = event;
     
-  }, [ref]);
+        rotationVector.current.set(-((beta / 180) - (90/180)) * Math.PI , -(gamma / 180) * Math.PI , (1 / 180) + 90 * Math.PI)
+      }
+    }
+    window.addEventListener("deviceorientation", handler);
+
+    return () => window.removeEventListener("deviceorientation", handler);
+  }, []);
 
   //updates the position changes to server
   useFrame(() => {
-    ref.current.updateMatrixWorld();
+   
     //sends my avatar position to the server
     const pos = positionVector.current
-    const rot = rotationVector
+
     getWorldPos(ref.current)
-    // getWorldRot(ref.current)
 
     if(!pos.equals(positionVector) ) {
         socketRef.current.emit("my-avatar-transforms", {
           position: positionVector.current.toArray(),
-          rotation: [0,0,0],
+          rotation: rotationVector.current.toArray(),
         });
        
     }
     
-    currentCameraPosition.value = positionVector.current
+    // currentCameraPosition.value = positionVector.current
   });
 
+  const double = DoubleSide;
   return (
-    <mesh ref={ref}>
-      <planeGeometry></planeGeometry>
-      <meshStandardMaterial></meshStandardMaterial>
+    <mesh ref={ref}  >
+      {/* <planeGeometry></planeGeometry>
+      <meshStandardMaterial side={double}></meshStandardMaterial> */}
     </mesh>
   );
 }

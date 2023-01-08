@@ -8,7 +8,7 @@ export const APPCOLORS = {
   primaryButton: "#1da87e",
   disabledButton: "#303634",
   disabledButtonText: "#7a8280",
-  panel: "rgba(82, 81, 81 , 0.8)",
+  panel: "rgba(100, 100, 100 , 0.8)",
   errorText: "red",
   toasrbg: "rgb(60,60,60,0.6)",
   gatherar: "#eee",

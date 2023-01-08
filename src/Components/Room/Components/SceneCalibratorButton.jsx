@@ -8,7 +8,7 @@ import {
   ModalContent,
   Button,
 } from "@chakra-ui/react";
-import { APPCOLORS } from "../../../AppConstants";
+import { APPCOLORS, APPGRADIENTS } from "../../../AppConstants";
 import {
 
   overlayState,
@@ -36,12 +36,14 @@ export function ScreenCalibratorButton() {
   return (
     <>
       <Button
-        bg={APPCOLORS.panel}
+        bg={APPGRADIENTS.primarybutton}
+        colorScheme={'blackAlpha'}
         p={2}
-        borderRadius={100}
+        w={100}
+        borderRadius={10}
         onClick={setCalibrator}
       >
-        Click
+        Calibrate
       </Button>
     </>
   );

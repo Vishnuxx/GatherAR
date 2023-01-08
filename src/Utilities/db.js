@@ -7,16 +7,19 @@ import {
   remove,
   get,
   child,
+  orderByKey,
+  equalTo,
+  orderByChild,
   
 } from "firebase/database";
 import { getAuth } from "firebase/auth";
 import app from "../firebaseConfig";
 import { getUserData, saveUserData } from "./localDataStorage";
+import { showLoading } from "../State/appActions";
+import { endAt, limitToLast, startAt } from "firebase/firestore";
 
 const db = getDatabase(app);
 const auth = getAuth(app);
-
-
 
 // export const getUserDetails = (uid , onSuccess, onError) => {
 //   const userdetails = ref(
@@ -41,28 +44,52 @@ const auth = getAuth(app);
 //   );
 // };
 
-
-export const fetchAndSaveUserData = (uid) =>{
-
+export const fetchAndSaveUserData = (uid, onSuccess) => {
   onValue(
-    ref(db, process.env.REACT_APP_USER_PROFILES_PATH+uid),
+    ref(db, process.env.REACT_APP_USER_PROFILES_PATH + uid),
     (snapshot) => {
-      const data = snapshot.val()
-      console.log(data)
-      saveUserData({
-        username: data.username,
-        email : data.email,
-        uid : uid
-      })
-      console.log(getUserData())
+      const data = snapshot.val();
+      
+      if (data.myrooms == undefined || data.myrooms == null) {
+       
+        const userdata = {
+          username: data.username,
+          email: data.email,
+          uid: uid,
+          rooms: [],
+        };
+        saveUserData(userdata);
+        onSuccess(userdata);
+      } else {
+         const rooms = [...Object.keys(data.myrooms).map((key) => key)];
+        getMyRooms(
+          rooms,
+          (rooms) => {
+            const userdata = {
+              username: data.username,
+              email: data.email,
+              uid: uid,
+              rooms: rooms,
+            };
+            saveUserData(userdata);
+            onSuccess(userdata);
+          },
+          (err) => {
+            console.log(err);
+            showLoading(false);
+          }
+        );
+      }
+      
+
+    
+      return;
     },
     {
       onlyOnce: true,
     }
   );
-
-}
-
+};
 
 const HEADERS = {
   Accept: "application/json",
@@ -86,7 +113,39 @@ export const createProfile = (userId, username, email, onSuccess, onError) => {
       onSuccess(data);
     })
     .catch((err) => {
-       window.alert(err + process.env.REACT_APP_SERVER_URL);
+      window.alert(err + process.env.REACT_APP_SERVER_URL);
       onError(err);
     });
+};
+
+export const getMyRooms = async (roomsList, onSuccess, onError) => {
+  const query = await ref(
+    db,
+    "/rooms/",
+    // orderByKey(startAt([0]), endAt(roomsList[roomsList.length - 1]))
+
+  );
+
+  get(query).then(
+    (snapshot) => {
+      const data = snapshot.val();
+    
+      const rooms = Object.keys(data).filter((roomid) => roomsList.includes(roomid)).map((roomid)=>{
+        return {
+          id: roomid,
+          ...data[roomid]
+        }
+      });
+
+
+      
+    
+      console.log(rooms)
+      
+      onSuccess(rooms);
+    },
+    (e) => {
+      onError(e);
+    }
+  );
 };

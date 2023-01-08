@@ -73,6 +73,10 @@ const listenIncomingCalls = (callback) => {
   });
 };
 
+const destroyPeer = () =>{
+  peer.destroy()
+}
+
 export {
   initPeer,
   getPeer,
@@ -86,4 +90,5 @@ export {
   reconnect,
   onPeerDisconnected ,
   onCloseSession,
+  destroyPeer
 };

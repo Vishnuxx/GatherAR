@@ -2,25 +2,37 @@ import { useLoader } from "react-three-fiber";
 import { useGLTF, Html } from "@react-three/drei";
 import maleAvatar from "../../../assets/Models/avatarMale.glb";
 import femaleAvatar from "../../../assets/Models/avatarFemale.glb";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { EnabledMic } from "../../../GlobalComponents/EnabledMic";
 import { DisbledMic } from "../../../GlobalComponents/DisabledMic";
 import { useMemo } from "react";
+import { getSocket } from "../../../Utilities/socketConnection";
 
-export function Avatar({ name, isMale, shirtColor, position , rotation}) {
+export function Avatar({
+  position,
+  rotation,
+  socketid,
+  isMale,
+  shirtColor,
+  username
+}) {
+ 
+
  
   return isMale ? (
     <Male
-      name={name}
+      name={username}
       position={position}
       rotation={rotation}
       shirtColor={shirtColor}
+      nameid={socketid}
     />
   ) : (
     <Female
-      name={name}
+      name={username}
       position={position}
       rotation={rotation}
+      nameid={socketid}
       shirtColor={shirtColor}
     />
   );
@@ -59,15 +71,21 @@ function AvatarLabel({ name }) {
   );
 }
 
-function Male({ position, rotation , shirtColor, name }) {
+function Male({ position, rotation, shirtColor, name , nameid }) {
   const { nodes, materials } = useGLTF(maleAvatar);
 
   useMemo(() => {
+    console.log(position)
     materials.Tshirt_Green.color.setHex(shirtColor);
   }, []);
- 
+
   return (
-    <group position={[...position]} rotation={[...rotation]} dispose={null}>
+    <group
+      name={nameid}
+      position={[...position]}
+      rotation={[...rotation]}
+      // dispose={null}
+    >
       <Html position={[0, 1, 0]}>
         <AvatarLabel name={name} />
       </Html>
@@ -123,7 +141,7 @@ function Male({ position, rotation , shirtColor, name }) {
   );
 }
 
-function Female({ position,rotation, shirtColor, name }) {
+function Female({ position, rotation, shirtColor, name , nameid}) {
   const { nodes, materials } = useGLTF(femaleAvatar);
 
   useMemo(() => {
@@ -131,7 +149,12 @@ function Female({ position,rotation, shirtColor, name }) {
   }, []);
 
   return (
-    <group position={[...position]} rotation={[...rotation]} dispose={null}>
+    <group
+      name={nameid}
+      position={[...position]}
+      rotation={[...rotation]}
+      // dispose={null}
+    >
       <Html occlude position={[0, 1, 0]} as="div">
         <AvatarLabel name={name} />
       </Html>

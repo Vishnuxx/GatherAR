@@ -1,4 +1,7 @@
+import { useGLTF } from "@react-three/drei";
 import { AmbientLight, BoxGeometry, CapsuleGeometry, CatmullRomCurve3, CylinderGeometry, DirectionalLight, Mesh, MeshPhysicalMaterial, MeshStandardMaterial, OrthographicCamera, PerspectiveCamera, PlaneGeometry, PointLight, SphereGeometry, SpotLight, TorusGeometry, TubeGeometry, Vector3 } from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+
 
 export const getPrimitiveObject = (type, uuid) => {
     var object , geometry , material
@@ -108,7 +111,11 @@ export const getPrimitiveObject = (type, uuid) => {
 
       break;
 
+   
+
     default:
+       object = new Mesh(new BoxGeometry(), new MeshPhysicalMaterial());
+       object.name = "Box";
       break;
   }
 

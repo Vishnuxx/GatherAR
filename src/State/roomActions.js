@@ -3,9 +3,8 @@ import {
   socketConnection,
   joiningLinkState,
   micState,
-
   peerConnection,
-  roomAdminState,
+  roomDetails,
   userType,
 } from "./roomState";
 
@@ -32,7 +31,7 @@ export const enableMic = (bool) => {
 };
 
 export const setRoomAdmin = (adminId) => {
-  roomAdminState.value = adminId;
+  roomDetails.value = adminId;
 };
 
 export const setRoomMembers = (membersobject) => {
@@ -42,5 +41,3 @@ export const setRoomMembers = (membersobject) => {
     }),
   ];
 };
-
-

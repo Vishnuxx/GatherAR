@@ -1,37 +1,52 @@
 import { Avatar, Box, Flex, Stack, Text } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { getAuth } from "firebase/auth";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSnapshot } from "valtio";
 import { APPCOLORS, APPGRADIENTS, APPROUTES } from "../AppConstants";
-import { JoinAndCreateButtons } from "../Components/Profile/joinAndCreateButtons";
-import { RoomList } from "../Components/Profile/RoomList";
-import { RoomListItem } from "../Components/Profile/RoomListItem";
-import { UserDrawer } from "../Components/Profile/UserDrawer";
+import { JoinAndCreateButtons } from "../Components/Dashboard/joinAndCreateButtons";
+import { RoomList } from "../Components/Dashboard/RoomList";
+import { RoomListItem } from "../Components/Dashboard/RoomListItem";
+import { UserDrawer } from "../Components/Dashboard/UserDrawer";
 
 import { Background } from "../GlobalComponents/Background";
 import { useToaster } from "../hooks/Toaster";
+import { showLoading } from "../State/appActions";
 import { authState } from "../State/appState";
-import { checkLoginStatus, isAuthenticated } from "../Utilities/Auth";
+import { checkLoginStatus, getUid, isAuthenticated } from "../Utilities/Auth";
+import { fetchAndSaveUserData } from "../Utilities/db";
 import { getUserData } from "../Utilities/localDataStorage";
 
 export function Dashboard() {
-  const user = getUserData();
+ 
   const navigate = useNavigate();
   const toast = useToaster();
-  const isAuthenticated = useSnapshot(authState)
+  const isAuthenticated = useSnapshot(authState);
 
+  const [userstate, setuserstate] = useState({});
+ 
   
+  useEffect(()=>{
+    // showLoading(true)
+    fetchAndSaveUserData(getUserData().uid , (data)=>{
+      setuserstate({ ...data });
+      showLoading(false)
+    })
+
+    // setuserstate({...getUserData()})
+    
+    // console.log(userstate)
+  },[])
+
   useEffect(() => {
     if (isAuthenticated.value) {
-       toast("Is Logged In");
-       return 
+      return;
     }
-   
-    toast("Not authenn Please Login");
+
+    toast("Not Authenticated Please Login");
     navigate(APPROUTES.home, {
       replace: true,
     });
-    
   }, [isAuthenticated]);
 
   return (
@@ -59,14 +74,14 @@ export function Dashboard() {
         </Text>
         <Stack direction={"row"} alignItems={"center"}>
           <Text align={"right"} noOfLines={1} fontStyle={"bold"}>
-            {user?.username}
+            {userstate?.username}
           </Text>
           <UserDrawer></UserDrawer>
         </Stack>
       </Stack>
 
       <RoomList
-        roomlist={[{}, {}, {}]}
+        roomlist={userstate?.rooms}
         overflowY={"scroll"}
         h={"90vh"}
         pt={"10"}

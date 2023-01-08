@@ -6,11 +6,14 @@ import {
 } from "../../../State/roomActions";
 
 import {
+  destroyPeer,
+  getPeer,
   initPeer,
   onPeerDisconnected,
 } from "../../../Utilities/peerConnection";
 
 import {
+  destroySocket,
   initSocket,
   onSocketDisconnect,
 } from "../../../Utilities/socketConnection";
@@ -26,6 +29,7 @@ export function ConnectionManager() {
 
   //initialise socket and peer connection
   useEffect(() => {
+     console.log("init");
     showLoading(true);
     //initialize socket connection
     initSocket(
@@ -36,6 +40,12 @@ export function ConnectionManager() {
     //initialize peer connection
     initPeer(null, (peerid) => setPeerInitialized(true, peerid));
     
+
+    return ()=>{
+      console.log("destroyed")
+      destroyPeer()
+      destroySocket()
+    }
   }, []);
 
 

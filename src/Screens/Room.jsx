@@ -1,9 +1,9 @@
 import { Box, Stack } from "@chakra-ui/react";
 import { ZCanvas } from "../Components/Room/SceneComponents/ZCanvas";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-import { useLocation, useNavigate } from "react-router-dom";
+import { useBeforeUnload, useLocation, useNavigate } from "react-router-dom";
 import { RoomOptionsPanel } from "../Components/Room/Panels/RoomOptionsPanel";
 import { LoadingModal } from "../GlobalComponents/LoadingModal";
 import { PrimitiveObjectsPanel } from "../Components/Room/Panels/PrimitiveObjectsPanel";
@@ -46,20 +46,24 @@ import { AudioManager } from "../Components/Room/ManagerComponents/audioManager"
 export function Room({}) {
   const location = useLocation();
 
+  useBeforeUnload(useCallback(()=>{
+    window.alert('do you want to save')
+  }));
+  
+
   //confirmation when user leaves
   useEffect(() => {
-    window.addEventListener("beforeunload", (event) => {
+    const handler = (event) => {
       event.preventDefault();
       event.returnValue = "";
-    });
-
-    window.addEventListener("unload", (e) => {
-      e.preventDefault();
-    });
+      alert('dfd')
+     
+    };
+    window.addEventListener("beforeunload", handler);
 
     return () => {
-      window.removeEventListener("beforeunload", () => {});
-      window.removeEventListener("unload", () => {});
+      console.log("unloaded")
+      window.removeEventListener("beforeunload", handler);
     };
   }, []);
 

@@ -10,9 +10,10 @@ import { getUserData, logoutUserData, saveUserData } from "./localDataStorage";
 const auth = getAuth(app);
 var uid;
 
-export const getUid = () => (uid ? uid : auth.currentUser.uid);
+export const getUid = () => auth?.currentUser?.uid;
 
-export const isAuthenticated = () => ![undefined , null].includes(auth.currentUser)
+export const isAuthenticated = () =>
+  ![undefined, null].includes(auth.currentUser);
 
 export const checkLoginStatus = (loggedIn, notLoggedIn) => {
   auth.onAuthStateChanged(function (user) {
@@ -63,24 +64,25 @@ export const signUp = (
     });
 };
 
-export const login = (email, password, onSuccess, onError) => {
-  signInWithEmailAndPassword(auth, email, password)
-    .then((usercred) => {
-      const user = usercred.user;
-      fetchAndSaveUserData(user.uid);
-      onSuccess(user);
-      
+export const login = async (email, password, onSuccess, onError) => {
+  try {
+    const usercred = await signInWithEmailAndPassword(auth, email, password);
 
-      console.log(getUserData());
-    })
-    .catch((e) => {
-      console.log(e);
-      onError(e);
+    const user = usercred.user;
+    fetchAndSaveUserData(user.uid , (userdata)=>{
+      console.log(userdata)
+       onSuccess(user);
     });
+  
+
+  } catch (e) {
+
+    console.log(e);
+    onError(e);
+  }
 };
 
 export const logOut = () => {
-  
   auth.signOut();
   logoutUserData();
 };

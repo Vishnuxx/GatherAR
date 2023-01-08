@@ -2,7 +2,10 @@ import { ZapparCamera } from "@zappar/zappar-react-three-fiber";
 import { useEffect, useRef, useState } from "react";
 import { useFrame, useThree } from "react-three-fiber";
 import { useSnapshot } from "valtio";
-import { isListeningIncomingConnections, participantsListState } from "../../../State/participantsState";
+import {
+  isListeningIncomingConnections,
+  participantsListState,
+} from "../../../State/participantsState";
 import {
   getPeer,
   listenIncomingConnections,
@@ -11,78 +14,76 @@ import { getSocket } from "../../../Utilities/socketConnection";
 import { Avatar } from "./Avatar";
 
 export function AvatarManager() {
-  const [remotePeers, setRemotePeers] = useState([]);
+  
+  const [remotePeers, setRemotePeers] = useState({});
+  const [avatars , setAvatars] = useState([])
+
   const { camera } = useThree();
   const socket = useRef(getSocket()).current;
+  const sceneRef = useRef()
 
-  const addListOfAvatars = (participants) =>{
-    const list = Object.keys(participants).map((obj) => ({
-      socketid: participants[obj].socketid,
-      username: participants[obj].username,
-      transforms: {
-        position: [0, 0, 0],
-        rotation: [0, 0, 0],
-      },
-    }));
-
-          console.log(';ist: ' , [...list, ...remotePeers]);
-    setRemotePeers((prevState)=>[...list , ...remotePeers])
-  }
+  const addListOfAvatars = (participants) => {
+    const members = {}
+    Object.values(participants).map((member)=>{
+      members[member.socketid] = {
+        username: member.username,
+        isTalking: false,
+        transforms: {
+          position: [0,0,0],
+          rotation: [0,0,0],
+        },
+      };
+    })
+    setRemotePeers((prevState)=>({
+      ...members,
+      ...prevState
+    }))
+  };
 
   const addAvatar = (socketid, data) => {
-    const { username, position, rotation } = data;
-    setRemotePeers((prevState) => [ {
-          socketid: socketid,
-          username: username,
-          isTalking: false,
-          transforms: {
-            position: position,
-            rotation: rotation,
-          },
+    const { username, position, rotation } = data ;
+    setRemotePeers((prevState) => ({
+      [socketid]: {
+        socketid: socketid,
+        username: username,
+        isTalking: false,
+        transforms: {
+          position: [...position],
+          rotation: [...rotation],
         },
-        ...prevState,
-       
-      ]
-    );
+      },
+      ...prevState,
+    }));
+   
   };
 
   const removeAvatar = (socketid) => {
-    setRemotePeers((prevState)=>{
-      return prevState.filter((peer)=>peer.socketid !== socketid)
-    })
+    setRemotePeers((prevState) => {
+       const copy = {...prevState}
+       delete copy[socketid]
+      return copy
+    });
+    // setAvatars([
+    //   ...avatars,
+    //   <Avatar
+    //     username={username}
+    //     position={position}
+    //     rotation={rotation}
+    //     socketid={socketid}
+    //     isMale={true}
+    //     shirtColor={0xff262626}
+    //   ></Avatar>,
+    // ]);
   };
-
-  const updateAvatar = (data) => {
-    const { socketid, position, rotation } = data;
-
-    setRemotePeers((prevState)=>{
-       return prevState.map((obj)=>{
-        if(obj.socketid === socketid) {
-          return {
-            ...obj,
-            "transforms": {
-              position: position,
-              rotation: rotation
-            }
-          }
-        }
-       })
-    })
-    
-  };
-
-
 
   //when i join , add all member avatars
-  useEffect(()=>{
-    socket.on('joined-room' , (data)=>{
-      const {participants} = data
-      addListOfAvatars(participants)
+  useEffect(() => {
+    socket.on("joined-room", (data) => {
+      const { participants } = data;
+      addListOfAvatars(participants);
       //addListOfAvatars(participants)
-    })
-  }, [])
-
-
+    });
+  }, []);
 
   //listens remote connection
   useEffect(() => {
@@ -91,50 +92,50 @@ export function AvatarManager() {
       "user-joined-room",
       (data) => {
         const { username, socketid, peerid } = data;
+
         addAvatar(socketid, {
           username: username,
           position: [1, 0, 1],
           rotation: [0, 0, 0],
         });
+        console.log(remotePeers);
       },
+
       []
     );
+
+    const handler = (data) => {
+      const { socketid, position, rotation } = data;
+   
+      const object = sceneRef.current?.getObjectByName(socketid)
+      object?.position.set(position[0] , position[1] , position[2])
+      object?.rotation.set(rotation[0] , rotation[1] , rotation[2])
+    };
+    socket.on("avatar-transform-update", handler);
 
     getSocket().on("user-left-room", (data) => {
       const { socketid } = data;
       console.log("left avatar");
-       removeAvatar(socketid);
+      removeAvatar(socketid);
     });
   }, []);
-
-
-  //listens for avatar position updates
-  useEffect(() => {
-    socket.on("avatar-transform-update", (data) => {
-      const { socketid, position, rotation } = data;
-     
-       updateAvatar(data);
-      
-    });
-  }, []);
-
-
 
   return (
-    <group>
-      {Object.keys(remotePeers).map((key, index) => {
-        const peer = remotePeers[key];
+    <scene ref={sceneRef}>
+      {Object.values(remotePeers).map((peer, index) => {
         return (
           <Avatar
             key={index}
-            name={peer.username}
-            position={[...peer.transforms.position]}
-            rotation={[...peer.transforms.rotation]}
+            username={peer.username}
+            position={peer.transforms.position}
+            rotation={peer.transforms.rotation}
+            socketid={peer.socketid}
             isMale={true}
             shirtColor={0xff262626}
           ></Avatar>
         );
       })}
-    </group>
+    
+    </scene>
   );
 }

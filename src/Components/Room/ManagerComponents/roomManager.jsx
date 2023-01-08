@@ -8,7 +8,7 @@ import {
   setSocketInitialized,
   updateJoiningLink,
 } from "../../../State/roomActions";
-import { socketConnection, peerConnection, isAdmin } from "../../../State/roomState";
+import { socketConnection, peerConnection, isAdmin, roomDetails, joiningLinkState } from "../../../State/roomState";
 import { getUid } from "../../../Utilities/Auth";
 import { getUserDetails } from "../../../Utilities/db";
 import { isHost, isParticipant } from "../../../Utilities/hostValidation";
@@ -50,9 +50,10 @@ export function RoomManager({ location }) {
       const socketId = socketInitialized.socketId;
       const peerId = peerInitialized.peerid;
 
+      
       //for host
       if (isHost(location)) {
-        isAdmin.value = true
+       
         createRoom({
           uid: uid,
           roomname: roomname,
@@ -77,10 +78,10 @@ export function RoomManager({ location }) {
       }
 
       if (isParticipant(location)) {
-        isAdmin.value = false
+        
         const { roomId } = location.state;
         joinRoom(roomId, socketId, username, peerId);
-
+        joiningLinkState.value = createJoiningLink(roomId)
         showLoading(false);
       }
 
@@ -88,6 +89,11 @@ export function RoomManager({ location }) {
       onJoined((data) => {
         const { roomadmin, participants, roomname } = data;
         console.log("you joined", getPeer().id);
+        //check if he is roomadmin
+        if (![undefined, null].includes(getUid()) && getUid() === roomadmin) {
+          isAdmin.value = true;
+          
+        }
         setRoomAdmin(roomadmin);
         setRoomMembers(participants);
         listenIncomingParticipantConnections(true);

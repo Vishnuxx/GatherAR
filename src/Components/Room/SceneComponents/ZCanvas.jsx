@@ -11,7 +11,6 @@ import {
 
 
 
-import { AvatarLoader } from "./AvatarLoader";
 import { AvatarManager } from "./avatarManager";
 
 import { ZCamera } from "./ZCamera";
@@ -42,11 +41,12 @@ export function ZCanvas(props) {
         <BrowserCompatibility fallback={() => alert("sorry")} />
 
         <ZCamera></ZCamera>
+
         <InstantTracker placementMode={isCalibration.value}>
           <ZGeoTracker></ZGeoTracker>
           <AvatarManager></AvatarManager>
+
           <ZScene></ZScene>
- 
         </InstantTracker>
 
         <directionalLight position={[2.5, 8, 5]} intensity={1.5} />

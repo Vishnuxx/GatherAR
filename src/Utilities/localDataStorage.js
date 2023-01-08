@@ -11,14 +11,15 @@ export const saveUsername = (username) => {
   );
 };
 
-export const saveUserData = ({ username, email, uid }) => {
-  console.log("saving user data", username, email, uid);
+export const saveUserData = ({ username, email, uid , rooms}) => {
+  // console.log("saving user data", username, email, uid);
   window.localStorage.setItem(
     "user",
     JSON.stringify({
-      username: username,
-      email: email,
-      uid: uid,
+      username,
+      email,
+      uid,
+      rooms
     })
   );
 };

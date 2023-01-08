@@ -3,10 +3,13 @@ import { useState } from "react";
 import { isShapesPanelOpenState } from "../../../State/State";
 import { useRecoilState } from "recoil";
 import { signal_addPrimitiveObject } from "../../../State/SceneUiControlActions";
+import { socket_addPrimitiveObject } from "../SceneComponents/Commands/SocketCommands";
+import uuid from "react-uuid";
 
 export function PrimitiveObjectsPanel(props) {
   const [isOpen, setIsOpen] = useRecoilState(isShapesPanelOpenState);
   const data = [
+
     {
       icon: "https://img.icons8.com/color/48/null/object.png",
       label: "box",
@@ -89,7 +92,8 @@ export function PrimitiveObjectsPanel(props) {
 
 function Item({ icon, label }) {
   const addobject = () => {
-    signal_addPrimitiveObject(label);
+    socket_addPrimitiveObject(uuid(), label , [0,0,0] , "object")
+    // signal_addPrimitiveObject(label);
   };
   return (
     <Button bg={"none"} width={"100px"} height={"50px"} onClick={addobject}>

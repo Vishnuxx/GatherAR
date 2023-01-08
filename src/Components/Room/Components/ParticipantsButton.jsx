@@ -16,7 +16,7 @@ import { APPCOLORS } from "../../../AppConstants";
 
 import { useRecoilValue } from "recoil";
 import { useSnapshot } from "valtio";
-import {roomAdminState } from "../../../State/roomState";
+import { roomDetails } from "../../../State/roomState";
 import { participantsListState } from "../../../State/participantsState";
 
 export function ParticipantsButton({ props }) {
@@ -45,7 +45,6 @@ export function ParticipantsButton({ props }) {
 }
 
 function ParticipantsDrawer({ isOpen, onClose }) {
-  
   return (
     <Drawer size={"xs"} isOpen={isOpen} placement="right" onClose={onClose}>
       <DrawerOverlay />
@@ -66,12 +65,12 @@ function ParticipantsDrawer({ isOpen, onClose }) {
 function ParticipantsList(props) {
   const members = useSnapshot(participantsListState);
 
-  const admin = useSnapshot(roomAdminState);
+  const admin = useSnapshot(roomDetails);
   console.log(members.value);
   return (
     <Stack w={"100%"} h={"100%"} bg={"#262626"} direction="column">
       {members.value.map((member, i) => {
-        const {username , peerid , socketid} = member
+        const { username, peerid, socketid } = member;
         return (
           <Flex key={i} color={APPCOLORS.text} w={"100%"}>
             <Text maxW={200} w={"100%"} color={"white"} padding={3}>
