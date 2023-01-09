@@ -5,6 +5,7 @@ import { currentCameraPosition } from "../../../State/roomState";
 import { getSocket } from "../../../Utilities/socketConnection";
 
 export function ZGeoTracker() {
+
   const ref = useRef();
   const {camera} = useThree()
   const socketRef = useRef(getSocket())

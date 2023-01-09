@@ -13,7 +13,7 @@ export function RoomOptionsPanel(props) {
       direction={"row"}
       spacing={3}
       position={"absolute"}
-      p={5}
+      p={10}
       left="0"
       top={0}
       width={"100vw"}

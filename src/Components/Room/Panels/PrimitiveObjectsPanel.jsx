@@ -1,13 +1,20 @@
 import { Flex, Stack, Image, Text, Button } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { isShapesPanelOpenState } from "../../../State/State";
 import { useRecoilState } from "recoil";
 import { signal_addPrimitiveObject } from "../../../State/SceneUiControlActions";
 import { socket_addPrimitiveObject } from "../SceneComponents/Commands/SocketCommands";
 import uuid from "react-uuid";
+import { isDeletable } from "../../../State/SceneState";
+import { useSnapshot } from "valtio";
 
 export function PrimitiveObjectsPanel(props) {
+   const deletable = useSnapshot(isDeletable);
   const [isOpen, setIsOpen] = useRecoilState(isShapesPanelOpenState);
+  useEffect(() => {
+    setIsOpen(false)
+  },[deletable])
+ 
   const data = [
 
     {

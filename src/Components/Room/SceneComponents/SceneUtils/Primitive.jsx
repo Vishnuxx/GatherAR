@@ -19,7 +19,7 @@ import {
   Vector3,
 } from "three";
 
-export function Primitive({type , uuid ,ref}) {
+export function Primitive({type , uuid ,ref , ...props}) {
   var geometry, material, object;
 console.log(type)
   switch (type) {
@@ -86,5 +86,12 @@ console.log(type)
       break;
   }
 
-  return <primitive object={object} ref={ref} uuid={uuid}></primitive>
+  return (
+    <primitive
+      {...props}
+      object={object}
+      ref={ref}
+      uuid={uuid}
+    ></primitive>
+  );
 }

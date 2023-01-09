@@ -109,6 +109,7 @@ export function RoomManager({ location }) {
           memberid: userid,
           peerid: peerid,
         });
+        console.log(getPeer())
       });
 
       //when a user leaves

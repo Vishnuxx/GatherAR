@@ -14,7 +14,7 @@ export function RoomList({ roomlist, ...props }) {
         );
       })}
 
-      {!roomlist || roomlist == [] ? <EmptyList></EmptyList> : ""}
+      {roomlist==undefined || roomlist.length == 0 ? <EmptyList></EmptyList> : ""}
     </Stack>
   );
 }

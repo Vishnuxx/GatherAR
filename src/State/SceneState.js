@@ -12,3 +12,8 @@ export const transformModeState = proxy({
   isVisible: true,
   currentObjectUid: "",
 });
+
+export const isDeletable = proxy({
+  value: false,
+  uuid: null
+})

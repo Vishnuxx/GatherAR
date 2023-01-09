@@ -24,7 +24,7 @@ import { initSocketCommands } from "./Commands/SocketCommands";
 
 export function ZCanvas(props) {
   const isCalibration = useSnapshot(isCalibratingState);
- 
+
   useEffect(() => {
    initSocketCommands();
   }, []);
@@ -42,7 +42,12 @@ export function ZCanvas(props) {
 
         <ZCamera></ZCamera>
 
-        <InstantTracker placementMode={isCalibration.value}>
+        <InstantTracker
+          enabled={!isCalibration.value}
+          placementCameraOffset={[0, 0, -10]}
+          placementMode={isCalibration.value}
+          
+        >
           <ZGeoTracker></ZGeoTracker>
           <AvatarManager></AvatarManager>
 

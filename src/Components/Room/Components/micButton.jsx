@@ -16,7 +16,7 @@ export function MicButton(props) {
       <Box onClick={click} bg={APPCOLORS.panel} p={2} borderRadius={100}>
         {mic.isEnabled ? (
           <EnabledMic
-            color={"grey"}
+            color={"white"}
             width={40}
             height={40}
             viewBox="-5 -5 40 40"

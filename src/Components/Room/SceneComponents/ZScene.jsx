@@ -16,17 +16,25 @@ export function ZScene() {
   const [children, setChildren] = useState([]);
 
   const addObject = (uid , name , position , type) => {
-     setChildren((state) => [
+    switch(type) {
+      case "object":
+        setChildren((state) => [
+       ...state,
        {
-        obj: getPrimitiveObject(name,uid ),
+         obj: getPrimitiveObject(name, uid),
          type: type,
          name: name,
          uuid: uid,
          position: [0, 0, 0],
        },
-       ...state,
      ]);
+        break;
+
+        default:
+          break;
+    }
   }
+     
 
   const removeObject =(uid) => {
     setChildren((state) => state.filter((obj)=>obj.uuid != uid));
@@ -53,13 +61,17 @@ export function ZScene() {
     };
   }, [socket]);
 
-  console.log(children)
+  
 
   return (
     <group ref={root} name="editorScene">
       <UIControlManager socket={socket}></UIControlManager>
       {/* <ZTransformControls objects={root.current}></ZTransformControls> */}
-    <Table rotate={[0,0,0]} scale={[0.2 , 0.2 , 0.2]}></Table>
+    {/* <Table rotate={[0,0,0]} scale={[0.2 , 0.2 , 0.2]}></Table> */}
+     <mesh>
+      <planeGeometry></planeGeometry>
+      <meshStandardMaterial></meshStandardMaterial>
+     </mesh>
       {children.map((child, i) => {
         console.log(child.name)
         switch(child.type) {

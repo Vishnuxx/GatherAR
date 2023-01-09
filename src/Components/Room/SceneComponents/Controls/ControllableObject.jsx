@@ -5,6 +5,7 @@ import { Matrix4 } from "three";
 import { useSnapshot } from "valtio";
 import { APPCOLORS } from "../../../../AppConstants";
 import {
+  isDeletable,
   transformModeState,
   TRANSFORM_MODE,
 } from "../../../../State/SceneState";
@@ -27,10 +28,12 @@ export function ControllableObject({ type , uuid }) {
   const [isVisible, setIsVisible] = useState(false)
  
   const onClick = (e) => {
-    console.log(e);
+    // console.log(e);
     setIsVisible(true)
     transformModeState.currentObjectUid = objectRef.current?.uuid;
     console.log(transformmode.currentObjectUid);
+    isDeletable.value = true;
+    isDeletable.uuid = uuid;
   };
 
 
@@ -58,15 +61,15 @@ export function ControllableObject({ type , uuid }) {
   }, []);
 
   const drag = (e) => {
-    console.log("e");
+    // console.log("e");
     socket_dragObject(uuid, {
       matrix: pivotRef.current?.matrix.toArray(),
     });
   };
 
   const removeTransformControls = (e) => {
-    e.preventDefault();
-    console.log("removed");
+    isDeletable.value = false;
+    isDeletable.uuid = null
     setIsVisible(false)
     transformModeState.currentObjectUid = "";
   };
@@ -80,8 +83,6 @@ export function ControllableObject({ type , uuid }) {
     <PivotControls
       ref={pivotRef}
       matrixAutoUpdate
-      
-      onPointerMissed={removeTransformControls}
       onDrag={drag}
       fixed
       scale={200}
@@ -90,9 +91,13 @@ export function ControllableObject({ type , uuid }) {
       visible={isVisible}
     >
       <mesh onClick={onClick}>
-      
-    { <Primitive  type={type} uuid={uuid}></Primitive>}
-    
+        {
+          <Primitive
+            onPointerMissed={removeTransformControls}
+            type={type}
+            uuid={uuid}
+          ></Primitive>
+        }
       </mesh>
     </PivotControls>
   );

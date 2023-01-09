@@ -42,6 +42,7 @@ import { ConnectionManager } from "../Components/Room/ManagerComponents/connecti
 import { RoomManager } from "../Components/Room/ManagerComponents/roomManager";
 import { userType } from "../State/roomState";
 import { AudioManager } from "../Components/Room/ManagerComponents/audioManager";
+import { DeleteObjectButton } from "../Components/Room/Components/DeleteObjectButton";
 
 export function Room({}) {
   const location = useLocation();
@@ -56,7 +57,7 @@ export function Room({}) {
     const handler = (event) => {
       event.preventDefault();
       event.returnValue = "";
-      alert('dfd')
+      
      
     };
     window.addEventListener("beforeunload", handler);
@@ -87,6 +88,7 @@ function EffectScreen() {
       <RoomOptionsPanel></RoomOptionsPanel>
       <Overlay></Overlay>
       <Stack dir="vertical" position={"absolute"} bottom={0} width={"100vw"}>
+        <DeleteObjectButton ></DeleteObjectButton>
         <PrimitiveObjectsPanel bottom="150px"></PrimitiveObjectsPanel>
         <ActionsPanel></ActionsPanel>
       </Stack>

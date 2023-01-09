@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useSnapshot } from "valtio";
 import { isListeningIncomingConnections } from "../../../State/participantsState";
+import { enableMic } from "../../../State/roomActions";
 import {
   micState,
   peerConnection,
@@ -21,12 +22,14 @@ export function AudioManager() {
   const socketconnection = useSnapshot(socketConnection);
   const [usermedia, setusermedia] = useState();
 
+  
+
  
  
 
   //initialises usermedia stream
   useEffect(() => {
-  
+   enableMic(false)
     getUserAudio(
       (stream) => {
         setLocalStream(stream);
@@ -35,16 +38,10 @@ export function AudioManager() {
     );
 
     return () =>{
-      getUserAudio((stream)=>{
-        
-        stream.getTracks().map((track) => {
-          track.enabled = false
-          track.stop()
-        });
-      },(err)=>{
+    localStream
+      ?.getAudioTracks()
+      .forEach((track) => (track.enabled.stop()));
 
-      })
-       setRemoteStreams(null)
       
     }
   }, []);
@@ -53,15 +50,12 @@ export function AudioManager() {
   useEffect(() => {
     const isMicEnabled = mic.isEnabled;
     console.log("mic enabled: ", isMicEnabled);
-    localStream?.getAudioTracks().forEach((track) => {
-      track.enabled = isMicEnabled;
-    });
+    localStream?.getAudioTracks().forEach((track) => (
+      track.enabled = isMicEnabled
+    ));
 
-    return () =>
-      localStream?.getAudioTracks().forEach((track) => {
-        track.stop()
-      });
-  }, [mic.isEnabled]);
+   
+  }, [mic]);
 
   //when i join
   useEffect(() => {
