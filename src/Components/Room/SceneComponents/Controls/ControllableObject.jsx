@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import { Html, PivotControls, TransformControls } from "@react-three/drei";
 import { useEffect, useRef, useState } from "react";
-import { Matrix4 } from "three";
+import { Matrix4, Quaternion, Vector3 } from "three";
 import { useSnapshot } from "valtio";
 import { APPCOLORS } from "../../../../AppConstants";
 import {
@@ -18,75 +18,75 @@ import {
 import { Primitive } from "../SceneUtils/Primitive";
 import { getPrimitiveObject } from "../SceneUtils/primitiveObjects";
 
-export function ControllableObject({ type , uuid }) {
 
+
+
+
+export function ControllableObject({ type, uuid }) {
   const socket = getSocket();
-  const transformmode = useSnapshot(transformModeState);
   const pivotRef = useRef();
-  const matrx = useRef(new Matrix4());
- const objectRef = useRef()
-  const [isVisible, setIsVisible] = useState(false)
+
+  const [isVisible, setIsVisible] = useState(false);
  
+  
+   const transform = useRef(new Matrix4());
+const [state, setstate] = useState(0);
   const onClick = (e) => {
-    // console.log(e);
-    setIsVisible(true)
-    transformModeState.currentObjectUid = objectRef.current?.uuid;
-    console.log(transformmode.currentObjectUid);
+    setIsVisible(true);
     isDeletable.value = true;
     isDeletable.uuid = uuid;
   };
 
-
   useEffect(() => {
-    // objectRef.current.uuid = uuid;
-    //  pivotRef.current?.matrixAutoUpdate(true);
-
     const handler = (data) => {
       const { uid, matrix } = data;
-
+      //receive object matrix from the server
       if (uuid == uid) {
-        console.log(data);
-        matrx.current
-          .fromArray(matrix)
-          .decompose(
-            pivotRef.current?.position,
-            pivotRef.current?.quaternion,
-            pivotRef.current?.scale
-          );
+        // console.log("matrix :", transform);
+        // setTransform((oldstate) => {
+        //   oldstate.fromArray(matrix);
+        //   oldstate.decompose(
+        //     pivotRef.current.position,
+        //     pivotRef.current.rotation,
+        //     pivotRef.current.scale
+        //   );
+        //   return oldstate;
+        // });
+        transform.current.fromArray(matrix);
+        pivotRef.current.matrix.copy(transform.current);
+      
+          pivotRef.current.updateMatrixWorld();
+          
       }
     };
-    socket.on("user-updated-objectRef.current-matrix", handler);
+    socket.on("user-updated-object-matrix", handler);
+    return () => socket.off("user-updated-object-matrix", handler);
+  }, [pivotRef]);
 
-    return () => socket.off("user-updated-objectRef.current-matrix", handler);
-  }, []);
-
-  const drag = (e) => {
-    // console.log("e");
+  const drag = (matrix) => {
+    //send object matrix as array to the server
+    const array = [];
+    matrix.toArray(array);
     socket_dragObject(uuid, {
-      matrix: pivotRef.current?.matrix.toArray(),
+      matrix: array,
     });
   };
 
   const removeTransformControls = (e) => {
     isDeletable.value = false;
-    isDeletable.uuid = null
-    setIsVisible(false)
+    isDeletable.uuid = null;
+    setIsVisible(false);
     transformModeState.currentObjectUid = "";
   };
 
-  const loadObject = ()=>{
-    return getPrimitiveObject(type , uuid , [0,0,0])
-  }
-
-  console.log("uoda");
   return (
     <PivotControls
-      ref={pivotRef}
-      matrixAutoUpdate
+      matrixAutoUpdate={false}
       onDrag={drag}
       fixed
+      ref={pivotRef}
       scale={200}
-      activeAxes={[true, true, true]}
+      // activeAxes={[true, true, true]}
       depthTest={false}
       visible={isVisible}
     >
@@ -102,6 +102,44 @@ export function ControllableObject({ type , uuid }) {
     </PivotControls>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function TransformControlLabels({ isVisible }) {
   console.log("is visible ", isVisible);
