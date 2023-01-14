@@ -63,7 +63,7 @@ export function ControllableModel({ type, uuid }) {
     transformModeState.currentObjectUid = "";
   };
 
-  console.log("sdsd")
+//   console.log("sdsd")
   return (
     <PivotControls
       matrixAutoUpdate={false}

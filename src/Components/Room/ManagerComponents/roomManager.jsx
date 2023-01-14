@@ -63,17 +63,17 @@ export function RoomManager({ location }) {
 
         //when room creted
         onRoomCreated((data) => {
-          console.log("room created:  ", createJoiningLink(data.roomid));
+          // console.log("room created:  ", createJoiningLink(data.roomid));
           updateJoiningLink(createJoiningLink(data.roomid));
           //joins the room
-          console.log('joinroom')
+          // console.log('joinroom')
           joinRoom(data.roomid, socketId, username, peerId);
         });
 
         //when room already exists
         roomAlreadyExist((data) => {
           window.alert("room already exists");
-          console.log("room exists");
+          // console.log("room exists");
         });
       }
 
@@ -88,7 +88,7 @@ export function RoomManager({ location }) {
       //when i joined
       onJoined((data) => {
         const { roomadmin, participants, roomname } = data;
-        console.log("you joined", getPeer().id);
+      
         //check if he is roomadmin
         if (![undefined, null].includes(getUid()) && getUid() === roomadmin) {
           isAdmin.value = true;
@@ -103,13 +103,13 @@ export function RoomManager({ location }) {
       //when a user joined
       onUserJoined((data) => {
         const { username, userid, peerid } = data;
-        console.log("new user peerid : ", peerid);
+        // console.log("new user peerid : ", peerid);
         addMember({
           membername: username,
           memberid: userid,
           peerid: peerid,
         });
-        console.log(getPeer())
+        // console.log(getPeer())
       });
 
       //when a user leaves
@@ -120,14 +120,14 @@ export function RoomManager({ location }) {
         removeMember({
           membersocketid: socketid,
         });
-        console.log("user-left");
+        // console.log("user-left");
       });
 
       //when i disconnect
       onSocketDisconnect(() => {
         //close peerconnection
         //go to home
-        console.log("i have disconnected");
+        // console.log("i have disconnected");
       });
 
       //when invalid roomid given
@@ -143,7 +143,7 @@ export function RoomManager({ location }) {
       roomNotExist(() => {
         showLoading(false);
         alert("Room doesnt exist");
-        console.log("room not exist");
+        // console.log("room not exist");
         navigate(APPROUTES.join, {
           message: "room doesnt exist",
           replace: true,

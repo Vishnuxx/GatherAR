@@ -14,7 +14,7 @@ export function UIControlManager({socket  }) {
     const cameraPosition = useSnapshot(currentCameraPosition)
     //listens ui compoents commands
     useEffect(() => {
-      console.log('ui dommand')
+ 
         socket_addPrimitiveObject(uuid() , signal_currentPrimitiveObject.name , cameraPosition.value)
     }, [currentPrimObj]);
     return <></>

@@ -75,7 +75,7 @@ function Male({ position, rotation, shirtColor, name , nameid }) {
   const { nodes, materials } = useGLTF(maleAvatar);
 
   useMemo(() => {
-    console.log(position)
+
     materials.Tshirt_Green.color.setHex(shirtColor);
   }, []);
 

@@ -92,7 +92,7 @@ export function ControllableObject({ type, uuid }) {
 
 
 function TransformControlLabels({ isVisible }) {
-  console.log("is visible ", isVisible);
+  // console.log("is visible ", isVisible);
   const setTransformMode = (mode) => {
     transformModeState.value = mode;
   };

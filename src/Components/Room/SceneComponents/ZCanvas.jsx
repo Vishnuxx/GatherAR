@@ -32,7 +32,7 @@ export function ZCanvas(props) {
    initSocketCommands();
   }, []);
   
- console.log("ZCanvas");
+
 
 
   return (

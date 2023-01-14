@@ -29,7 +29,7 @@ export function Model({ type , uuid }, props) {
     }
   }, []);
   
-console.log("model")
+
   useEffect(()=>{
      if(!model) return
      async function loadModel() {

@@ -66,7 +66,7 @@ function ParticipantsList(props) {
   const members = useSnapshot(participantsListState);
 
   const admin = useSnapshot(roomDetails);
-  console.log(members.value);
+  // console.log(members.value);
   return (
     <Stack w={"100%"} h={"100%"} bg={"#262626"} direction="column">
       {members.value.map((member, i) => {

@@ -57,7 +57,7 @@ export function ZScene() {
   useEffect(() => {
     const addobjecthandler = (data) => {
       const { name, uid, position, type } = data;
-      console.log("object-added");
+    
       addObject(uid, name, position, type);
     };
     socket.on("user-add-object", addobjecthandler);
@@ -81,7 +81,7 @@ export function ZScene() {
       <scene ref={root} scale={[1.5,1.5,1.5]}>
         <group name="editorScene">
           {children.map((child, i) => {
-            console.log(child.name);
+          
             switch (child.type) {
               case "object":
                 return (

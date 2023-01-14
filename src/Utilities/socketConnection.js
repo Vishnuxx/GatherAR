@@ -15,7 +15,7 @@ export const initSocket = (onSuccess , onError) => {
 
     socket.on("connect", (socketid) => {
       onSuccess(socket);
-      console.log("connected successfully" + socket.id);
+      
     });
 
     

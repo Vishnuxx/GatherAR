@@ -50,7 +50,7 @@ export function AudioManager() {
   //mute and unmute based on mic state
   useEffect(() => {
     const isMicEnabled = mic.isEnabled;
-    console.log("mic enabled: ", isMicEnabled);
+    // console.log("mic enabled: ", isMicEnabled);
     localStream?.getAudioTracks().forEach((track) => (
       track.enabled = isMicEnabled
     ));
@@ -85,13 +85,13 @@ export function AudioManager() {
       if (localStream != null) {
         const { roomadmin, participants, roomname, peerid } = data;
         Object.values(participants).map((member, i) => {
-          console.log(member.peerid)
+       
           getPeer()
             .call(member.peerid, localStream)
             .on("stream", (stream) => {
               setRemoteStreams([...remoteStreams, stream]);
             });
-          console.log("call peer: ", member.username);
+       
          
         });
       }
@@ -106,7 +106,7 @@ export function AudioManager() {
       call.answer(localStream);
       call.on("stream", (stream) => {
         setRemoteStreams([...remoteStreams, stream]);
-        console.log("call-from-is-answered", stream);
+        // console.log("call-from-is-answered", stream);
       });
     };
 
@@ -131,7 +131,7 @@ export function AudioManager() {
 
 // },[localStream])
 
-console.log(remoteStreams)
+
   // //handle disconnecions
   // useEffect(() => {
   //   const disconnect = (conn) => {

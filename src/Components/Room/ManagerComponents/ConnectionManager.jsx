@@ -29,7 +29,7 @@ export function ConnectionManager() {
 
   //initialise socket and peer connection
   useEffect(() => {
-     console.log("init");
+    
     showLoading(true);
     //initialize socket connection
     initSocket(
@@ -40,7 +40,7 @@ export function ConnectionManager() {
     //initialize peer connection
     initPeer(null, (peerid) => {
       setPeerInitialized(true, peerid)
-      console.log('my-peerid is: ' , peerid)
+     
     });
     
 

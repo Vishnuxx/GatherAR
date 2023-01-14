@@ -4,7 +4,7 @@ import {useSnapshot} from 'valtio'
 
 export function CenterPointGazeCursor(props) {
   const isHovering = useSnapshot(EditorState.isHovering)
-  console.log(isHovering)
+  // console.log(isHovering)
   return (
     <Flex
       css={{ touchAction: "none" }}

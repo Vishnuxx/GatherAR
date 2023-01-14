@@ -69,7 +69,7 @@ export function Room({}) {
     };
   }, []);
 
-  console.log("room");
+  
 
   return (
     <Box height={"100vh"} width="100vw" bg={"#262626"}>

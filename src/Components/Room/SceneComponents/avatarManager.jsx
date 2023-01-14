@@ -99,7 +99,7 @@ export function AvatarManager() {
           position: [1, 0, 1],
           rotation: [0, 0, 0],
         });
-        console.log(remotePeers);
+        // console.log(remotePeers);
       },
 
       []
@@ -116,7 +116,7 @@ export function AvatarManager() {
 
     getSocket().on("user-left-room", (data) => {
       const { socketid } = data;
-      console.log("left avatar");
+      // console.log("left avatar");
       removeAvatar(socketid);
     });
   }, []);
