@@ -16,54 +16,64 @@ export function PrimitiveObjectsPanel(props) {
   },[deletable])
  
   const data = [
-
+    // {
+    //   icon: "https://img.icons8.com/color/48/null/object.png",
+    //   label: "browser",
+    // },
     {
-      icon: "https://img.icons8.com/color/48/null/object.png",
+      icon: "https://img.icons8.com/color/48/null/plugin.png",
+      type: "paintboard",
+      label: "paintboard",
+    },
+    {
+      icon: "https://img.icons8.com/color/48/null/plugin.png",
+      type: "storyboard",
+      label: "storyboard",
+    },
+    {
+      icon: "https://img.icons8.com/color/48/null/3d-select--v1.png",
+      type: "object",
       label: "box",
     },
     {
-      icon: "https://img.icons8.com/color/48/null/object.png",
+      icon: "https://img.icons8.com/color/48/null/3d-select--v1.png",
+      type: "object",
       label: "cylinder",
     },
     {
-      icon: "https://img.icons8.com/color/48/null/object.png",
+      icon: "https://img.icons8.com/color/48/null/3d-select--v1.png",
+      type: "object",
       label: "sphere",
     },
     {
-      icon: "https://img.icons8.com/color/48/null/object.png",
+      icon: "https://img.icons8.com/color/48/null/3d-select--v1.png",
+      type: "object",
       label: "torus",
     },
     {
-      icon: "https://img.icons8.com/color/48/null/object.png",
-      label: "torus",
+      icon: "https://img.icons8.com/color/48/null/3d-select--v1.png",
+      type: "object",
+      label: "capsule",
+    },
+    {
+      icon: "https://img.icons8.com/color/48/null/3d-select--v1.png",
+      type: "object",
+      label: "tube",
     },
     {
       icon: "https://img.icons8.com/color/48/null/object.png",
-      label: "torus",
+      type: "model",
+      label: "table",
     },
     {
       icon: "https://img.icons8.com/color/48/null/object.png",
-      label: "torus",
+      type: "model",
+      label: "engine",
     },
     {
       icon: "https://img.icons8.com/color/48/null/object.png",
-      label: "torus",
-    },
-    {
-      icon: "https://img.icons8.com/color/48/null/object.png",
-      label: "torus",
-    },
-    {
-      icon: "https://img.icons8.com/color/48/null/object.png",
-      label: "torus",
-    },
-    {
-      icon: "https://img.icons8.com/color/48/null/object.png",
-      label: "torus",
-    },
-    {
-      icon: "https://img.icons8.com/color/48/null/object.png",
-      label: "torus",
+      type: "model",
+      label: "shoe",
     },
   ];
   return isOpen ? (
@@ -77,8 +87,10 @@ export function PrimitiveObjectsPanel(props) {
       {...props}
       w={"100%"}
       p={3}
-      bg={"rgb(10, 10 , 10 , 0.3)"}
+      bg={"rgb(10, 10 , 10 , 0.4)"}
       borderRadius={"20px"}
+      // backdropFilter={"blur(50%)"}
+      backdropBlur={'base'}
     >
       <Stack
         css={{
@@ -88,7 +100,14 @@ export function PrimitiveObjectsPanel(props) {
         w={"100"}
       >
         {data.map((data, index) => {
-          return <Item key={index} icon={data.icon} label={data.label}></Item>;
+          return (
+            <Item
+              key={index}
+              icon={data.icon}
+              label={data.label}
+              type={data.type}
+            ></Item>
+          );
         })}
       </Stack>
     </Flex>
@@ -97,9 +116,9 @@ export function PrimitiveObjectsPanel(props) {
   );
 }
 
-function Item({ icon, label }) {
+function Item({ icon, label , type}) {
   const addobject = () => {
-    socket_addPrimitiveObject(uuid(), label , [0,0,0] , "object")
+    socket_addPrimitiveObject(uuid(), label , [0,0,0] , type )
     // signal_addPrimitiveObject(label);
   };
   return (

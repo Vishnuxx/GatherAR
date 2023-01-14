@@ -76,7 +76,7 @@ export function Dashboard() {
           <Text align={"right"} noOfLines={1} fontStyle={"bold"}>
             {userstate?.username}
           </Text>
-          <UserDrawer></UserDrawer>
+          <UserDrawer roomList={userstate?.rooms}></UserDrawer>
         </Stack>
       </Stack>
 

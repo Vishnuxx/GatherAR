@@ -43,6 +43,7 @@ import { RoomManager } from "../Components/Room/ManagerComponents/roomManager";
 import { userType } from "../State/roomState";
 import { AudioManager } from "../Components/Room/ManagerComponents/audioManager";
 import { DeleteObjectButton } from "../Components/Room/Components/DeleteObjectButton";
+import { ModelGallary } from "../Components/Room/Components/ModelsGallary";
 
 export function Room({}) {
   const location = useLocation();
@@ -63,7 +64,7 @@ export function Room({}) {
     window.addEventListener("beforeunload", handler);
 
     return () => {
-      console.log("unloaded")
+      // console.log("unloaded")
       window.removeEventListener("beforeunload", handler);
     };
   }, []);
@@ -75,6 +76,7 @@ export function Room({}) {
       <ConnectionManager />
       <RoomManager location={location} />
       <AudioManager></AudioManager>
+      
 
       <EffectScreen></EffectScreen>
     </Box>

@@ -8,7 +8,7 @@ import {
 
 import { useRecoilState } from "recoil";
 import { overlayState, OVERLAY_TYPE } from "../../../../State/State";
-import { CalibratorWindow } from "./OverlayContents/CalibratorWindow";
+import { CalibratorWindow } from "./CalibratorWindow";
 
 export function Overlay() {
   const [overlay, setOverlay] = useRecoilState(overlayState);

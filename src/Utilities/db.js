@@ -13,10 +13,12 @@ import {
   
 } from "firebase/database";
 import { getAuth } from "firebase/auth";
+import {getStorage, uploadBytes} from "firebase/storage"
 import app from "../firebaseConfig";
 import { getUserData, saveUserData } from "./localDataStorage";
 import { showLoading } from "../State/appActions";
 import { endAt, limitToLast, startAt } from "firebase/firestore";
+import { uuidv4 } from "@firebase/util";
 
 const db = getDatabase(app);
 const auth = getAuth(app);
@@ -137,8 +139,6 @@ export const getMyRooms = async (roomsList, onSuccess, onError) => {
         }
       });
 
-
-      
     
       console.log(rooms)
       
@@ -149,3 +149,34 @@ export const getMyRooms = async (roomsList, onSuccess, onError) => {
     }
   );
 };
+
+
+
+//storage
+export const uploadModel = (uid , roomid , filename ,  file , onSuccess , onFailure) => {
+  const storage = getStorage(app)
+  const storageref = ref(storage, `/models/${uid}/${filename}`);
+
+  uploadBytes(storageref, file)
+    .then((snapshot) => {
+      console.log("Uploaded a blob or file!");
+      const url = snapshot.ref.getDownloadUrl()
+      addDownloadUrlToRoom(filename , url , roomid , onSuccess , onFailure)
+    })
+    .catch(onFailure);
+
+}
+
+
+//database
+export const addDownloadUrlToRoom = (filename , fileUrl , roomid , onSuccess , onFailure) =>{
+  set(ref(db , `/rooms/${roomid}/assets/${uuidv4()}` , {
+    name: filename,
+    url: fileUrl
+  })).onSuccess(onSuccess).catch(onFailure)
+}
+
+
+export const getAssetsOfRoom = (roomid , success , error) => {
+  get(ref(db ,`/rooms/${roomid}/assets/` )).then(success).catch(error)
+}

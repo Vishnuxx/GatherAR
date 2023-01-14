@@ -53,3 +53,10 @@ export const socket_updateObjectTransforms = (
     rotation: rotation,
   });
 };
+
+export const socket_updateStoryBoardText = (uuid , text) => {
+   socket.emit("storyboard-text-change", {
+     uuid: uuid,
+     text: text,
+   });
+}

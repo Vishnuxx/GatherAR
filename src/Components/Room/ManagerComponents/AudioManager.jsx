@@ -1,3 +1,4 @@
+import Peer from "peerjs";
 import { useEffect, useRef, useState } from "react";
 import { useSnapshot } from "valtio";
 import { isListeningIncomingConnections } from "../../../State/participantsState";
@@ -57,18 +58,41 @@ export function AudioManager() {
    
   }, [mic]);
 
-  //when i join
+
+// const peers = []
+//   useEffect(()=>{
+    
+//     getSocket().on("join-room",(data)=>{
+//       const {username , socketid , peerid} = data
+//       const handler = () => {
+//         const peer = new Peer({ reconnect: true });
+//         peers = [...peers, peer];
+//         peer.on("open", (id) => {
+//           peer.call(peerid, localStream).on("stream",(remotestream)=>{
+//             setRemoteStreams({ ...remoteStreams, remotestream });
+//           })
+//         });
+//       };
+//     })
+    
+//   },[localStream])
+
+
+
+  // //when i join
   useEffect(() => {
     const handler = (data) => {
       if (localStream != null) {
         const { roomadmin, participants, roomname, peerid } = data;
-        Object.keys(participants).map((key, i) => {
-          const member = participants[key];
-          const call = getPeer().call(member.peerid, localStream);
+        Object.values(participants).map((member, i) => {
+          console.log(member.peerid)
+          getPeer()
+            .call(member.peerid, localStream)
+            .on("stream", (stream) => {
+              setRemoteStreams([...remoteStreams, stream]);
+            });
           console.log("call peer: ", member.username);
-          call.on("stream", (stream) => {
-            setRemoteStreams([...remoteStreams, stream]);
-          });
+         
         });
       }
     };
@@ -91,7 +115,23 @@ export function AudioManager() {
     return () => getPeer().off("call", handler);
   }, [localStream]);
 
+//   //when new user joins
+//   useEffect(()=>{
+//     const handler = (data)=>{
+//       const { username, socketid, peerid } = data;
+//       const call =  getPeer()
+//         .call(peerid, localStream)
+//         call.on("stream", (stream) => {
+//           setRemoteStreams([...remoteStreams, stream]);
+//         });
+//     }
+//     getSocket().on('user-joined-room',handler);
 
+//     return ()=> getSocket().off("user-joined-room", handler);
+
+// },[localStream])
+
+console.log(remoteStreams)
   // //handle disconnecions
   // useEffect(() => {
   //   const disconnect = (conn) => {

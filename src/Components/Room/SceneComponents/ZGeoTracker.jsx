@@ -39,6 +39,8 @@ export function ZGeoTracker() {
 
     getWorldPos(ref.current)
 
+    // positionVector.current.matrix?.copy(camera.matrix)
+
     if(!pos.equals(positionVector) ) {
         socketRef.current.emit("my-avatar-transforms", {
           position: positionVector.current.toArray(),
@@ -52,7 +54,7 @@ export function ZGeoTracker() {
 
   const double = DoubleSide;
   return (
-    <mesh ref={ref}  >
+    <mesh ref={ref}  dispose={null} >
       {/* <planeGeometry></planeGeometry>
       <meshStandardMaterial side={double}></meshStandardMaterial> */}
     </mesh>

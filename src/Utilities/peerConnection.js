@@ -4,7 +4,7 @@ let peer;
 
 const initPeer = (peerId, onReady) => {
   if (peerId) {
-    peer = new Peer(peerId, { reconnect: false, debug: 2 });
+    peer = new Peer(peerId, { debug: 2 });
     console.log(`my id is`);
   } else {
     peer = new Peer({reconnect: false , debug:2});

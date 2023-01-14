@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, HashRouter } from "react-router-dom";
 import { Home } from "./Screens/Home";
 import { SignUp } from "./Screens/SignUp";
 import "./styles/App.css";
@@ -14,18 +14,25 @@ import { PrivateRoute } from "./GlobalComponents/PrivateRoute";
 
 import { Dashboard } from "./Screens/Dashboard";
 import { useEffect } from "react";
+import { UploadModel } from "./Screens/UploadModel";
 
 function App() {
   
   return (
     <RecoilRoot>
-      <BrowserRouter>
+      <HashRouter>
         <LoadingModal />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path={APPROUTES.dashboard} element={<Dashboard />} />
           <Route path={APPROUTES.join} element={<Join />} />
           <Route path={APPROUTES.joinByUrl} element={<JoinUrl />} />
+          <Route
+            path={APPROUTES.upload}
+            element={
+              <PrivateRoute to={<UploadModel />} errorRedirect={APPROUTES.home} />
+            }
+          />
           <Route
             path={APPROUTES.create}
             element={
@@ -36,7 +43,7 @@ function App() {
           <Route path={APPROUTES.signUp} element={<SignUp />} />
           <Route path={APPROUTES.login} element={<Login />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </RecoilRoot>
   );
 }

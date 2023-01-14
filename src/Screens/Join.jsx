@@ -17,6 +17,8 @@ import { useLocation } from "react-router-dom";
 import { showLoading } from "../State/appActions";
 import { checkLoginStatus } from "../Utilities/Auth";
 import { getUserData } from "../Utilities/localDataStorage";
+import { ModelGallary } from "../Components/Room/Components/ModelsGallary";
+import { StoryBoard } from "../Components/Room/SceneComponents/Controls/StoryBoard";
 // import { TitleAndLogo } from "../Components/TitleAndLogo";
 
 export function Join() {
@@ -73,7 +75,7 @@ export function Join() {
     navigate(APPROUTES.room, {
       state: {
         userType: USERTYPE.PARTICIPANT,
-        username : name,
+        username: name,
         isMale: isMale,
         roomId: remoteId,
       },
@@ -161,6 +163,8 @@ export function Join() {
         >
           Join Room
         </Button>
+       
+       
       </Stack>
     </Stack>
   );

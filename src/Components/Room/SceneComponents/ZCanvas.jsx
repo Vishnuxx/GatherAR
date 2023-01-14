@@ -1,11 +1,11 @@
 import { Stack } from "@chakra-ui/react";
-import { DoubleSide } from "three";
+import { Camera, DoubleSide } from "three";
 
 import {
   ZapparCanvas,
   BrowserCompatibility,
   Loader,
-  ZapparCamera,
+
   InstantTracker,
 } from "@zappar/zappar-react-three-fiber";
 
@@ -16,10 +16,13 @@ import { AvatarManager } from "./avatarManager";
 import { ZCamera } from "./ZCamera";
 import { ZGeoTracker } from "./ZGeoTracker";
 import { isCalibratingState } from "../../../State/roomState";
-import { useSnapshot } from "valtio";
+import { proxy, useSnapshot } from "valtio";
 import { ZScene } from "./ZScene";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { initSocketCommands } from "./Commands/SocketCommands";
+import { Grid, TransformControls } from "@react-three/drei";
+import { Canvas } from "react-three-fiber";
+import { atom } from "recoil";
 
 
 export function ZCanvas(props) {
@@ -30,6 +33,8 @@ export function ZCanvas(props) {
   }, []);
   
  console.log("ZCanvas");
+
+
   return (
     <Stack
       position="absolute"
@@ -39,23 +44,26 @@ export function ZCanvas(props) {
     >
       <ZapparCanvas>
         <BrowserCompatibility fallback={() => alert("sorry")} />
-
-        <ZCamera></ZCamera>
-
+        <ZCamera />
+        {/* <camera></camera> */}
         <InstantTracker
           enabled={!isCalibration.value}
-          placementCameraOffset={[0, 0, -10]}
+          placementCameraOffset={[0, 0, -3]}
           placementMode={isCalibration.value}
-          
         >
-          <ZGeoTracker></ZGeoTracker>
+          {isCalibration.value && (
+            <Grid cellColor="white" args={[100, 100]}></Grid>
+          )}
           <AvatarManager></AvatarManager>
-
           <ZScene></ZScene>
+          <ZGeoTracker></ZGeoTracker>
         </InstantTracker>
-
         <directionalLight position={[2.5, 8, 5]} intensity={1.5} />
       </ZapparCanvas>
     </Stack>
   );
 }
+
+export const transformcontrol = proxy({
+  activeObject : undefined
+})

@@ -41,5 +41,6 @@ export const APPROUTES = {
   "room" : "/room",
   "signUp": "/signup",
   "login":"/login",
-  "dashboard" : "/dashboard"
+  "dashboard" : "/dashboard",
+  "upload" : "/upload"
 }

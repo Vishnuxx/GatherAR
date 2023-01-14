@@ -38,11 +38,14 @@ export function ConnectionManager() {
     );
 
     //initialize peer connection
-    initPeer(null, (peerid) => setPeerInitialized(true, peerid));
+    initPeer(null, (peerid) => {
+      setPeerInitialized(true, peerid)
+      console.log('my-peerid is: ' , peerid)
+    });
     
 
     return ()=>{
-      console.log("destroyed")
+      // console.log("destroyed")
       destroyPeer()
       destroySocket()
     }

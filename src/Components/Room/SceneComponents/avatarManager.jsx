@@ -26,11 +26,12 @@ export function AvatarManager() {
     const members = {}
     Object.values(participants).map((member)=>{
       members[member.socketid] = {
+        socketid: member.socketid,
         username: member.username,
         isTalking: false,
         transforms: {
-          position: [0,0,0],
-          rotation: [0,0,0],
+          position: [0, 0, 0],
+          rotation: [0, 0, 0],
         },
       };
     })
@@ -121,7 +122,7 @@ export function AvatarManager() {
   }, []);
 
   return (
-    <scene ref={sceneRef}>
+    <scene ref={sceneRef} position={[1,1,-2]}>
       {Object.values(remotePeers).map((peer, index) => {
         return (
           <Avatar

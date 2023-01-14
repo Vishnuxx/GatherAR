@@ -23,6 +23,7 @@ export function ScreenCalibratorButton() {
   const [visible, setVisible] = useRecoilState(overlayState);
   const isCalibrating = useSnapshot(isCalibratingState);
 
+  
   const setCalibrator = () => {
     setVisible({
       visible: true,

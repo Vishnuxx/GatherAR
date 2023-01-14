@@ -84,7 +84,7 @@ function Male({ position, rotation, shirtColor, name , nameid }) {
       name={nameid}
       position={[...position]}
       rotation={[...rotation]}
-      // dispose={null}
+      dispose={null}
     >
       <Html position={[0, 1, 0]}>
         <AvatarLabel name={name} />
@@ -153,7 +153,7 @@ function Female({ position, rotation, shirtColor, name , nameid}) {
       name={nameid}
       position={[...position]}
       rotation={[...rotation]}
-      // dispose={null}
+      dispose={null}
     >
       <Html occlude position={[0, 1, 0]} as="div">
         <AvatarLabel name={name} />

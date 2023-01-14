@@ -4,6 +4,7 @@ import { ActionButton } from "../Components/ActionButton";
 import { AddObjectButton } from "../Components/AddObjectButton";
 import { DeleteObjectButton } from "../Components/DeleteObjectButton";
 import { MicButton } from "../Components/micButton";
+import { ModelGallary } from "../Components/ModelsGallary";
 import { ScreenCalibratorButton } from "../Components/SceneCalibratorButton";
 
 
@@ -23,7 +24,6 @@ export function ActionsPanel(props) {
       <ScreenCalibratorButton></ScreenCalibratorButton>
       {/* <ActionButton></ActionButton> */}
       <AddObjectButton></AddObjectButton>
-      
     </Flex>
   );
 }

@@ -18,19 +18,14 @@ import {
 import { Primitive } from "../SceneUtils/Primitive";
 import { getPrimitiveObject } from "../SceneUtils/primitiveObjects";
 
-
-
-
-
 export function ControllableObject({ type, uuid }) {
   const socket = getSocket();
   const pivotRef = useRef();
 
   const [isVisible, setIsVisible] = useState(false);
- 
-  
-   const transform = useRef(new Matrix4());
-const [state, setstate] = useState(0);
+
+  const transform = useRef(new Matrix4());
+  const [state, setstate] = useState(0);
   const onClick = (e) => {
     setIsVisible(true);
     isDeletable.value = true;
@@ -42,26 +37,16 @@ const [state, setstate] = useState(0);
       const { uid, matrix } = data;
       //receive object matrix from the server
       if (uuid == uid) {
-        // console.log("matrix :", transform);
-        // setTransform((oldstate) => {
-        //   oldstate.fromArray(matrix);
-        //   oldstate.decompose(
-        //     pivotRef.current.position,
-        //     pivotRef.current.rotation,
-        //     pivotRef.current.scale
-        //   );
-        //   return oldstate;
-        // });
-        transform.current.fromArray(matrix);
-        pivotRef.current.matrix.copy(transform.current);
-      
-          pivotRef.current.updateMatrixWorld();
-          
+        pivotRef.current.matrix.fromArray(matrix);
+
+        pivotRef.current.updateMatrixWorld();
       }
     };
     socket.on("user-updated-object-matrix", handler);
     return () => socket.off("user-updated-object-matrix", handler);
   }, [pivotRef]);
+
+
 
   const drag = (matrix) => {
     //send object matrix as array to the server
@@ -71,6 +56,7 @@ const [state, setstate] = useState(0);
       matrix: array,
     });
   };
+
 
   const removeTransformControls = (e) => {
     isDeletable.value = false;
@@ -102,42 +88,6 @@ const [state, setstate] = useState(0);
     </PivotControls>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

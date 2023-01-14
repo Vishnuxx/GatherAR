@@ -5,6 +5,7 @@ import { SharingLink } from "../Components/SharingLink";
 import { ScreenCalibratorButton } from "../Components/SceneCalibratorButton";
 import { useSnapshot } from "valtio";
 import { isAdmin } from "../../../State/roomState";
+import { ModelGallary } from "../Components/ModelsGallary";
 
 export function RoomOptionsPanel(props) {
   const isadmin = useSnapshot(isAdmin);
@@ -21,6 +22,7 @@ export function RoomOptionsPanel(props) {
       justifyContent={"center"}
       alignItems={"center"}
     >
+      {/* <ModelGallary></ModelGallary> */}
       <ExitRoomButton></ExitRoomButton>
       {/* <ScreenCalibratorButton></ScreenCalibratorButton> */}
       <ParticipantsButton></ParticipantsButton>

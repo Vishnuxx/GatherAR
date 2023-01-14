@@ -11,5 +11,13 @@ export function ZCamera() {
   useLayoutEffect(() => {
     set(() => ({ camera: cameraRef.current }));
   }, []);
-    return <ZapparCamera ref={cameraRef} environmentMap />;
+    return (
+      <ZapparCamera
+        makeDefault={false}
+        renderPriority={0}
+        ref={cameraRef}
+        environmentMap
+       
+      />
+    );
 }

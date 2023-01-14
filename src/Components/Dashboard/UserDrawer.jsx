@@ -24,7 +24,7 @@ import { getUserData } from "../../Utilities/localDataStorage";
 
 
 
-export function UserDrawer({username}) {
+export function UserDrawer({username , roomList}) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [loginStatus, setLoginStatus] = useState(false);
     const navigate = useNavigate()
@@ -35,6 +35,13 @@ export function UserDrawer({username}) {
       // navigate(APPROUTES.home , {
       //   replace: true
       // })
+    }
+    const goToUploadScreen = () =>{
+      navigate(APPROUTES.upload , {
+        state: {
+          roomlist: roomList
+        }
+      })
     }
 
     return (
@@ -58,6 +65,16 @@ export function UserDrawer({username}) {
           <DrawerOverlay />
           <DrawerContent bg={"blackAlpha.900"}>
             <DrawerBody bg={""}>
+              <Stack color={APPCOLORS.text} gap={10}>
+                <Button
+                  onClick={goToUploadScreen}
+                  color="white"
+                  fontWeight={"normal"}
+                  colorScheme={"blackAlpha"}
+                >
+                  Upload Models
+                </Button>
+              </Stack>
               <Stack color={APPCOLORS.text} gap={10}>
                 <Button
                   onClick={logout}
