@@ -6,7 +6,7 @@ An AR app which lets people to gather, tinker and collaborate in an augmented re
 **GatherAR** is an app that allows users to connect with one another in an augmented reality environment and collaborate in real-time
 ![gatherar](https://github.com/Vishnuxx/GatherAR/assets/74808440/327889df-64e6-4170-a1b0-5784d2e0e597)
 
-The potential uses for GatherAR are limitless and inspire creativity and innovation. Imagine being able to connect with artists and designers from around the world to brainstorm and work on projects together in real time. Or, envision being able to attend virtual classes and collaborate with classmates on assignments, no matter where you are located. GatherAR also opens up exciting possibilities for shopping, allowing users to explore and discuss new products with others in immersive rooms. The app's ability to connect people globally and facilitate real-time collaboration opens up a world of possibilities for personal and professional growth and development.
+Imagine being able to connect with artists and designers from around the world to brainstorm and work on projects together in real time. Or, envision being able to attend virtual classes and collaborate with classmates on assignments, no matter where you are located. GatherAR also opens up exciting possibilities for shopping, allowing users to explore and discuss new products with others in immersive rooms.
 
 # Installation
 
